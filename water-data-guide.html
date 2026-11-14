@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Water Systems and Data: A Guide for ML Collaborators</title>
+<meta name="description" content="Water utilities run continuous physical processes under regulation, and their data is shaped by both. This guide gives the shape of the system, where data comes from, and the vocabulary. The aim is en">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="index.html">Water × ML Research</a>
+    <nav class="nav"><a href="water-data-guide.html" class="active">Systems & Data Guide</a><a href="research-directions.html">Research Directions</a><a href="https://github.com/boxwrench/water-ml-research">GitHub</a></nav>
+  </div>
+</header>
+<div class="wrap layout">
+<aside class="toc"><div class="toc-inner"><div class="toc-title">On this page</div><div class="toc">
+<ul>
+<li><a href="#water-systems-and-data-a-guide-for-ml-collaborators">Water Systems and Data: A Guide for ML Collaborators</a><ul>
+<li><a href="#the-big-picture">The big picture</a></li>
+<li><a href="#drinking-water-treatment">Drinking water treatment</a></li>
+<li><a href="#wastewater-treatment">Wastewater treatment</a></li>
+<li><a href="#time-scales">Time scales</a></li>
+<li><a href="#where-data-comes-from">Where data comes from</a></li>
+<li><a href="#data-pitfalls">Data pitfalls</a></li>
+<li><a href="#control-and-decisions">Control and decisions</a></li>
+<li><a href="#regulation">Regulation</a></li>
+<li><a href="#framing-ml-problems">Framing ML problems</a></li>
+<li><a href="#glossary">Glossary</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div></aside>
+<main class="content">
+<h1 id="water-systems-and-data-a-guide-for-ml-collaborators">Water Systems and Data: A Guide for ML Collaborators</h1>
+<p><em>Keith Wilkinson · <a href="https://title22.org" target="_blank" rel="noopener">title22.org</a> · November 2026</em></p>
+<p>Water utilities run continuous physical processes under regulation, and their data is shaped by both. This guide gives the shape of the system, where data comes from, and the vocabulary. The aim is enough to frame ML problems correctly, not enough to design a plant.</p>
+<h2 id="the-big-picture">The big picture</h2>
+<p>Urban water is one loop run by separate organizations. Each has its own regulator, data systems and incentives, so data almost never crosses the boundaries. Drinking water and wastewater are usually different utilities, or at least different departments with different historians and labs.</p>
+<figure class="diagram"><a href="assets/img/water-loop.png" title="Open full size"><img alt="Water flows in one loop, but its data stays inside separate organizations" src="assets/img/water-loop.png" /></a></figure>
+<p>The dashed line is potable reuse, which links the two organizations directly and is growing in California.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Segment</th>
+<th>Who runs it</th>
+<th>Who regulates it (California)</th>
+<th>Main data it produces</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Source water</td>
+<td>Wholesalers, state and federal projects, the utility itself</td>
+<td>State Water Board (water rights); DWR operates the State Water Project</td>
+<td>Flows, reservoir levels, raw-water quality</td>
+</tr>
+<tr>
+<td>Drinking water treatment</td>
+<td>Water utility</td>
+<td>State Water Board, Division of Drinking Water (DDW), under the Safe Drinking Water Act</td>
+<td>High-frequency process data, lab results, compliance reports</td>
+</tr>
+<tr>
+<td>Distribution</td>
+<td>Water utility</td>
+<td>DDW</td>
+<td>Pressures, tank levels, residual sampling, customer meters</td>
+</tr>
+<tr>
+<td>Collection (sewers)</td>
+<td>Sanitation agency or city</td>
+<td>Regional Water Boards (spill reporting)</td>
+<td>Flows, lift-station data, overflow reports</td>
+</tr>
+<tr>
+<td>Wastewater treatment</td>
+<td>Sanitation agency</td>
+<td>Regional Water Boards via NPDES permits, under the Clean Water Act</td>
+<td>Process data, effluent lab results, monthly self-monitoring reports</td>
+</tr>
+<tr>
+<td>Discharge or reuse</td>
+<td>Sanitation agency, reuse agency</td>
+<td>Regional Boards (discharge); DDW (recycled water, potable reuse)</td>
+<td>Effluent quality, reuse-barrier monitoring</td>
+</tr>
+</tbody>
+</table></div>
+<p>The structure matters for ML: a model that needs data from two segments usually needs two data agreements.</p>
+<h2 id="drinking-water-treatment">Drinking water treatment</h2>
+<p>A conventional surface-water plant is a chain of physical and chemical steps. Each step depends on the one before, and the operator's main lever is chemistry at the front. What happens at coagulation shows up hours later at the filters, so the strongest relationships in the data are lagged.</p>
+<figure class="diagram"><a href="assets/img/drinking-water-train.png" title="Open full size"><img alt="Chemistry at the front decides what the filters see hours later" src="assets/img/drinking-water-train.png" /></a></figure>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Unit</th>
+<th>Purpose</th>
+<th>Measured online (typical)</th>
+<th>What operators control</th>
+<th>Where ML can help</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intake / raw water</td>
+<td>Bring in source water</td>
+<td>Flow, turbidity, pH, temperature, conductivity; sometimes TOC/UV254, algae probes</td>
+<td>Which intake or source, flow rate, pre-oxidant</td>
+<td>Forecasting raw-water changes before they arrive</td>
+</tr>
+<tr>
+<td>Coagulation (rapid mix)</td>
+<td>Neutralize particle charge so particles can stick together</td>
+<td>Coagulant feed rate, pH, sometimes streaming current</td>
+<td>Coagulant type and dose, pH adjustment</td>
+<td>Dose prediction; the plant's most important decision</td>
+</tr>
+<tr>
+<td>Flocculation</td>
+<td>Gentle mixing to grow particles into floc</td>
+<td>Mixer speed; little else</td>
+<td>Mixing intensity</td>
+<td>Rarely modeled directly</td>
+</tr>
+<tr>
+<td>Sedimentation (or DAF)</td>
+<td>Let floc settle (or float off)</td>
+<td>Settled-water turbidity, sludge blanket level</td>
+<td>Sludge removal timing</td>
+<td>Settled turbidity forecasting as a dose feedback</td>
+</tr>
+<tr>
+<td>Filtration</td>
+<td>Remove remaining particles through sand/anthracite media</td>
+<td>Per-filter flow, head loss, effluent turbidity, particle counts</td>
+<td>Backwash timing, filter-to-waste, loading rate</td>
+<td>Run-length and breakthrough forecasting</td>
+</tr>
+<tr>
+<td>Disinfection (clearwell)</td>
+<td>Inactivate pathogens; leave a residual for the pipes</td>
+<td>Chlorine residual, pH, temperature, flow, clearwell level</td>
+<td>Chlorine dose, ammonia dose (for chloramine)</td>
+<td>Residual control, CT forecasting</td>
+</tr>
+<tr>
+<td>Finished water conditioning</td>
+<td>Corrosion control, fluoride</td>
+<td>pH, alkalinity, orthophosphate, fluoride</td>
+<td>Caustic, phosphate, fluoride feed</td>
+<td>Corrosion and lead-risk modeling</td>
+</tr>
+</tbody>
+</table></div>
+<p>Common variants replace or add steps: ozone (before or after sedimentation), GAC adsorption, membranes instead of conventional filters, or direct filtration that skips sedimentation. Groundwater systems often have only disinfection plus targeted treatment (arsenic, nitrate, PFAS).</p>
+<h2 id="wastewater-treatment">Wastewater treatment</h2>
+<p>A wastewater plant is a biological reactor wrapped in physical separation. Its key state is a living microbial population that changes over days to weeks. That makes it slower, more nonlinear and more history-dependent than drinking water treatment. The plant has two linked streams, liquid and solids, and recycle flows feed back from the second to the first.</p>
+<figure class="diagram"><a href="assets/img/wastewater-train.png" title="Open full size"><img alt="The biomass in the aeration basin is the slow, living state of the plant" src="assets/img/wastewater-train.png" /></a></figure>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Unit</th>
+<th>Purpose</th>
+<th>Measured online (typical)</th>
+<th>What operators control</th>
+<th>Where ML can help</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Headworks (screens, grit)</td>
+<td>Remove rags, grit and debris</td>
+<td>Influent flow, level; sometimes pH, conductivity</td>
+<td>Screen and grit cycles</td>
+<td>Influent flow forecasting from weather and diurnal pattern</td>
+</tr>
+<tr>
+<td>Primary clarifier</td>
+<td>Settle out solids and some organic load</td>
+<td>Sludge blanket; little else</td>
+<td>Sludge pumping</td>
+<td>Load estimation for downstream units</td>
+</tr>
+<tr>
+<td>Aeration basin (activated sludge)</td>
+<td>Microbes consume organics and convert ammonia (nitrification), often also remove nitrogen and phosphorus</td>
+<td>Dissolved oxygen, ammonia, nitrate, airflow, MLSS, ORP</td>
+<td>DO setpoints, airflow, internal recycle, wasting rate</td>
+<td>Soft sensors, aeration energy optimization, upset early warning</td>
+</tr>
+<tr>
+<td>Secondary clarifier</td>
+<td>Separate biomass from treated water, return most of it</td>
+<td>Sludge blanket, effluent turbidity</td>
+<td>Return (RAS) and waste (WAS) rates</td>
+<td>Bulking and washout prediction</td>
+</tr>
+<tr>
+<td>Tertiary filtration + disinfection</td>
+<td>Polish and disinfect for discharge or reuse</td>
+<td>Turbidity, chlorine residual or UV dose, flow</td>
+<td>Chemical dose, UV power</td>
+<td>Residual control, effluent compliance forecasting</td>
+</tr>
+<tr>
+<td>Solids: thickening, digestion, dewatering</td>
+<td>Reduce and stabilize sludge; anaerobic digesters make biogas</td>
+<td>Digester temperature, pH, gas flow and composition</td>
+<td>Feed rate, temperature, polymer dose</td>
+<td>Digester upset prediction, gas forecasting</td>
+</tr>
+</tbody>
+</table></div>
+<p>Two control knobs dominate. Aeration is usually the plant's largest energy cost. Sludge wasting sets the sludge age (SRT), which decides which microbes survive.</p>
+<h2 id="time-scales">Time scales</h2>
+<figure class="diagram"><a href="assets/img/time-scales.png" title="Open full size"><img alt="Water processes span seconds to months, so no single time step fits all" src="assets/img/time-scales.png" /></a></figure>
+<p>The time scale sets the forecast horizon and the sampling rate a model needs. A filter-run model needs minute-level data over days. A sludge-age model needs daily data over months. It also explains why lab results, which arrive hours to days after sampling, are hard to use for fast decisions. <em>Ranges are typical textbook and operating values; individual plants vary widely.</em></p>
+<h2 id="where-data-comes-from">Where data comes from</h2>
+<p>Plant data comes from five or six separate systems that were never designed to be joined. Most public data is the last, most aggregated step of that chain: monthly compliance reports built from daily summaries of high-frequency readings. Each step drops detail and context.</p>
+<figure class="diagram"><a href="assets/img/data-flow.png" title="Open full size"><img alt="Public data sits at the end of the chain, after most detail is gone" src="assets/img/data-flow.png" /></a></figure>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Typical resolution</th>
+<th>Created by</th>
+<th>Quirks to expect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SCADA / PLC</td>
+<td>Sub-second to seconds</td>
+<td>Instruments, control system</td>
+<td>Real-time only; not kept long-term</td>
+</tr>
+<tr>
+<td>Historian (PI/AVEVA, Ignition, Wonderware and others)</td>
+<td>Stored on change; exported at 1 s to 15 min</td>
+<td>Automatic from SCADA</td>
+<td>Compression and deadbands mean exported "1-min data" is often interpolated. Tag names are cryptic and plant-specific.</td>
+</tr>
+<tr>
+<td>Online analyzers (turbidity, chlorine, ammonia, TOC)</td>
+<td>Seconds to minutes</td>
+<td>Instruments</td>
+<td>Drift between calibrations, flatlines during maintenance, step jumps after calibration, out-of-range codes</td>
+</tr>
+<tr>
+<td>Lab / LIMS</td>
+<td>Daily to monthly grab or composite samples</td>
+<td>Plant or contract lab</td>
+<td>Detection limits and qualifiers ("&lt;0.5", ND); sample time differs from analysis and entry time</td>
+</tr>
+<tr>
+<td>Operator logbooks and rounds</td>
+<td>Per shift; free text</td>
+<td>Operators</td>
+<td>Event times approximate; the only record of why something changed</td>
+</tr>
+<tr>
+<td>Maintenance system (CMMS)</td>
+<td>Per work order</td>
+<td>Maintenance staff</td>
+<td>Asset IDs rarely match historian tags</td>
+</tr>
+<tr>
+<td>Compliance reports (monthly operating reports, eSMR)</td>
+<td>Daily values, monthly summaries</td>
+<td>Utility staff, submitted to regulators</td>
+<td>Already aggregated (daily max, monthly average); the source of most public data</td>
+</tr>
+<tr>
+<td>Network model and GIS</td>
+<td>Static, updated occasionally</td>
+<td>Engineers</td>
+<td>Calibration quality varies; security-sensitive</td>
+</tr>
+<tr>
+<td>Customer meters (AMI)</td>
+<td>15 min to hourly</td>
+<td>Meter network</td>
+<td>Privacy-restricted; usually a separate system</td>
+</tr>
+</tbody>
+</table></div>
+<p>The key join keys are time and location. Time is often local with daylight-saving jumps. Location is a tag name, a sample point code or a facility ID, each from a different system.</p>
+<h2 id="data-pitfalls">Data pitfalls</h2>
+<p>The most dangerous trap is that plant data is generated under control. Operators and control loops react to the very variables a model is trying to learn. Most of the traps below can't be seen from the data alone, so ask the domain expert before trusting a correlation.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Pitfall</th>
+<th>What it looks like</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Control-loop confounding</td>
+<td>Coagulant dose rises when raw turbidity rises, so a naive model learns "more coagulant, worse water"</td>
+<td>Model the response conditional on operator action; use designed experiments or causal methods where possible</td>
+</tr>
+<tr>
+<td>Setpoint vs measured value</td>
+<td>Tags for setpoint (SP), measured value (PV) and output (OUT) look alike; the setpoint leaks the operator's intent</td>
+<td>Get the tag list annotated; keep SP and OUT as inputs only when they're truly known in advance</td>
+</tr>
+<tr>
+<td>Flow-dependent lags</td>
+<td>Cause and effect are hours apart, and the lag shrinks as flow rises</td>
+<td>Align by residence time computed from flow and volume, not a fixed shift</td>
+</tr>
+<tr>
+<td>Historian interpolation</td>
+<td>Smooth straight lines across outages; fake precision</td>
+<td>Export recorded values, not interpolated ones, or flag gaps explicitly</td>
+</tr>
+<tr>
+<td>Analyzer maintenance</td>
+<td>Flatlines, zeros, spikes, and step changes after calibration</td>
+<td>Get maintenance records; build a data-quality flag before any modeling</td>
+</tr>
+<tr>
+<td>Units in and out of service</td>
+<td>A filter shows zero flow; total plant flow splits across a changing number of units</td>
+<td>Track unit status as an input; normalize per unit in service</td>
+</tr>
+<tr>
+<td>Mode changes</td>
+<td>Source switches, seasonal chlorine conversions, new chemicals, construction</td>
+<td>Get the event log; treat regimes explicitly; hold out whole regimes in testing</td>
+</tr>
+<tr>
+<td>Censored lab values</td>
+<td>"&lt;0.5 mg/L" or ND entries; replacing them with zero or the limit biases results</td>
+<td>Use censored-data methods; keep the detection limit as a field</td>
+</tr>
+<tr>
+<td>Result availability</td>
+<td>A lab result arrives days after sampling</td>
+<td>Use the time the value became available for forecasting, not the sample time</td>
+</tr>
+<tr>
+<td>Rare events carry the stakes</td>
+<td>Violations and upsets are a tiny fraction of the record</td>
+<td>Score event detection and hazardous underprediction separately from average error</td>
+</tr>
+<tr>
+<td>Recycle streams</td>
+<td>Backwash water or digester side-streams return to the plant inlet and change its load</td>
+<td>Ask where recycles enter; include them as inputs</td>
+</tr>
+<tr>
+<td>Concentration vs load</td>
+<td>A concentration means little without the flow carrying it</td>
+<td>Compute mass loads (concentration × flow) where mass is what matters</td>
+</tr>
+<tr>
+<td>Time zones</td>
+<td>Local time with daylight-saving jumps; duplicated or missing hours</td>
+<td>Convert to UTC at ingest; keep the original timestamp</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="control-and-decisions">Control and decisions</h2>
+<p>Plants run on simple automatic loops plus human judgment. ML's realistic first role is advising the human layer, not replacing the automatic one. Decisions happen at three speeds, and each has a different appetite for a model.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Examples</th>
+<th>Who or what decides</th>
+<th>Time scale</th>
+<th>Realistic ML role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Automatic control</td>
+<td>Chemical feed paced to flow; chlorine trimmed to a residual setpoint; DO control by blower</td>
+<td>PID loops in the PLC</td>
+<td>Seconds to minutes</td>
+<td>Benchmark against simulators first; any field use needs extensive validation</td>
+</tr>
+<tr>
+<td>Operator decisions</td>
+<td>Coagulant dose changes, backwash timing, wasting rate, source selection, responding to alarms</td>
+<td>Operators on shift, using experience, jar tests and SOPs</td>
+<td>Hours to days</td>
+<td>Forecasts, soft sensors, early warnings, dose recommendations, all as advice</td>
+</tr>
+<tr>
+<td>Engineering and management</td>
+<td>Process changes, new chemicals, capital projects, sampling plans</td>
+<td>Engineers, managers, regulators</td>
+<td>Months to years</td>
+<td>Surrogates for design studies, value-of-information analysis, scenario comparison</td>
+</tr>
+</tbody>
+</table></div>
+<p>Operator trust decides adoption. A model that explains itself, admits uncertainty and fails safe gets used. A black box that's right 95% of the time but confidently wrong in an upset gets switched off, and it should be. Anything touching live operations starts in shadow mode: it runs alongside operators, and its predictions are logged and compared but never acted on.</p>
+<h2 id="regulation">Regulation</h2>
+<p>Regulation sets what gets measured, how often, and how it's averaged. It also makes errors asymmetric: overpredicting a contaminant costs some chemical, while underpredicting can mean a violation or a public health event. Thresholds and averaging periods should shape loss functions and evaluation. The summaries below are simplified US and California rules; check current text before relying on a number.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Key requirements (simplified)</th>
+<th>Data it creates</th>
+<th>Why it matters for ML</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Surface Water Treatment Rules</td>
+<td>Combined filter effluent turbidity ≤0.3 NTU in 95% of monthly readings, never &gt;1 NTU; individual filters monitored every 15 min; required log removal/inactivation of Giardia, viruses, Cryptosporidium</td>
+<td>Continuous turbidity records per filter; the densest regulated data stream</td>
+<td>Filter models are scored against a hard, well-defined threshold</td>
+</tr>
+<tr>
+<td>Disinfection CT</td>
+<td>Daily CT (residual × contact time) at peak hourly flow, using T10 from a tracer study; minimum residual entering distribution</td>
+<td>Daily CT calculations; continuous residuals</td>
+<td>CT is computed by an approved method; a model can forecast it but not replace it</td>
+</tr>
+<tr>
+<td>Disinfection byproducts (Stage 1/2)</td>
+<td>TTHM 80 µg/L and HAA5 60 µg/L as locational running annual averages; bromate 10 µg/L; max residual 4.0 mg/L</td>
+<td>Quarterly samples at high-risk distribution sites</td>
+<td>Sparse labels; the target is a running annual average, not a single reading</td>
+</tr>
+<tr>
+<td>Lead and Copper Rule</td>
+<td>Tap sampling at high-risk homes; lead action level being lowered under the 2024 revisions</td>
+<td>Periodic tap samples; corrosion-control parameters</td>
+<td>Highly variable, censored, site-dependent data</td>
+</tr>
+<tr>
+<td>PFAS</td>
+<td>Federal limits finalized in 2024; scope and compliance timing revised since; California notification and response levels</td>
+<td>UCMR 5 and state sampling</td>
+<td>A fast-moving target; check current status</td>
+</tr>
+<tr>
+<td>NPDES permits (wastewater)</td>
+<td>Facility-specific limits as daily maximum, weekly and monthly averages; secondary treatment baseline 30 mg/L BOD5 and TSS monthly average with 85% removal</td>
+<td>Self-monitoring reports (eSMR in California)</td>
+<td>Each permit differs; limits define what "good" means per facility</td>
+</tr>
+<tr>
+<td>Title 22 recycled water and potable reuse</td>
+<td>Log removal credits per barrier; potable reuse requires continuous surrogate monitoring of each barrier</td>
+<td>Continuous surrogate data (TOC, conductivity, UVT, ozone) at reuse plants</td>
+<td>The richest continuous data in the industry, and the highest stakes</td>
+</tr>
+</tbody>
+</table></div>
+<p>A regulated value can't be swapped for a model estimate without regulator approval. Research is best framed as forecasting and decision support around the regulated measurements.</p>
+<h2 id="framing-ml-problems">Framing ML problems</h2>
+<p>Most water ML problems fit a familiar ML problem type. What sets them apart is their physics, lags and stakes. The numbers in the last column refer to directions in <a href="research-directions.html">Research Directions &amp; Data Leads</a>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ML problem type</th>
+<th>Water example</th>
+<th>Typical inputs</th>
+<th>Watch out for</th>
+<th>Directions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Time-series forecasting</td>
+<td>Raw-water turbidity 24 h ahead; filter hours to breakthrough; effluent ammonia</td>
+<td>Upstream sensors, weather, flows, recent history</td>
+<td>Flow-dependent lags; regime changes; scoring threshold crossings, not just average error</td>
+<td>1, 6, 20</td>
+</tr>
+<tr>
+<td>Soft sensing (virtual analyzer)</td>
+<td>TOC or ammonia estimated between lab samples from cheap online signals</td>
+<td>Online sensors; sparse lab labels</td>
+<td>Lab result timing; censored labels; analyzer drift in the inputs</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Decision support / recommendation</td>
+<td>Coagulant dose recommendation</td>
+<td>Raw-water quality, flows, past doses and outcomes</td>
+<td>Control-loop confounding: past doses reflect operator reactions</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Anomaly and fault detection</td>
+<td>Drifting analyzer, leaking main, failing membrane</td>
+<td>Multivariate sensor streams; maintenance records as labels</td>
+<td>Few labeled events; maintenance periods look like anomalies</td>
+<td>12, 15, 27, 28</td>
+</tr>
+<tr>
+<td>Surrogate modeling (emulation)</td>
+<td>Fast emulator of an activated-sludge, EPANET or CFD model</td>
+<td>Simulator inputs and outputs</td>
+<td>Matching the simulator is not matching reality; conservation laws</td>
+<td>7, 8, 10, 14, 18, 19, 24</td>
+</tr>
+<tr>
+<td>Spatial reconstruction</td>
+<td>Chlorine residual across a pipe network from a few sensors; contaminants in unsampled wells</td>
+<td>Sparse point measurements plus network or geology structure</td>
+<td>Network topology and flow direction matter more than distance</td>
+<td>14, 25</td>
+</tr>
+<tr>
+<td>Control and reinforcement learning</td>
+<td>Aeration or chemical-feed control</td>
+<td>Simulator first; plant data later</td>
+<td>Safety constraints; sim-to-real gap; never trained on the live plant</td>
+<td>7, 21</td>
+</tr>
+<tr>
+<td>Classification and risk scoring</td>
+<td>Which small systems will fail; which homes have lead lines</td>
+<td>Compliance history, finances, demographics, asset records</td>
+<td>Equity effects of errors; shifting definitions of "failing"</td>
+<td>16, 17</td>
+</tr>
+<tr>
+<td>Text and document understanding</td>
+<td>Extracting events from operator logs; structuring permits and reports</td>
+<td>Free text, PDFs</td>
+<td>Jargon and abbreviations; event times approximate</td>
+<td>29</td>
+</tr>
+</tbody>
+</table></div>
+<p>Two questions to ask for any proposed model: what decision would change if this prediction were perfect, and what does it cost to be wrong in each direction?</p>
+<h2 id="glossary">Glossary</h2>
+<p>The terms ML collaborators will hear most, alphabetical. The third column says why each matters when you touch the data.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+<th>Why it matters for data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alkalinity</td>
+<td>Water's capacity to buffer pH, mostly from carbonate</td>
+<td>Governs how pH responds to coagulant; usually lab-only</td>
+</tr>
+<tr>
+<td>AMI</td>
+<td>Advanced metering infrastructure: networked customer meters</td>
+<td>High-resolution demand data; privacy-restricted</td>
+</tr>
+<tr>
+<td>Backwash</td>
+<td>Reversing flow to clean a filter</td>
+<td>Resets head loss and turbidity; marks the end of a filter run</td>
+</tr>
+<tr>
+<td>BOD5</td>
+<td>Biochemical oxygen demand over 5 days: a measure of organic load</td>
+<td>The result arrives 5 days after sampling</td>
+</tr>
+<tr>
+<td>Breakthrough</td>
+<td>When particles start passing through a filter or GAC bed</td>
+<td>A threshold event to forecast, not a continuous target</td>
+</tr>
+<tr>
+<td>Chloramine</td>
+<td>Chlorine combined with ammonia; a longer-lasting disinfectant</td>
+<td>Slower decay, different chemistry; can feed nitrification in pipes</td>
+</tr>
+<tr>
+<td>Clearwell</td>
+<td>Storage tank after filtration where disinfectant contact happens</td>
+<td>Its level and flow set the contact time used in CT</td>
+</tr>
+<tr>
+<td>Coagulation</td>
+<td>Adding chemicals (alum, ferric, PACl) so particles stick together</td>
+<td>The main operator decision; confounded with raw-water quality</td>
+</tr>
+<tr>
+<td>Combined filter effluent (CFE)</td>
+<td>Blended water from all filters</td>
+<td>A regulated turbidity measure</td>
+</tr>
+<tr>
+<td>Composite sample</td>
+<td>Many small samples mixed over a period, often flow-weighted</td>
+<td>One value represents a whole day; don't treat it as instantaneous</td>
+</tr>
+<tr>
+<td>CT</td>
+<td>Disinfectant concentration × contact time (mg·min/L)</td>
+<td>The regulated measure of disinfection; computed by an approved method</td>
+</tr>
+<tr>
+<td>DAF</td>
+<td>Dissolved air flotation: floats floc off instead of settling it</td>
+<td>Alternative to sedimentation; different dynamics</td>
+</tr>
+<tr>
+<td>DBPs (TTHM, HAA5)</td>
+<td>Disinfection byproducts formed when chlorine reacts with organics</td>
+<td>Sparse, regulated, form over hours to days in pipes</td>
+</tr>
+<tr>
+<td>Detection limit / ND</td>
+<td>Lowest reliably measurable value; ND = not detected</td>
+<td>Censored data; never replace with zero</td>
+</tr>
+<tr>
+<td>DO</td>
+<td>Dissolved oxygen</td>
+<td>Main control variable in aeration; a key online signal</td>
+</tr>
+<tr>
+<td>Filter-to-waste</td>
+<td>Discarding a filter's first water after backwash</td>
+<td>Explains turbidity spikes that never reach customers</td>
+</tr>
+<tr>
+<td>Floc</td>
+<td>Aggregated particles formed after coagulation</td>
+<td>Not measured directly; inferred from downstream turbidity</td>
+</tr>
+<tr>
+<td>GAC</td>
+<td>Granular activated carbon: adsorbs organics, taste and odor, PFAS</td>
+<td>Slow breakthrough over months; replacement is a big cost</td>
+</tr>
+<tr>
+<td>Grab sample</td>
+<td>A single sample at one moment</td>
+<td>Point-in-time; timing relative to process changes matters</td>
+</tr>
+<tr>
+<td>Head loss</td>
+<td>Pressure drop across a filter as it clogs</td>
+<td>Rises over a run; the classic run-length signal</td>
+</tr>
+<tr>
+<td>Historian / tag</td>
+<td>Database of time-stamped process values; each signal is a tag</td>
+<td>Tag naming is plant-specific; get a tag dictionary</td>
+</tr>
+<tr>
+<td>HRT</td>
+<td>Hydraulic residence time: volume ÷ flow</td>
+<td>Sets the lag between cause and effect; varies with flow</td>
+</tr>
+<tr>
+<td>IFE</td>
+<td>Individual filter effluent turbidity</td>
+<td>15-min regulated record per filter</td>
+</tr>
+<tr>
+<td>Jar test</td>
+<td>Bench test of several coagulant doses in beakers</td>
+<td>The traditional dose-finding method; a source of labeled data</td>
+</tr>
+<tr>
+<td>Log removal (LRV)</td>
+<td>Pathogen reduction in powers of ten; 4-log = 99.99%</td>
+<td>The currency of disinfection and reuse compliance</td>
+</tr>
+<tr>
+<td>LRAA</td>
+<td>Locational running annual average</td>
+<td>Compliance target for DBPs: a 4-quarter rolling mean per site</td>
+</tr>
+<tr>
+<td>MCL</td>
+<td>Maximum contaminant level: a legal limit</td>
+<td>Defines the threshold that matters for evaluation</td>
+</tr>
+<tr>
+<td>MLSS</td>
+<td>Mixed liquor suspended solids: biomass concentration in aeration</td>
+<td>Proxy for the size of the microbial population</td>
+</tr>
+<tr>
+<td>Nitrification</td>
+<td>Microbes converting ammonia to nitrate</td>
+<td>Wanted in wastewater; a problem in chloraminated pipes</td>
+</tr>
+<tr>
+<td>NPDES</td>
+<td>National Pollutant Discharge Elimination System permit</td>
+<td>Each facility's own limits and monitoring schedule</td>
+</tr>
+<tr>
+<td>NTU</td>
+<td>Nephelometric turbidity unit</td>
+<td>Unit of turbidity; instrument-dependent at low values</td>
+</tr>
+<tr>
+<td>ORP</td>
+<td>Oxidation-reduction potential</td>
+<td>Cheap online signal of chemical or biological state</td>
+</tr>
+<tr>
+<td>PID loop</td>
+<td>Proportional-integral-derivative controller</td>
+<td>The automatic control layer; its actions confound data</td>
+</tr>
+<tr>
+<td>RAS / WAS</td>
+<td>Return and waste activated sludge</td>
+<td>Operator levers that set biomass and sludge age</td>
+</tr>
+<tr>
+<td>Residual</td>
+<td>Disinfectant remaining in the water</td>
+<td>Tracked from plant to tap; decays with time and temperature</td>
+</tr>
+<tr>
+<td>SCADA</td>
+<td>Supervisory control and data acquisition system</td>
+<td>Real-time control layer; feeds the historian</td>
+</tr>
+<tr>
+<td>SRT</td>
+<td>Solids retention time (sludge age)</td>
+<td>Days-to-weeks state that sets which microbes survive</td>
+</tr>
+<tr>
+<td>Streaming current</td>
+<td>Online measure of particle charge after coagulation</td>
+<td>A direct coagulation feedback signal where installed</td>
+</tr>
+<tr>
+<td>T10 / baffling factor</td>
+<td>Time for 10% of a tracer to pass through a tank, as a fraction of HRT</td>
+<td>Converts tank volume into effective contact time for CT</td>
+</tr>
+<tr>
+<td>TOC</td>
+<td>Total organic carbon</td>
+<td>Drives coagulant demand and DBP formation; often lab-only</td>
+</tr>
+<tr>
+<td>Turbidity</td>
+<td>Cloudiness from suspended particles</td>
+<td>The most common water quality signal</td>
+</tr>
+<tr>
+<td>UV254 / UVT</td>
+<td>UV absorbance or transmittance at 254 nm</td>
+<td>Cheap online proxy for organics; sets UV disinfection dose</td>
+</tr>
+<tr>
+<td>Water age</td>
+<td>Time since water left the plant</td>
+<td>Drives residual decay and DBP formation; from network models</td>
+</tr>
+</tbody>
+</table></div>
+</main>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    Maintained by Keith Wilkinson, <a href="https://title22.org">title22.org</a>.
+    Content licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+    Corrections and additions welcome via <a href="https://github.com/boxwrench/water-ml-research/issues">GitHub issues</a>.
+  </div>
+</footer>
+</body>
+</html>

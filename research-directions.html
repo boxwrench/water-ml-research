@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Water Treatment × ML: Research Directions &amp; Data Leads</title>
+<meta name="description" content="The shared problem across every direction below is getting to data. The ML methods are mature; trustworthy, well-described water data is what&#x27;s missing. This document casts a wide net of research dire">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="index.html">Water × ML Research</a>
+    <nav class="nav"><a href="water-data-guide.html">Systems & Data Guide</a><a href="research-directions.html" class="active">Research Directions</a><a href="https://github.com/boxwrench/water-ml-research">GitHub</a></nav>
+  </div>
+</header>
+<div class="wrap layout">
+<aside class="toc"><div class="toc-inner"><div class="toc-title">On this page</div><div class="toc">
+<ul>
+<li><a href="#water-treatment-ml-research-directions-data-leads">Water Treatment × ML: Research Directions &amp; Data Leads</a><ul>
+<li><a href="#purpose-and-framing">Purpose and framing</a></li>
+<li><a href="#the-wide-net-research-directions">The wide net: research directions</a></li>
+<li><a href="#data-landscape">Data landscape</a></li>
+<li><a href="#data-gaps-what-new-data-would-help-most">Data gaps: what new data would help most</a></li>
+<li><a href="#initial-leads-and-next-steps">Initial leads and next steps</a></li>
+<li><a href="#collaboration-model-and-questions-for-partners">Collaboration model and questions for partners</a></li>
+<li><a href="#caveats">Caveats</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div></aside>
+<main class="content">
+<h1 id="water-treatment-ml-research-directions-data-leads">Water Treatment × ML: Research Directions &amp; Data Leads</h1>
+<p><em>Keith Wilkinson · <a href="https://title22.org" target="_blank" rel="noopener">title22.org</a> · November 2026 · Working draft, broad-net brainstorming phase</em></p>
+<h2 id="purpose-and-framing">Purpose and framing</h2>
+<p>The shared problem across every direction below is getting to data. The ML methods are mature; trustworthy, well-described water data is what's missing. This document casts a wide net of research directions for a collaboration between a water-treatment domain expert and academic ML groups. It then narrows to a few starting leads that can begin on public data now. For the vocabulary and system overview, see the companion <a href="water-data-guide.html">Water Systems and Data guide</a>.</p>
+<p><strong>Roles.</strong> The domain expert supplies process knowledge: what matters operationally, what the data means, where it lies, and which predictions would change a decision. Academic partners supply methods, compute, and publication know-how.</p>
+<p><strong>Two tests, always scored separately:</strong></p>
+<ul>
+<li><strong>Test A: copy the simulator.</strong> Can a cheaper model reproduce an expensive engineering model (CFD, ASM, EPANET, PHREEQC) at acceptable accuracy? The score is against simulator output.</li>
+<li><strong>Test B: predict reality.</strong> Does any model, physics or learned, forecast what a real plant or water body actually did? The score is against held-out measurements.</li>
+</ul>
+<p>A surrogate trained only on simulator output can't beat that simulator in Test B. Hybrid models (physics prediction plus a learned correction from measurements) are the main bridge between the two.</p>
+<p><strong>Guiding principle:</strong> use the least expensive model that delivers the validated accuracy and reliability a decision needs. Sometimes that's an algebraic equation.</p>
+<h2 id="the-wide-net-research-directions">The wide net: research directions</h2>
+<p>Thirty-two directions, grouped from source water to tap, then reuse, wastewater, cross-cutting work and one adjacent hydrology track. This is the broad-net list: nothing here is ranked yet. The <strong>Data path</strong> column carries the most weight. <em>Public</em> means a usable dataset exists now. <em>Simulator</em> means training data can be generated. <em>Utility</em> means it needs a partner utility's historian/SCADA or lab data.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Theme</th>
+<th>Direction</th>
+<th>Core question</th>
+<th>Test</th>
+<th>Data path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Source water</td>
+<td>Delta / river water-quality forecasting</td>
+<td>Can a network of 15-min stations forecast conductivity, turbidity, DO at unseen stations and horizons?</td>
+<td>B</td>
+<td>Public</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Source water</td>
+<td>Harmful algal bloom early warning</td>
+<td>Can chlorophyll, temperature, flow and weather give days of warning before cyanotoxin events at intakes?</td>
+<td>B</td>
+<td>Public + utility</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Source water</td>
+<td>Post-wildfire source-water quality</td>
+<td>How do burn scars change turbidity, DOC and DBP precursors downstream, and for how long?</td>
+<td>B</td>
+<td>Public (patchy)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Coagulation</td>
+<td>Coagulant dose prediction</td>
+<td>Can raw-water quality predict the optimum dose better than operator heuristics, reducing jar tests?</td>
+<td>B</td>
+<td>Utility</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Coagulation</td>
+<td>Soft sensors for TOC / UV254 / alkalinity</td>
+<td>Can cheap online signals estimate lab-only parameters between grab samples?</td>
+<td>B</td>
+<td>Utility</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Filtration</td>
+<td>Filter run-length and breakthrough forecasting</td>
+<td>Can we predict hours to head-loss or turbidity threshold per filter?</td>
+<td>B</td>
+<td>Utility</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Disinfection</td>
+<td>Chlorine / chloramine residual control benchmark</td>
+<td>Do feedforward, MPC or learned controllers beat flow-paced PID under disturbances and sensor faults?</td>
+<td>A</td>
+<td>Simulator</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Disinfection</td>
+<td>Ozone contactor surrogate</td>
+<td>Can a model trained on CFD + kinetics emulate ozone residual, CT and bromate in milliseconds?</td>
+<td>A then B</td>
+<td>Simulator, then utility</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Byproducts</td>
+<td>DBP formation prediction</td>
+<td>Can precursors, dose, temperature and water age predict TTHM/HAA5 better than empirical models?</td>
+<td>B</td>
+<td>Public compliance + utility</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Advanced</td>
+<td>PFAS GAC / IX breakthrough surrogates</td>
+<td>Can surrogates replace PSDM/HSDM-type models for design screening across many waters?</td>
+<td>A then B</td>
+<td>Simulator + public occurrence</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Membranes</td>
+<td>RO / UF fouling and cleaning prediction</td>
+<td>When will flux decline or pressure rise force a cleaning, and what drives it?</td>
+<td>A then B</td>
+<td>Simulator + utility</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Membranes</td>
+<td>RO integrity monitoring</td>
+<td>Can conductivity, sulfate, TOC and pressure patterns flag a breach earlier than direct integrity tests?</td>
+<td>B</td>
+<td>Utility (reuse, desal)</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Potable reuse</td>
+<td>Barrier performance and log-removal credit monitoring</td>
+<td>Can online surrogates (TOC, conductivity, UVT, ozone residual) verify each barrier continuously and catch failures early?</td>
+<td>B</td>
+<td>Utility (reuse plants)</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Distribution</td>
+<td>Residual / water-age reconstruction from sparse sensors</td>
+<td>Can a Senseiver-style model infer the full network state from a few monitoring points?</td>
+<td>A then B</td>
+<td>Simulator (EPANET/WNTR)</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Distribution</td>
+<td>Leak and anomaly detection</td>
+<td>Can models flag leaks or contamination events from pressure/flow/quality streams?</td>
+<td>B</td>
+<td>Public benchmarks</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Corrosion</td>
+<td>Lead release and corrosion-control surrogates</td>
+<td>Can PHREEQC-based chemistry plus data predict lead risk under treatment changes?</td>
+<td>A then B</td>
+<td>Simulator + public sampling</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Small systems</td>
+<td>Failing / at-risk system prediction</td>
+<td>Can compliance, financial and source data predict which small systems will fail before they do?</td>
+<td>B</td>
+<td>Public (SAFER)</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Wastewater</td>
+<td>Activated sludge (BSM1/BSM2) surrogates</td>
+<td>How much faster can surrogates run ASM-based plants, and at what accuracy loss?</td>
+<td>A</td>
+<td>Simulator</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Wastewater</td>
+<td>Anaerobic digestion (ADM1) surrogates</td>
+<td>Can surrogates predict gas production and digester upsets from feed and operating changes?</td>
+<td>A</td>
+<td>Simulator (ADM1 is part of BSM2)</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Wastewater</td>
+<td>Multi-facility effluent forecasting</td>
+<td>Can a model trained across hundreds of facilities forecast effluent quality at new ones?</td>
+<td>B</td>
+<td>Public (eSMR)</td>
+</tr>
+<tr>
+<td>21</td>
+<td>Wastewater</td>
+<td>Aeration energy and N2O emissions</td>
+<td>Can control or surrogates cut blower energy without effluent violations?</td>
+<td>A then B</td>
+<td>Simulator + utility</td>
+</tr>
+<tr>
+<td>22</td>
+<td>Wastewater</td>
+<td>Microbiome and process performance</td>
+<td>Do 16S community shifts predict nitrification loss or sludge bulking before process data shows it?</td>
+<td>B</td>
+<td>Public reference (MiDAS) + utility samples</td>
+</tr>
+<tr>
+<td>23</td>
+<td>Wastewater</td>
+<td>Wastewater-based epidemiology</td>
+<td>Can pathogen signals in sewage be forecast or nowcast, and how do flow and solids normalization affect them?</td>
+<td>B</td>
+<td>Public (WastewaterSCAN, NWSS)</td>
+</tr>
+<tr>
+<td>24</td>
+<td>Collection</td>
+<td>Sewer and CSO surrogates</td>
+<td>Can surrogates emulate SWMM fast enough for real-time overflow control?</td>
+<td>A</td>
+<td>Simulator (EPA SWMM)</td>
+</tr>
+<tr>
+<td>25</td>
+<td>Groundwater</td>
+<td>Contaminant mapping (nitrate, arsenic, PFAS)</td>
+<td>How well can sparse well sampling be extended to unsampled wells?</td>
+<td>B</td>
+<td>Public (GAMA)</td>
+</tr>
+<tr>
+<td>26</td>
+<td>Demand</td>
+<td>Supplier-level demand forecasting</td>
+<td>Can weather, policy and season forecast monthly demand across ~400 suppliers?</td>
+<td>B</td>
+<td>Public</td>
+</tr>
+<tr>
+<td>27</td>
+<td>Cross-cutting</td>
+<td>Sensor data validation and fault detection</td>
+<td>Can models catch drifting analyzers and bad historian data automatically?</td>
+<td>B</td>
+<td>Utility (also useful on public data)</td>
+</tr>
+<tr>
+<td>28</td>
+<td>Cross-cutting</td>
+<td>Cyber-physical anomaly testbeds</td>
+<td>Do detectors trained on SWaT / WADI testbed plants transfer to real plant data?</td>
+<td>B</td>
+<td>Public testbeds (access by request)</td>
+</tr>
+<tr>
+<td>29</td>
+<td>Cross-cutting</td>
+<td>Operator text as data</td>
+<td>Can LLMs extract events from logbooks, answer SOP and regulatory questions, and supply event labels for process models?</td>
+<td>B</td>
+<td>Utility logs + public regs and permits</td>
+</tr>
+<tr>
+<td>30</td>
+<td>Cross-cutting</td>
+<td>Checked calculation library</td>
+<td>An open, unit-checked library of design calculations with valid ranges and test cases, serving as the physics baselines for everything else</td>
+<td>n/a</td>
+<td>Public literature</td>
+</tr>
+<tr>
+<td>31</td>
+<td>Cross-cutting</td>
+<td>Cross-system foundation / in-context models</td>
+<td>Does a shared representation trained across many systems beat specialized models at data-poor sites?</td>
+<td>B</td>
+<td>Many facilities</td>
+</tr>
+<tr>
+<td>32</td>
+<td>Adjacent: hydrology</td>
+<td>Water-resources emulators and forecasting</td>
+<td>Can surrogates emulate IWFM groundwater or CalSim planning runs, and can reservoir, snow and streamflow be forecast from CDEC data?</td>
+<td>A, B</td>
+<td>Simulator + public (CDEC)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Two more directions are about the data rather than models:</p>
+<ul>
+<li><strong>Structured extraction.</strong> Use LLMs to turn permits, annual reports, consumer confidence reports and plant descriptions into structured metadata: treatment trains, capacities, chemicals. Joining datasets depends on this metadata, and it barely exists in machine-readable form.</li>
+<li><strong>Value of information.</strong> Ask which additional sensor or sampling would most reduce forecast error. This is where domain expertise directly shapes new data collection (see Data gaps).</li>
+</ul>
+<p>Methods that cut across every direction, each publishable on its own:</p>
+<ul>
+<li><strong>Uncertainty quantification.</strong> Operators need to know how confident a forecast is. Calibrated intervals (conformal prediction, ensembles) matter as much as point accuracy, especially near regulatory limits.</li>
+<li><strong>Causal inference on operating data.</strong> Operators act on what they see, so routine plant data mixes cause and response. Methods that separate the two, or experiments designed to avoid the problem, decide whether a dose model can be trusted to recommend changes.</li>
+<li><strong>Four kinds of cost.</strong> Score every model on computational cost, engineering cost (calibration, expertise), data cost (sensors, lab work) and predictive cost (error, failure under new conditions). Plot the trade-offs as a cost-versus-accuracy frontier so the cheapest adequate model is visible.</li>
+<li><strong>Physics-constrained learning.</strong> Non-negative concentrations, mass balance and known kinetics built into learned models, so they fail gracefully outside their training range.</li>
+</ul>
+<h2 id="data-landscape">Data landscape</h2>
+<p>Public data is strong for source water, groundwater, wastewater effluent and compliance sampling. It's nearly empty for high-frequency treatment-plant process data such as dose, filter head loss and contactor residuals. Simulators can fill part of that gap for Test A only. <strong>Checked</strong> = page opened Nov 2026 (<em>opened</em>) or confirmed via search results only (<em>search</em>).</p>
+<h3 id="public-observations">Public observations</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Source</th>
+<th>What it holds</th>
+<th>Resolution / coverage</th>
+<th>Directions</th>
+<th>Limits</th>
+<th>Checked</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://publish.data.ca.gov/dataset/water-quality-effluent-electronic-self-monitoring-report-esmr-data" target="_blank" rel="noopener">SWRCB eSMR wastewater effluent</a></td>
+<td>Self-monitoring analytical results from permitted dischargers</td>
+<td>2006 to present, monthly updates; 279 MB Parquet or ~850 MB/yr CSV; public domain</td>
+<td>20, 27</td>
+<td>Sampling frequency and parameters vary by permit; no process/operating data</td>
+<td>opened</td>
+</tr>
+<tr>
+<td><a href="https://publish.data.ca.gov/dataset/sacramento-san-joaquin-bay-delta-continuous-15-minute-water-quality-monitoring-central-delta-re" target="_blank" rel="noopener">DWR Delta continuous WQ, Central Delta</a></td>
+<td>Conductivity, temperature, DO, turbidity, chlorophyll, fluorescence</td>
+<td>15-min, 12 stations, Oct 2005 to Dec 2025, yearly updates; CC BY</td>
+<td>1, 2, 27</td>
+<td>Includes a quality report; sensor gaps and instrument changes need handling</td>
+<td>opened</td>
+</tr>
+<tr>
+<td><a href="https://data.ca.gov/@california-state-water-resources-control-board/ground-water-water-quality-results" target="_blank" rel="noopener">SWRCB GAMA groundwater quality</a></td>
+<td>Untreated well results from DDW, USGS, DWR, DPR, ILRP and others, incl. a statewide PFAS set</td>
+<td>Quarterly updates; DDW files ~1.7 to 2.1 GB per decade</td>
+<td>16, 25</td>
+<td>Irregular sampling; untreated water only</td>
+<td>opened</td>
+</tr>
+<tr>
+<td><a href="https://waterboards.ca.gov/drinking_water/certlic/drinkingwater/EDTlibrary.html" target="_blank" rel="noopener">SWRCB DDW drinking water lab results</a></td>
+<td>Compliance lab results for all public water systems, incl. DBPs</td>
+<td>Historical files + CLIP feed since Sept 2021</td>
+<td>9, 17, 31</td>
+<td>Compliance sampling cadence; treatment details must be joined from elsewhere</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://www.waterboards.ca.gov/safer/safer_data.html" target="_blank" rel="noopener">SWRCB SAFER data</a></td>
+<td>Risk assessment results, failing and at-risk system lists, dashboard</td>
+<td>Annual needs assessments; failing list updated often; public flat file on data.ca.gov</td>
+<td>17</td>
+<td>Flat file last updated Apr 2023 per search; methods change between years</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://www.epa.gov/dwucmr/fifth-unregulated-contaminant-monitoring-rule-data-finder" target="_blank" rel="noopener">EPA UCMR 5</a></td>
+<td>29 PFAS + lithium at US public water systems; a file of treatment and source data elements</td>
+<td>National, bulk text download</td>
+<td>10, 25</td>
+<td>Occurrence only; not compliance determinations</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://data.mendeley.com/datasets/bjcs3rsfph/1" target="_blank" rel="noopener">Mendeley full-scale DWTP coagulant set</a></td>
+<td>Turbidity, temperature, pH, coagulant dose</td>
+<td>1,705 daily records; CC BY 4.0</td>
+<td>4</td>
+<td>Daily, single unnamed plant, file contents unverified</td>
+<td>opened</td>
+</tr>
+<tr>
+<td><a href="https://arxiv.org/abs/2407.05346" target="_blank" rel="noopener">Agtrup WWTP nutrient-removal data (arXiv 2407.05346)</a></td>
+<td>SCADA control, process and environmental variables for P removal</td>
+<td>2-min sampling, Danish plant</td>
+<td>18, 21, 27</td>
+<td>Hosting, duration and data license not stated on abstract page</td>
+<td>opened</td>
+</tr>
+<tr>
+<td><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8989995/" target="_blank" rel="noopener">MiDAS 4</a></td>
+<td>Global 16S reference database for activated sludge and digesters</td>
+<td>740 WWTPs, &gt;5 million full-length sequences</td>
+<td>22</td>
+<td>A taxonomy reference, not paired process data</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://data.wastewaterscan.org/about" target="_blank" rel="noopener">WastewaterSCAN</a></td>
+<td>Pathogen concentrations in sewage solids, PMMoV-normalized</td>
+<td>Many US sewersheds</td>
+<td>23</td>
+<td>CC BY-NC 4.0 per CDC; bulk download route unconfirmed</td>
+<td>search</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="simulators-and-benchmarks-training-data-on-demand">Simulators and benchmarks (training data on demand)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>What it simulates</th>
+<th>Directions</th>
+<th>Notes</th>
+<th>Checked</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://pypi.org/project/bsm2-python/" target="_blank" rel="noopener">bsm2-python</a></td>
+<td>IWA BSM1/BSM2 activated sludge + ADM1 digestion, with energy management</td>
+<td>7, 18, 19, 21</td>
+<td>Pure Python; open- and closed-loop models</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://github.com/usepa/wntr" target="_blank" rel="noopener">WNTR (USEPA)</a></td>
+<td>EPANET hydraulics + water quality, multispecies chlorine via EPANET-MSX</td>
+<td>14, 15</td>
+<td>Revised BSD license</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://www.github.com/USEPA/Water_Treatment_Models" target="_blank" rel="noopener">USEPA Water_Treatment_Models</a></td>
+<td>PSDM for GAC, ion-exchange column model, PAC GUI</td>
+<td>10</td>
+<td>MIT license; Python</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://zenodo.org/record/4017658" target="_blank" rel="noopener">BattLeDIM</a> and LeakDB</td>
+<td>Leak detection benchmarks: L-Town SCADA (33 pressure, 3 flow sensors) and WNTR-generated scenarios</td>
+<td>15</td>
+<td>LeakDB networks are small (10 and 32 nodes)</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://arxiv.org/abs/2406.02078" target="_blank" rel="noopener">AI-for-water-distribution toolbox (arXiv 2406.02078)</a></td>
+<td>Scenario generation for hydraulics + quality, event benchmarks, control environment</td>
+<td>7, 14, 15</td>
+<td>Repo name not on abstract page</td>
+<td>opened</td>
+</tr>
+<tr>
+<td><a href="https://github.com/OrchardLANL/Senseiver" target="_blank" rel="noopener">Senseiver (LANL)</a></td>
+<td>Attention-based field reconstruction from sparse sensors + sensor placement</td>
+<td>14</td>
+<td>PyTorch; data on Zenodo</td>
+<td>opened</td>
+</tr>
+</tbody>
+</table></div>
+<p>Not yet checked but worth a look: PHREEQC (USGS), WaterTAP, QSDsan, EPA SWMM, CDEC and the DWR continuous-data links.</p>
+<h2 id="data-gaps-what-new-data-would-help-most">Data gaps: what new data would help most</h2>
+<p>The single most valuable addition is a well-documented historian export from even one plant, paired with its event logs. Ranked by how many directions each unlocks:</p>
+<ol>
+<li><strong>Plant historian export + event log.</strong> 1 to 5 min process data (flows, doses, turbidity per stage, filter head loss, residuals), plus the operator log: dose changes, setpoint changes, backwashes, outages, analyzer maintenance. Without the event log, models learn operator reactions instead of process behavior. Unlocks 4, 5, 6, 9, 27, 29.</li>
+<li><strong>Jar tests paired with full-scale outcomes.</strong> Most plants keep jar-test sheets on paper or in scattered spreadsheets. Digitized and matched to settled/filtered turbidity, they become labeled training data for coagulation. Unlocks 4.</li>
+<li><strong>Sensor metadata.</strong> Calibration dates, cleaning, replacements and known-bad periods. These are the labels fault detection needs, and they rarely leave the plant. Unlocks 27 and cleans everything else.</li>
+<li><strong>Structured treatment-train metadata per water system.</strong> Process units, capacities, chemicals and disinfectant type for each system. This is the key that joins public compliance data (DBPs, PFAS, effluent) to treatment, so models can learn across systems. Partly extractable from public reports. Unlocks 9, 10, 17, 20, 31.</li>
+<li><strong>Designed experiments, not just routine operation.</strong> Routine data is confounded: operators change dose <em>because</em> water changed, so the data cannot separate cause from response. Pilot or bench runs that vary dose, pH and temperature on purpose give causal signal. Unlocks 4, 8, 10, 11, 16.</li>
+<li><strong>Tracer studies and contactor characterization.</strong> T10/T and residence-time distributions validate CT and ozone surrogates against reality. Unlocks 7, 8, 13.</li>
+<li><strong>A utility network model paired with grab samples.</strong> A calibrated EPANET model plus distribution residual sampling turns synthetic Test A results into a real Test B. Unlocks 9, 14.</li>
+<li><strong>Event-driven sampling campaigns.</strong> Extra sampling after wildfires, storms and bloom onsets. The rare conditions are where models fail and where forecasts matter most. Unlocks 2, 3.</li>
+</ol>
+<p>A value-of-information study can rank these formally. Train on what exists, then measure how much each candidate signal reduces forecast error when added or simulated. The result gives utilities a concrete reason to collect or share data.</p>
+<h2 id="initial-leads-and-next-steps">Initial leads and next steps</h2>
+<p>Five leads, chosen so that each partner can start this month without waiting on anyone. Leads 1 to 4 use only public data or simulators. Lead 5, a utility partnership, takes the longest, so start it now.</p>
+<h3 id="lead-1-delta-water-quality-forecasting-benchmark-test-b-public">Lead 1: Delta water-quality forecasting benchmark (Test B, public)</h3>
+<p>Twenty years of 15-min data at 12 stations, CC BY, with a published quality report. It's the cleanest public multi-site time series found, and it connects directly to drinking-water source conditions.</p>
+<ul>
+<li class="task"><input type="checkbox" disabled> Download all 18 files; read the quality report and the instrument date ranges</li>
+<li class="task"><input type="checkbox" disabled> Define four separate tasks: same-time reconstruction, 1 h / 24 h / 7 d forecasts, and an unseen-station holdout</li>
+<li class="task"><input type="checkbox" disabled> Add drivers: CDEC flows and tides, CIMIS weather (free API key)</li>
+<li class="task"><input type="checkbox" disabled> Baselines first: persistence, seasonal climatology, gradient-boosted trees, a small GRU, a graph model</li>
+<li class="task"><input type="checkbox" disabled> Domain expert: flag which variables and horizons matter to an intake operator, and which events (salinity intrusion, blooms, storm turbidity) must be scored separately</li>
+</ul>
+<h3 id="lead-2-bsm1bsm2-surrogate-and-control-benchmark-test-a-simulator">Lead 2: BSM1/BSM2 surrogate and control benchmark (Test A, simulator)</h3>
+<p>The standard, citable reference for wastewater surrogates and controller comparisons. It costs nothing in data access.</p>
+<ul>
+<li class="task"><input type="checkbox" disabled> Install bsm2-python; reproduce published BSM1/BSM2 steady-state and dynamic reference results before trusting it</li>
+<li class="task"><input type="checkbox" disabled> Generate a training set across influent scenarios and control settings</li>
+<li class="task"><input type="checkbox" disabled> Compare reduced-order, XGBoost, small NN and physics-informed hybrid on speed, accuracy and mass-balance error</li>
+<li class="task"><input type="checkbox" disabled> Report the break-even evaluation count (training + data-generation time over per-run time saved)</li>
+<li class="task"><input type="checkbox" disabled> Stretch: plug surrogates into an optimizer and check whether solutions degrade, the way the pump-scheduling study found</li>
+</ul>
+<h3 id="lead-3-distribution-residual-reconstruction-from-sparse-sensors-test-a-simulator">Lead 3: Distribution residual reconstruction from sparse sensors (Test A, simulator)</h3>
+<p>A direct test of the Los Alamos idea on a problem that actually fits it. Senseiver code is public, and WNTR generates unlimited chlorine scenarios.</p>
+<ul>
+<li class="task"><input type="checkbox" disabled> Pick 2 to 3 public networks (EPANET examples, L-Town from BattLeDIM)</li>
+<li class="task"><input type="checkbox" disabled> Generate multispecies chlorine/water-age scenarios with WNTR + EPANET-MSX across demand, temperature and source variation</li>
+<li class="task"><input type="checkbox" disabled> Train Senseiver and baselines (kriging on the graph, a GNN) to reconstruct full-network residual from 5 to 20 sensors</li>
+<li class="task"><input type="checkbox" disabled> Use Senseiver's placement method to ask where new sensors should go (value of information)</li>
+<li class="task"><input type="checkbox" disabled> Later: Test B with a utility's network model and grab samples</li>
+</ul>
+<h3 id="lead-4-multi-facility-wastewater-effluent-forecasting-test-b-public">Lead 4: Multi-facility wastewater effluent forecasting (Test B, public)</h3>
+<p>eSMR is the only public dataset found with hundreds of treatment facilities. That makes it the one place to test cross-facility transfer (direction 31) without a data agreement.</p>
+<ul>
+<li class="task"><input type="checkbox" disabled> Data audit: count facilities with regular daily or weekly series for ammonia, TSS, BOD, chlorine residual, turbidity</li>
+<li class="task"><input type="checkbox" disabled> Domain expert: map permit structures and units, and flag reporting quirks (non-detects, averaging periods, qualifiers)</li>
+<li class="task"><input type="checkbox" disabled> Train specialized per-facility models versus one pooled model; hold out entire facilities</li>
+<li class="task"><input type="checkbox" disabled> Join facility metadata (treatment type, capacity) from CIWQS to test whether it improves transfer</li>
+</ul>
+<h3 id="lead-5-utility-data-partnership-test-b-the-high-value-path">Lead 5: Utility data partnership (Test B, the high-value path)</h3>
+<p>Every treatment-process direction (coagulation, filtration, soft sensors, fault detection) depends on this lead.</p>
+<ul>
+<li class="task"><input type="checkbox" disabled> Domain expert drafts a one-page data request: tags, interval, period (2+ years), event logs, jar tests, sensor maintenance records</li>
+<li class="task"><input type="checkbox" disabled> Academic partners draft the data-use agreement: anonymization, offline-only use, publication review</li>
+<li class="task"><input type="checkbox" disabled> First targets once data arrives: filter run-length forecasting and coagulant dose prediction, both scored against operator heuristics</li>
+</ul>
+<h3 id="further-candidate-leads">Further candidate leads</h3>
+<ul>
+<li><strong>PFAS GAC/IX surrogates (direction 10).</strong> EPA's PSDM and ion-exchange models (MIT license) serve as the simulator; UCMR 5 occurrence data defines realistic water matrices. Highly fundable.</li>
+<li><strong>Potable reuse barrier monitoring (direction 13).</strong> California's direct potable reuse rules make continuous barrier verification a live question. Needs a reuse-plant partner, but those plants are unusually data-rich.</li>
+<li><strong>Small-system failure prediction (direction 17).</strong> Fully public through SAFER and DDW compliance data. Clear policy impact; an easy entry point for groups new to water.</li>
+<li><strong>Operator text as data (direction 29).</strong> Logbooks and SOPs. This is where domain expertise matters most, and it feeds event labels to every process model.</li>
+</ul>
+<h2 id="collaboration-model-and-questions-for-partners">Collaboration model and questions for partners</h2>
+<p>All leads should share one harness: the same model registry, data loaders with provenance, time-ordered splits, and scoring. Every result then lands on one comparable leaderboard, and each lead stays publishable alone.</p>
+<p><strong>What the domain expert owns:</strong> which predictions change a decision, which errors are dangerous (underpredicting a hazard is scored separately from average error), what the data actually means, and access to utilities.</p>
+<p><strong>What academic partners own:</strong> methods, compute, benchmark design, and turning results into papers and proposals.</p>
+<p><strong>Questions to raise with academic partners:</strong></p>
+<ul>
+<li>Which leads match your group's methods and current funding (surrogates, foundation models, control, sensor placement)?</li>
+<li>Can you hold a data-use agreement with a utility, and how long does your institution take to approve one?</li>
+<li>Who maintains the shared harness and registry: a student, a postdoc, or a lab engineer?</li>
+<li>Where do results go first: benchmark paper, method paper, or a utility-facing report?</li>
+<li>Is there appetite for a public leaderboard on Lead 1 or Lead 4 that outside groups can submit to?</li>
+<li>Which funders fit: NSF, EPA, Water Research Foundation, or California state programs?</li>
+</ul>
+<p><strong>Ground rules worth agreeing early:</strong> anything touching live operations stays offline or in shadow mode until independently validated. Utility data never leaves the agreed environment. Every published number states whether it was scored against a simulator or against reality.</p>
+<h2 id="caveats">Caveats</h2>
+<p>Several figures from earlier brainstorming sessions have not been checked against their sources. Pull and read each paper before citing it:</p>
+<ul>
+<li>~786× speedup of a physics-informed NN over ASM2d (2026 study)</li>
+<li>0.022 mg/L chlorine forecast MAE from an LSTM versus EPANET-WNTR first-order decay (2024 study)</li>
+<li>+8% operating cost from a neural surrogate in Anytown pump optimization (2026 study)</li>
+<li>22% improvement in ozone contactor effective detention time from CFD baffling (study year not given)</li>
+<li>Transparent Earth: &gt;3× error reduction from multimodal inputs (<a href="https://arxiv.org/abs/2509.02783" target="_blank" rel="noopener">arXiv 2509.02783</a>); v2.0 has no public technical description found</li>
+<li>4.7 °C MAE continental subsurface temperature with 20-observation in-context adaptation (<a href="https://arxiv.org/abs/2605.16665" target="_blank" rel="noopener">arXiv 2605.16665</a>)</li>
+<li>The "773-method" catalog workbook from the first brainstorm is a first-pass index, not checked formulas</li>
+</ul>
+<p>In the Data landscape, rows marked <em>search</em> were confirmed only through search results. Their file layouts, licenses and versions should be checked on the source page before use.</p>
+</main>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    Maintained by Keith Wilkinson, <a href="https://title22.org">title22.org</a>.
+    Content licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+    Corrections and additions welcome via <a href="https://github.com/boxwrench/water-ml-research/issues">GitHub issues</a>.
+  </div>
+</footer>
+</body>
+</html>

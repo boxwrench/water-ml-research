@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Water × ML Research</title>
+<meta name="description" content="Resources for collaboration between water treatment practitioners and ML researchers: systems and data guide, research directions, data leads.">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="index.html">Water × ML Research</a>
+    <nav class="nav"><a href="water-data-guide.html">Systems & Data Guide</a><a href="research-directions.html">Research Directions</a><a href="https://github.com/boxwrench/water-ml-research">GitHub</a></nav>
+  </div>
+</header>
+<div class="wrap layout home">
+
+<main class="content">
+
+<section class="hero">
+  <p class="eyebrow">Water treatment &times; machine learning</p>
+  <h1>Connecting water-treatment expertise with ML research</h1>
+  <p class="lede">A working hub for a collaboration between a certified water treatment operator and academic ML researchers
+  working on neural surrogates, forecasting and inference on water data. The hard part is the data, not the methods,
+  so these resources focus on what data exists, what it means and what new data would matter most.</p>
+</section>
+<section class="cards"><a class="card" href="water-data-guide.html"><h2>Systems & Data Guide</h2><p>How water systems work, where their data comes from, the traps in it, and the vocabulary. Start here if you're new to water.</p><span class="card-link">Read &rarr;</span></a><a class="card" href="research-directions.html"><h2>Research Directions</h2><p>32 candidate research directions, the public data and simulators behind them, the data gaps, and five starting leads.</p><span class="card-link">Read &rarr;</span></a></section>
+<section class="principles">
+  <h2>The framing in one minute</h2>
+  <div class="grid2">
+    <div class="principle"><h3>Test A: copy the simulator</h3><p>Can a cheap model reproduce an expensive engineering model
+    (CFD, activated-sludge, EPANET, PHREEQC) at acceptable accuracy? Scored against simulator output.</p></div>
+    <div class="principle"><h3>Test B: predict reality</h3><p>Does any model, physics or learned, forecast what a real plant
+    or water body actually did? Scored against held-out measurements.</p></div>
+  </div>
+  <p>A surrogate trained only on a simulator can't beat that simulator at predicting reality. Hybrids (physics plus a learned
+  correction) bridge the two. The guiding principle: <strong>use the least expensive model that delivers the validated accuracy
+  and reliability a decision needs.</strong></p>
+</section>
+<section class="principles">
+  <h2>Status</h2>
+  <p>November 2026: broad brainstorming phase. The research directions are unranked, and several data sources and literature
+  figures are flagged as unverified in the documents. Corrections from practitioners and researchers are very welcome:
+  <a href="https://github.com/boxwrench/water-ml-research/issues" target="_blank" rel="noopener">open an issue</a>.</p>
+</section>
+
+</main>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    Maintained by Keith Wilkinson, <a href="https://title22.org">title22.org</a>.
+    Content licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+    Corrections and additions welcome via <a href="https://github.com/boxwrench/water-ml-research/issues">GitHub issues</a>.
+  </div>
+</footer>
+</body>
+</html>
