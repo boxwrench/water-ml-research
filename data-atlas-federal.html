@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Water Data Atlas: Federal Data</title>
+<meta name="description" content="Federal data adds two things the state record lacks. First, it holds the only public treatment-plant operating records: EPA&#x27;s 1997-98 Information Collection Rule database and the treatment-technique d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="index.html"><svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M2 14 C6 6, 10 6, 14 14" fill="none" stroke="var(--water)" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="17.5" r="2" fill="var(--ml)"/><circle cx="23" cy="10" r="2" fill="var(--ml)"/></svg><span>Water × ML Research</span></a>
+    <nav class="nav" aria-label="Main"><a href="data-atlas.html" class="active" aria-current="page">Data Atlas</a><a href="water-data-guide.html">Systems & Data Guide</a><a href="research-directions.html">Research Directions</a><a href="https://github.com/boxwrench/water-ml-research">GitHub</a></nav>
+  </div>
+</header>
+<div class="wrap layout">
+<aside class="toc"><div class="toc-inner"><div class="toc-title">On this page</div><div class="toc">
+<ul>
+<li><a href="#water-data-atlas-federal-data">Water Data Atlas: Federal Data</a><ul>
+<li><a href="#drinking-water-epa">Drinking water (EPA)</a></li>
+<li><a href="#wastewater">Wastewater</a></li>
+<li><a href="#water-quality-hydrology-and-operations">Water quality, hydrology and operations</a></li>
+<li><a href="#what-it-changes-for-the-project">What it changes for the project</a></li>
+<li><a href="#sources">Sources</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div></aside>
+<main class="content">
+<nav class="atlas-tabs" aria-label="Data Atlas sections"><a href="data-atlas.html">Overview + California</a><a href="data-atlas-federal.html" class="active" aria-current="page">Federal</a><a href="data-atlas-open.html">Open research</a></nav>
+<h1 id="water-data-atlas-federal-data">Water Data Atlas: Federal Data</h1>
+<p><em>Keith Wilkinson · <a href="https://title22.org" target="_blank" rel="noopener">title22.org</a> · November 2026 · Working draft. Part of the <a href="data-atlas.html">Water Data Atlas</a>.</em></p>
+<p>Federal data adds two things the state record lacks. First, it holds the only public treatment-plant operating records: EPA's 1997-98 Information Collection Rule database and the treatment-technique data in the Six-Year Review. Second, it gives national coverage in one schema, which is needed to test transfer beyond California. Columns match the California tables. Every row here was confirmed only through search results (Nov 2026), so check the source page before relying on it.</p>
+<h2 id="drinking-water-epa">Drinking water (EPA)</h2>
+<p>The 1997-98 ICR database is the standout for this project. It is the only public, multi-plant record of how treatment plants actually ran, paired with DBP and microbial results. It is old, but it is a real Test B dataset for treatment-process models.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>What one row is</th>
+<th>Coverage and size</th>
+<th>Access</th>
+<th>Key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://19january2021snapshot.epa.gov/dwsixyearreview/supplemental-data-six-year-review-3_.html" target="_blank" rel="noopener">ICR Aux 1 database</a></td>
+<td>Monthly plant-level result: microbials, DBPs, plant treatment, source-water characteristics, disinfectant type</td>
+<td>296 systems serving 100,000+ people, July 1997 to Dec 1998 (<a href="https://archive.epa.gov/enviro/html/icr/web/html/background.html" target="_blank" rel="noopener">EPA ICR background</a>)</td>
+<td>Download from EPA's Six-Year Review 3 supplemental data page</td>
+<td>PWSID + plant ID</td>
+</tr>
+<tr>
+<td><a href="https://www.epa.gov/node/167159" target="_blank" rel="noopener">ICR Treatment Study Database</a></td>
+<td>One bench- or pilot-scale DBP-precursor removal study</td>
+<td>99 studies (63 GAC, 36 membrane); 125 MB ZIP</td>
+<td>Bulk ZIP</td>
+<td>Study / utility</td>
+</tr>
+<tr>
+<td><a href="https://www.epa.gov/Node/288409" target="_blank" rel="noopener">Six-Year Review 4 compliance data</a></td>
+<td>One compliance sample result, plus treatment-technique records</td>
+<td>2012 to 2019; ~142,000 water systems with some data (<a href="https://www.epa.gov/system/files/documents/2024-04/syr4_occurrence_report_chems_rads_508.pdf" target="_blank" rel="noopener">occurrence report</a>); ZIPs by contaminant group, incl. paired microbe / disinfectant-residual files for the MDBP review</td>
+<td>Bulk ZIP + user guide</td>
+<td>PWSID + facility + sample point</td>
+</tr>
+<tr>
+<td><a href="https://epa.gov/dwucmr/occurrence-data-unregulated-contaminant-monitoring-rule" target="_blank" rel="noopener">UCMR 1 to 5 occurrence data</a></td>
+<td>One result for an unregulated contaminant</td>
+<td>UCMR 5 (2023-2025): 29 PFAS + lithium, final data released Aug 2026 (<a href="https://www.wateronline.com/doc/epa-releases-final-ucmr-drinking-water-data-for-pfas-and-lithium-0001" target="_blank" rel="noopener">Water Online</a>); UCMR 1-4 standardized to the same fields</td>
+<td>Tab-delimited text ZIPs (national, by state, by method); Data Finder for Excel pulls up to 1M rows</td>
+<td>PWSID + facility + sample point</td>
+</tr>
+<tr>
+<td><a href="https://echo.epa.gov/node/422" target="_blank" rel="noopener">SDWIS via ECHO and Envirofacts</a></td>
+<td>One system, facility, violation, enforcement action or lead/copper sample</td>
+<td>National, refreshed quarterly</td>
+<td>ECHO SDWA ZIP of CSVs; Envirofacts REST API in CSV/JSON (<a href="https://www.epa.gov/node/270537" target="_blank" rel="noopener">Envirofacts</a>)</td>
+<td>PWSID</td>
+</tr>
+<tr>
+<td><a href="https://epa.gov/water-research/drinking-water-treatability-database-tdb" target="_blank" rel="noopener">Drinking Water Treatability Database</a></td>
+<td>One literature result: % or log removal for a contaminant by a process, with water quality and operating conditions</td>
+<td>35 processes, 160+ contaminants incl. 76 PFAS; DBPs excluded (<a href="https://tdb.epa.gov/tdb/about" target="_blank" rel="noopener">About</a>)</td>
+<td>Web app with export to spreadsheet</td>
+<td>Contaminant x process</td>
+</tr>
+<tr>
+<td><a href="https://www.epa.gov/ground-water-and-drinking-water/public-water-system-service-areas" target="_blank" rel="noopener">Public water system service areas</a></td>
+<td>One system polygon</td>
+<td>v3 (March 2026) adds non-community systems; 44,000+ community systems cover ~99% of community-system population, ~40% EPA-modeled</td>
+<td>GeoPlatform download / map service</td>
+<td>PWSID</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>For California work:</strong> California systems in SYR4, UCMR and SDWIS use the same federal PWSID as the state record, so they should join directly; confirm California's coverage in each SYR4 file before relying on it. The TDB gives literature priors for surrogate and hybrid models (removal vs. conditions), and ICR is the closest public stand-in for the utility historian export Lead 5 is chasing.</p>
+<h2 id="wastewater">Wastewater</h2>
+<p>EPA's NPDES system holds permit limits for every discharger in one national table, and the 2022 Needs Survey gives a national plant inventory with treatment level. Together they turn effluent forecasting into exceedance prediction at national scale.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>What one row is</th>
+<th>Coverage and size</th>
+<th>Access</th>
+<th>Key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://echo.epa.gov/node/113" target="_blank" rel="noopener">ICIS-NPDES via ECHO</a></td>
+<td>One permit, limit, DMR value or effluent violation</td>
+<td>National; facility dataset 301 MB, effluent violations 2.5 GB, permit limits 459 MB; DMRs by fiscal year and by state (<a href="https://echo.epa.gov/node/552" target="_blank" rel="noopener">DMR datasets</a>)</td>
+<td>Bulk ZIP of CSVs; per-permit effluent-chart web service</td>
+<td>EPA NPDES ID (can differ from state ID)</td>
+</tr>
+<tr>
+<td><a href="https://sdwis.epa.gov/ords/sfdw_pub/r/sfdw/cwns_pub/about" target="_blank" rel="noopener">Clean Watersheds Needs Survey 2022</a></td>
+<td>One POTW or project: effluent treatment level, flow, discharge type, population served, capital needs</td>
+<td>17,544 POTWs serving 270.4 million people, snapshot as of Jan 1, 2022 (<a href="https://www.epa.gov/system/files/documents/2024-05/2022-cwns-summary.pdf" target="_blank" rel="noopener">summary</a>)</td>
+<td>National or per-state CSV ZIP or Access database + data dictionary (<a href="https://sdwis.epa.gov/ords/sfdw_pub/r/sfdw/cwns_pub/data-download" target="_blank" rel="noopener">download</a>)</td>
+<td>CWNS facility ID; NPDES ID where reported</td>
+</tr>
+<tr>
+<td><a href="https://www.epa.gov/node/296762" target="_blank" rel="noopener">National sewershed dataset</a></td>
+<td>One POTW sewershed polygon</td>
+<td>~17,000 POTWs, ~78% of the 2020 population; mostly ML-modeled from CWNS, ICIS-NPDES, census and land use</td>
+<td>GeoPlatform download + GitHub methods</td>
+<td>CWNS / NPDES ID</td>
+</tr>
+<tr>
+<td><a href="https://catalog.data.gov/dataset/cdc-wastewater-data-for-sars-cov-2" target="_blank" rel="noopener">CDC NWSS wastewater surveillance</a></td>
+<td>One influent sample result and derived metrics at a sampling site</td>
+<td>National, full history, updated weekly; separate weekly viral-activity file for SARS-CoV-2, influenza A and RSV (<a href="https://catalog.data.gov/dataset/cdc-wastewater-viral-activity-level-for-sars-cov-2-influenza-a-and-rsv" target="_blank" rel="noopener">WVAL</a>)</td>
+<td>data.cdc.gov CSV/JSON (Socrata API)</td>
+<td>Sewershed / site ID</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>For California work:</strong> join eSMR results to ICIS-NPDES limits to label exceedances, and add CWNS treatment level and flow as plant covariates. NWSS extends the Cal-SuWers series with national sites for transfer tests.</p>
+<h2 id="water-quality-hydrology-and-operations">Water quality, hydrology and operations</h2>
+<p>These are the national drivers and context layers. Two are new for this project: CyAN gives satellite cyanobacteria at every large lake and reservoir, and the National Water Model gives 44 years of simulated hourly flow on every reach, including ungaged ones.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>What one row or cell is</th>
+<th>Coverage and size</th>
+<th>Access</th>
+<th>Key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.usgs.gov/tools/usgs-water-data-apis" target="_blank" rel="noopener">USGS Water Data APIs</a></td>
+<td>Daily or continuous value, discrete sample, site metadata</td>
+<td>National gages and samples</td>
+<td>OGC API at <code>api.waterdata.usgs.gov</code>; <code>dataretrieval</code> (Python/R); free token for higher rate limits</td>
+<td><code>USGS-</code> site ID + parameter code</td>
+</tr>
+<tr>
+<td><a href="https://waterqualitydata.us/webservices_documentation" target="_blank" rel="noopener">Water Quality Portal</a></td>
+<td>One sample result in the WQX schema</td>
+<td>400+ agencies incl. CEDEN and USGS</td>
+<td>REST endpoints for stations, results, activities; CSV</td>
+<td>Org + monitoring location ID</td>
+</tr>
+<tr>
+<td><a href="https://www.epa.gov/node/113725" target="_blank" rel="noopener">ATTAINS</a></td>
+<td>One assessment unit, use decision, impairment cause or TMDL</td>
+<td>All states' Clean Water Act assessments</td>
+<td>Web services (free api.data.gov key since May 2026, per <a href="https://cran.r-universe.dev/rATTAINS/doc/Introduction.html" target="_blank" rel="noopener">rATTAINS</a>) + geospatial service</td>
+<td>Assessment unit ID; HUC</td>
+</tr>
+<tr>
+<td><a href="https://oceancolor.gsfc.nasa.gov/about/projects/cyan" target="_blank" rel="noopener">CyAN cyanobacteria index</a></td>
+<td>One 300 m pixel of cyanobacteria index, daily or 7-day composite</td>
+<td>Sentinel-3 OLCI (EPA lists 2015 to 2023), Sentinel-2 from 2024; 2,000+ of the largest US lakes and reservoirs (<a href="https://www.epa.gov/node/295487" target="_blank" rel="noopener">EPA</a>)</td>
+<td>GeoTIFF tiles via NASA Ocean Color file-search API; annual metrics in EnviroAtlas</td>
+<td>Tile + pixel; lake polygon</td>
+</tr>
+<tr>
+<td><a href="https://registry.opendata.aws/nwm-archive/" target="_blank" rel="noopener">National Water Model retrospective</a></td>
+<td>Hourly simulated streamflow per reach; 3-hourly land-surface fields</td>
+<td>v3.0: Feb 1979 to Jan 2023, CONUS; no data assimilation</td>
+<td>Public S3 (no account), NetCDF and Zarr; <a href="https://github.com/NCAR/rechunk_nwm_retro" target="_blank" rel="noopener">rechunked Zarr</a></td>
+<td>NHD reach (COMID / feature ID)</td>
+</tr>
+<tr>
+<td><a href="https://data.usbr.gov/about" target="_blank" rel="noopener">Reclamation RISE</a></td>
+<td>Reservoir storage, inflow, release time series</td>
+<td>Reclamation projects incl. the Central Valley Project</td>
+<td>Time-series query + JSON API per catalog item</td>
+<td>RISE location + item ID</td>
+</tr>
+<tr>
+<td><a href="https://cwms-data-api.readthedocs.io/latest/endpoints/timeSeries_endpoints/timeSeries.html" target="_blank" rel="noopener">USACE CWMS Data API</a></td>
+<td>Reservoir pool, flow, stage, temperature time series</td>
+<td>Corps projects nationwide</td>
+<td>REST at <code>cwms-data.usace.army.mil</code>; <a href="https://pypi.org/p/cwms-python" target="_blank" rel="noopener"><code>cwms-python</code></a>; public reads</td>
+<td>Office + time-series ID</td>
+</tr>
+<tr>
+<td><a href="https://tidesandcurrents.noaa.gov/api/" target="_blank" rel="noopener">NOAA CO-OPS tides and currents</a></td>
+<td>6-minute or hourly water level, prediction, met, water temp/conductivity at some stations</td>
+<td>Coastal stations incl. San Francisco (9414290)</td>
+<td>Data API in CSV/JSON/XML, no key; hourly requests capped at 1 year (<a href="https://tidesandcurrents.noaa.gov/web_services_info.html" target="_blank" rel="noopener">limits</a>)</td>
+<td>7-digit station ID</td>
+</tr>
+</tbody>
+</table></div>
+<p>One trap: some RISE series are model output, not observations. For example, a Keswick release series on catalog.data.gov is CalSim II output from the long-term operations EIS (<a href="https://catalog.data.gov/dataset/keswick-reservoir-dam-and-powerplant-monthly-lake-reservoir-release-total-cfs-time-series-" target="_blank" rel="noopener">example</a>). Check each item's description before training on it.</p>
+<h2 id="what-it-changes-for-the-project">What it changes for the project</h2>
+<ul>
+<li><strong>Lead 5 gets a public warm-up.</strong> The ICR database (296 large systems, monthly, 1997-98) is the only open multi-plant record of treatment operations next to DBP and microbial outcomes. It is a place to build the dose and DBP models, and the harness, before a utility agreement lands.</li>
+<li><strong>Hybrid models get priors.</strong> The Treatability Database and the ICR treatment studies give removal-vs-conditions data from bench, pilot and full scale, which can calibrate physics baselines and constrain learned residuals.</li>
+<li><strong>Cross-state transfer becomes testable.</strong> SYR4, UCMR, ICIS-NPDES and CWNS use one national schema, so a model trained on California can be scored on other states without new data agreements.</li>
+<li><strong>New covariates for source water.</strong> CyAN, NWM flows on ungaged reaches, and reservoir operations from RISE and CWMS fill gaps around intakes that CDEC does not cover.</li>
+</ul>
+<p>Not yet checked, worth a later pass: NOAA weather and precipitation archives, NRCS snow (SNOTEL), NHDPlus / 3DHP hydrography, EPA's National Aquatic Resource Surveys, and the PFAS Analytic Tools.</p>
+<h2 id="sources">Sources</h2>
+<p>All pages below were seen through search results (Nov 14, 2026), not opened directly.</p>
+<ul>
+<li>EPA drinking water: <a href="https://www.epa.gov/Node/288409" target="_blank" rel="noopener">SYR4 data</a> · <a href="https://19january2021snapshot.epa.gov/dwsixyearreview/supplemental-data-six-year-review-3_.html" target="_blank" rel="noopener">SYR3 supplemental data incl. ICR</a> · <a href="https://archive.epa.gov/enviro/html/icr/web/html/background.html" target="_blank" rel="noopener">ICR background</a> · <a href="https://archive.epa.gov/water/archive/web/html/icr_sum.html" target="_blank" rel="noopener">ICR rule summary</a> · <a href="https://epa.gov/dwucmr/occurrence-data-unregulated-contaminant-monitoring-rule" target="_blank" rel="noopener">UCMR occurrence data</a> · <a href="https://echo.epa.gov/node/422" target="_blank" rel="noopener">ECHO SDWA download</a> · <a href="https://epa.gov/water-research/drinking-water-treatability-database-tdb" target="_blank" rel="noopener">TDB</a> · <a href="https://www.epa.gov/ground-water-and-drinking-water/public-water-system-service-areas" target="_blank" rel="noopener">PWS service areas</a></li>
+<li>Wastewater: <a href="https://echo.epa.gov/node/113" target="_blank" rel="noopener">ECHO data downloads</a> · <a href="https://sdwis.epa.gov/ords/sfdw_pub/r/sfdw/cwns_pub/about" target="_blank" rel="noopener">CWNS dashboard</a> · <a href="https://www.epa.gov/system/files/documents/2024-05/2022-cwns-summary.pdf" target="_blank" rel="noopener">CWNS summary</a> · <a href="https://www.epa.gov/node/296762" target="_blank" rel="noopener">Sewersheds</a> · <a href="https://catalog.data.gov/dataset/cdc-wastewater-data-for-sars-cov-2" target="_blank" rel="noopener">CDC wastewater data</a></li>
+<li>Water quality and hydrology: <a href="https://www.usgs.gov/tools/usgs-water-data-apis" target="_blank" rel="noopener">USGS Water Data APIs</a> · <a href="https://waterqualitydata.us/webservices_documentation" target="_blank" rel="noopener">WQP web services</a> · <a href="https://www.epa.gov/node/113725" target="_blank" rel="noopener">ATTAINS</a> · <a href="https://oceancolor.gsfc.nasa.gov/about/projects/cyan" target="_blank" rel="noopener">CyAN (NASA)</a> · <a href="https://www.epa.gov/node/295487" target="_blank" rel="noopener">CyAN (EPA)</a> · <a href="https://registry.opendata.aws/nwm-archive/" target="_blank" rel="noopener">NWM retrospective</a> · <a href="https://data.usbr.gov/about" target="_blank" rel="noopener">RISE</a> · <a href="https://cwms-data-api.readthedocs.io/latest/endpoints/timeSeries_endpoints/timeSeries.html" target="_blank" rel="noopener">CWMS Data API</a> · <a href="https://tidesandcurrents.noaa.gov/api/" target="_blank" rel="noopener">CO-OPS API</a></li>
+</ul>
+</main>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    Maintained by Keith Wilkinson, <a href="https://title22.org">title22.org</a>.
+    Content licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+    Corrections and additions welcome via <a href="https://github.com/boxwrench/water-ml-research/issues">GitHub issues</a>.
+  </div>
+</footer>
+</body>
+</html>
