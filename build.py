@@ -161,6 +161,23 @@ GLANCE = [
     ("Hydrology drivers", "CDEC, CIMIS, snow surveys", "National Water Model, RISE, CWMS, tides", "Caravan", False),
 ]
 
+PIPELINE = [
+    ("Source water", "Well covered", "ok",
+     "Rivers, the Delta, reservoirs and groundwater: continuous sensors, decades of samples, satellite bloom indices."),
+    ("Inside the plant", "No open record", "gap",
+     "Doses, filter head loss, contactor residuals, setpoints, alarms, operator actions, jar tests. Kept in utility historians and logbooks."),
+    ("Leaving the plant", "Compliance only", "part",
+     "Regulatory lab results and effluent reports: plentiful, but sampled to prove compliance, not to train models."),
+    ("Distribution and tap", "Sparse", "part",
+     "Compliance samples and one city's chlorine residuals. Network models and continuous sensors stay private."),
+]
+GAP_STATS = [
+    ("0", "open, recent, high-frequency drinking-water process records found"),
+    ("1,705", "daily records: the only open drinking-water dose dataset"),
+    ("2.8%", "of 423 published treatment-ML studies were deployed at a plant"),
+    ("18.2%", "of those studies were validated on future data"),
+]
+
 WATER_CAN = [
     ("Forecast source water", "hours to days ahead: conductivity, turbidity, algae."),
     ("Soft sensors", "that estimate lab-only values like TOC between grab samples."),
@@ -228,6 +245,11 @@ def build_index() -> None:
     vocab = "".join(
         f'<div class="vocab-row"><span class="term">{w}</span><span class="term">{m}</span><span class="why">{why}</span></div>'
         for w, m, why in VOCAB)
+    pipeline = "".join(
+        f'<div class="stage stage-{cls}"><span class="stage-name">{name}</span>'
+        f'<span class="stage-status">{status}</span><span class="stage-text">{text}</span></div>'
+        for name, status, cls, text in PIPELINE)
+    stats = "".join(f'<div class="gap-stat"><span class="num">{n}</span><span>{t}</span></div>' for n, t in GAP_STATS)
     rules = "".join(f'<div><p class="rule-title">{t}</p><p>{d}</p></div>' for t, d in RULES)
     resources = "".join(
         f'<a class="resource" href="{href}"><span class="resource-title">{t}</span><span>{d}</span></a>'
@@ -277,8 +299,22 @@ def build_index() -> None:
   </div>
 </section>
 
+<section class="home-section wrap-narrow" id="gap">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow">02 · The gap</p>
+      <h2>The inside of the plant is missing</h2>
+      <p>Public data shows the water arriving and the water leaving. What the plant did in between, and why, stays inside the utility. That is the main barrier to ML research on treatment, and no catalog can fix it, because there is nothing published to index.</p>
+    </div>
+    <a class="more" href="data-atlas.html#the-gap">Why it exists, and what would fix it &rarr;</a>
+  </div>
+  <div class="pipeline">{pipeline}</div>
+  <div class="gap-stats">{stats}</div>
+  <p class="gap-note">Counts from this atlas&rsquo;s search of open repositories (Nov 2026); study figures from a 2026 evidence map in <a href="https://link.springer.com/article/10.1038/s41545-026-00610-6">npj Clean Water</a>.</p>
+</section>
+
 <section class="home-section wrap-narrow">
-  <p class="eyebrow">02 · Two perspectives</p>
+  <p class="eyebrow">03 · Two perspectives</p>
   <h2>Each field brings half of the work</h2>
   <div class="persp-grid">
     <div class="persp persp-water">
@@ -294,14 +330,14 @@ def build_index() -> None:
   </div>
   <div class="next-band">
     <p class="next-title">What could be done next</p>
-    <p>The missing piece is recent, high-frequency drinking-water process data: doses, filter head loss and residuals, paired with operator event logs. One utility partnership would unlock most of the research directions; open wastewater SCADA and EPA's 1997–98 plant records let the work start now. <a href="research-directions.html">See the research directions &rarr;</a></p>
+    <p>One utility sharing two years of historian data with its event logs and jar tests would close the gap for most of the research directions. Open wastewater SCADA and EPA's 1997–98 plant records let the work start now. <a href="research-directions.html">See the research directions &rarr;</a></p>
   </div>
 </section>
 
 <section class="home-section wrap-narrow" id="vocabulary">
   <div class="section-head">
     <div>
-      <p class="eyebrow">03 · Shared vocabulary</p>
+      <p class="eyebrow">04 · Shared vocabulary</p>
       <h2>Same idea, two names</h2>
       <p>Most of the overlap is already there; it just goes by different words.</p>
     </div>
@@ -314,7 +350,7 @@ def build_index() -> None:
 </section>
 
 <section class="home-section wrap-narrow">
-  <p class="eyebrow">04 · Ground rules</p>
+  <p class="eyebrow">05 · Ground rules</p>
   <div class="rules">{rules}</div>
 </section>
 

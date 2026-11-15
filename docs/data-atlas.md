@@ -29,6 +29,23 @@ Public data is strong on what enters and leaves a plant and thin on what happens
 | Hydrology and operations drivers | CDEC, CIMIS, snow and B120, eWRIMS | National Water Model retrospective, RISE, CWMS, CO-OPS tides | Caravan |
 | Wastewater surveillance | Cal-SuWers (CDPH) | CDC NWSS | WastewaterSCAN (CC BY-NC); Stanford repository |
 
+## The gap: no public record of what happens inside a treatment plant {#the-gap}
+
+This is the single biggest barrier to ML research on water treatment. Public data describes the water arriving at a plant and the water leaving it, but almost nothing from inside: what the plant did and why. Every other catalog on this page shares the same hole, because there is nothing for them to index.
+
+| Stage | What is public | What is missing |
+| --- | --- | --- |
+| Source water | Continuous river, Delta and reservoir sensors; groundwater sampling; satellite bloom indices | Little: this is the best-covered stage |
+| **Inside the plant** | **Two Danish wastewater SCADA sets, one daily drinking-water dose set (1,705 records), a 1993 UCI set, and EPA's monthly 1997-98 ICR records** | **Recent, high-frequency drinking-water process data: coagulant and chlorine doses, per-filter head loss and turbidity, contactor residuals and CT, setpoints, alarms, operator actions, jar tests, sensor maintenance** |
+| Leaving the plant | Compliance lab results, wastewater effluent reports, violations | Sampling is regulatory, not designed for modeling (see *Pitfalls*) |
+| Distribution and tap | Compliance samples, NYC distribution residuals, service area boundaries | Utility network models and continuous residual sensors |
+
+**Why the gap exists.** Regulations require utilities to report compliance results, not process data, so nothing pushes process data into public systems. SCADA historians are internal operational systems, and utilities treat them as sensitive because they describe critical infrastructure. Even when exported, a historian is hard to use without the event logs, jar tests and maintenance records that explain its gaps and jumps, and those are often kept on paper or in separate systems.
+
+**What it costs the research.** Published treatment-ML studies mostly use one plant's private data, so results can't be reproduced or compared, and there is no shared benchmark. A 2026 evidence map of 423 water-treatment ML studies found plant deployment in 2.8%, real-time testing in 5.2%, future-facing validation in 18.2% and uncertainty reporting in 8.5% ([npj Clean Water, 2026](https://link.springer.com/article/10.1038/s41545-026-00610-6)). Reviews of ML in water and wastewater treatment keep naming the same barrier: enough high-quality data is hard to obtain ([Water, 2024](https://www.mdpi.com/2073-4441/16/2/314)).
+
+**What would break it.** One utility willing to share two or more years of historian data with its event logs, jar tests and maintenance records (Lead 5), released as a documented benchmark with time-ordered splits. Until then, the Danish wastewater SCADA and EPA's ICR records let loaders and baselines be built in the same format. Discovery infrastructure can't solve this: it can only index data that has been published.
+
 ## The access layer
 
 Four access mechanisms cover nearly all California water data: two CKAN open-data portals, the CDEC web services, ArcGIS REST map services and a set of interactive-only applications. Learn these four and every dataset below is reachable.
@@ -89,7 +106,23 @@ The data is plentiful but almost none of it was collected for modeling. These ar
 - **Moving targets.** Datasets migrate: wastewater surveillance moved to data.chhs.ca.gov in 2024, eAR production moved to the SAFER Clearinghouse in 2023, and USGS replaced WaterServices in 2026. Pin resource IDs and keep raw snapshots.
 - **Coarse locations.** Well completion reports are located to the 1-mile section, and some boundaries are still being verified. Spatial models should carry location uncertainty.
 
-**The gap that matters most** has narrowed but not closed. Open wastewater SCADA (Agtrup, Avedøre) and EPA's 1997-98 ICR plant records now give real process data, but there is still no open, recent, high-frequency drinking-water process record: doses, filter head loss, contactor residuals and operator actions live only inside utilities. Lead 5 remains the critical path.
+**The gap that matters most** is the missing record from inside treatment plants. See *The gap* near the top of this page.
+
+## Related catalogs
+
+Others have gathered water data too. None focuses on treatment-process ML, but each is worth knowing, and this atlas links to them rather than repeating them.
+
+| Catalog | What it is | Use it for | How it differs from this atlas |
+| --- | --- | --- | --- |
+| [Internet of Water / Geoconnex](https://internetofwater.org/geoconnex/) | National linked-data index that connects water datasets through geography; its agency inventories found 500+ water data platforms across 9 states and the federal government ([IoW](https://internetofwater.org/?p=8377)) | Finding every dataset near a location or water body; already indexes USGS and CDEC gages | Discovery infrastructure, not curated for ML; no access recipes or research framing |
+| [California AB 1755 portals](https://water.ca.gov/Programs/All-Programs/AB-1755) | The state's open water data program, federated across data.ca.gov and the CNRA Open Data Platform | The source of most California rows on this page | A catalog without context on grain, joins or pitfalls |
+| [USGS Water Mission Area catalog](https://water.usgs.gov/catalog/) | Integrated USGS water datasets and tools, including ML data releases | Federal model inputs and outputs, e.g. Delaware River Basin temperature ML data | Covers a fraction of USGS data in use, by its own note |
+| [DHI WaterBench](https://dhi.github.io/WaterBench/) | Reference datasets for water modeling, aimed partly at ML surrogates of MIKE simulations, plus a WWTP inflow forecasting set | Test A surrogate benchmarks in hydrodynamics; links to PDEBench and OceanBench | Closest in spirit; mostly hydrodynamics, not treatment |
+| [Awesome Earth AI (ESIP)](https://github.com/ESIPFed/Awesome-Earth-Artificial-Intelligence) | Curated list of earth-science AI datasets, tools and courses | Hydrology, snow and remote-sensing training data | Earth science broadly; no treatment |
+| [Limnology models and data](https://jsta.github.io/limnology_models_data) | Curated list of lake datasets and models, incl. CAMELS and AquaSat | Lakes, reservoirs and remote sensing of water quality | Source water only |
+| [Water distribution benchmark datasets](https://arxiv.org/abs/2404.15386) | Simulated hydraulic data for ten public networks, 1,394,400 hours under normal operation | Lead 3 Test A training data | Simulated, distribution only |
+
+Contributing back is cheap: publishing atlas entries through Geoconnex, or suggesting treatment datasets to WaterBench, would put them in front of more researchers.
 
 ## California: drinking water
 

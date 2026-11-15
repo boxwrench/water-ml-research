@@ -11,8 +11,8 @@ Maintained by Keith Wilkinson, [title22.org](https://title22.org).
 
 | Resource | Read on the site | Source | What it covers |
 | --- | --- | --- | --- |
-| Home | [Site home](https://boxwrench.github.io/water-ml-research/) | `build.py` | The overview: data sources, two perspectives, shared vocabulary, ground rules. |
-| Data Atlas: overview + California | [Web page](https://boxwrench.github.io/water-ml-research/data-atlas.html) | [Markdown](docs/data-atlas.md) | Where each kind of data lives, access methods (CKAN, CDEC, ArcGIS, APIs), join keys, datasets by research direction, pitfalls, starter code, and the California state catalog. |
+| Home | [Site home](https://boxwrench.github.io/water-ml-research/) | `build.py` | The overview: data sources, the gap, two perspectives, shared vocabulary, ground rules. |
+| Data Atlas: overview + California | [Web page](https://boxwrench.github.io/water-ml-research/data-atlas.html) | [Markdown](docs/data-atlas.md) | Where each kind of data lives, access methods (CKAN, CDEC, ArcGIS, APIs), the gap inside treatment plants, join keys, datasets by research direction, pitfalls, related catalogs, starter code, and the California state catalog. |
 | Data Atlas: federal | [Web page](https://boxwrench.github.io/water-ml-research/data-atlas-federal.html) | [Markdown](docs/data-atlas-federal.md) | EPA, USGS, NOAA, Reclamation, the Army Corps and CDC, including EPA's 1997-98 treatment-plant records. |
 | Data Atlas: open research | [Web page](https://boxwrench.github.io/water-ml-research/data-atlas-open.html) | [Markdown](docs/data-atlas-open.md) | Open plant SCADA, distribution-network benchmarks, global hydrology and water-quality archives, wastewater surveillance, utility open-data portals. |
 | Systems & Data Guide | [Web page](https://boxwrench.github.io/water-ml-research/water-data-guide.html) | [Markdown](docs/water-data-guide.md) | How drinking water and wastewater systems work, where their data comes from, data pitfalls, control layers, regulation, and a glossary. Start here if you're new to water. |
@@ -35,7 +35,26 @@ Public water data is strong on what enters and leaves a plant, and thin on what 
 
 Details, access methods and caveats for every source are in the [Data Atlas](docs/data-atlas.md).
 
-## 2. Two perspectives
+## 2. The gap: the inside of the plant is missing
+
+Public data shows the water arriving at a plant and the water leaving it. What the plant did in between, and why, stays inside the utility. This is the main barrier to ML research on treatment.
+
+| Stage | Public record |
+| --- | --- |
+| Source water | **Well covered**: continuous sensors, decades of samples, satellite bloom indices |
+| Inside the plant | **No open record**: doses, filter head loss, contactor residuals, setpoints, alarms, operator actions and jar tests live in utility historians and logbooks |
+| Leaving the plant | **Compliance only**: plentiful, but sampled to prove compliance, not to train models |
+| Distribution and tap | **Sparse**: compliance samples and one city's chlorine residuals |
+
+- We found **no** open, recent, high-frequency drinking-water process record. The only open drinking-water dose dataset has **1,705** daily records.
+- A 2026 evidence map of **423** treatment-ML studies found **2.8%** deployed at a plant and **18.2%** validated on future data ([npj Clean Water](https://link.springer.com/article/10.1038/s41545-026-00610-6)).
+- No catalog can fix this, because there is nothing published to index. One utility sharing two years of historian data, with event logs and jar tests, would. See [The gap](docs/data-atlas.md#the-gap) in the atlas.
+
+### Related catalogs
+
+Others have gathered water data, but none focuses on treatment-process ML. The atlas links to them: [Internet of Water / Geoconnex](https://internetofwater.org/geoconnex/), California's [AB 1755 portals](https://water.ca.gov/Programs/All-Programs/AB-1755), the [USGS Water Mission Area catalog](https://water.usgs.gov/catalog/), [DHI WaterBench](https://dhi.github.io/WaterBench/), [Awesome Earth AI](https://github.com/ESIPFed/Awesome-Earth-Artificial-Intelligence) and the [limnology models and data list](https://jsta.github.io/limnology_models_data).
+
+## 3. Two perspectives
 
 **For water practitioners: what ML can do with your data**
 
@@ -55,7 +74,7 @@ Details, access methods and caveats for every source are in the [Data Atlas](doc
 
 **What could be done next.** The missing piece is recent, high-frequency drinking-water process data: doses, filter head loss and residuals, paired with operator event logs. One utility partnership would unlock most of the research directions; open wastewater SCADA and EPA's 1997–98 plant records let the work start now.
 
-## 3. Shared vocabulary
+## 4. Shared vocabulary
 
 | Water term | ML term | Why it matters |
 | --- | --- | --- |
@@ -70,7 +89,7 @@ Details, access methods and caveats for every source are in the [Data Atlas](doc
 
 The full glossary is in the [Systems & Data Guide](docs/water-data-guide.md).
 
-## 4. Ground rules
+## 5. Ground rules
 
 - **Two tests, kept apart.** Copying a simulator (Test A) and predicting reality (Test B) are scored separately. A surrogate cannot beat its simulator on reality; hybrids are the bridge.
 - **Cheapest model that works.** Use the least expensive model that delivers the validated accuracy a decision needs. Sometimes that is an equation.
