@@ -1,43 +1,96 @@
 # Water × ML Research
 
-Resources for a collaboration between water treatment practitioners and machine-learning researchers working on neural surrogates, forecasting and inference on water data.
+**Decades of water data, ready for the methods that can learn from it.**
+
+A shared workspace for water practitioners and machine-learning researchers: where public water data lives, how to get it, what it can support, and the vocabulary both fields need to work on it together.
 
 **Site:** https://boxwrench.github.io/water-ml-research/
-
 Maintained by Keith Wilkinson, [title22.org](https://title22.org).
 
-## What's here
+## Links
 
-| Resource | What it covers |
-| --- | --- |
-| [Systems & Data Guide](docs/water-data-guide.md) | How drinking water and wastewater systems work, where their data comes from, the pitfalls in plant data, control layers, regulation, how water problems map to ML problem types, and a glossary. Start here if you're new to water. |
-| [Research Directions & Data Leads](docs/research-directions.md) | 32 candidate research directions, the public datasets and simulators behind them, the data gaps worth filling, and five starting leads. |
-| [Data Atlas](docs/data-atlas.md) | Where public water data lives and how to use it: an at-a-glance map by data need, access methods (CKAN, CDEC, ArcGIS, APIs), join keys, datasets by research direction, pitfalls, starter code, and the California state catalog. |
-| [Federal Data](docs/data-atlas-federal.md) | EPA, USGS, NOAA, Reclamation, USACE and CDC sources, including EPA's 1997-98 Information Collection Rule treatment-plant records. |
-| [Open Research Data](docs/data-atlas-open.md) | Non-government datasets: wastewater plant SCADA, distribution-network benchmarks, global hydrology and water-quality archives, wastewater surveillance and utility open-data portals. |
+| Resource | Read on the site | Source | What it covers |
+| --- | --- | --- | --- |
+| Home | [Site home](https://boxwrench.github.io/water-ml-research/) | `build.py` | The overview: data sources, two perspectives, shared vocabulary, ground rules. |
+| Data Atlas: overview + California | [Web page](https://boxwrench.github.io/water-ml-research/data-atlas.html) | [Markdown](docs/data-atlas.md) | Where each kind of data lives, access methods (CKAN, CDEC, ArcGIS, APIs), join keys, datasets by research direction, pitfalls, starter code, and the California state catalog. |
+| Data Atlas: federal | [Web page](https://boxwrench.github.io/water-ml-research/data-atlas-federal.html) | [Markdown](docs/data-atlas-federal.md) | EPA, USGS, NOAA, Reclamation, the Army Corps and CDC, including EPA's 1997-98 treatment-plant records. |
+| Data Atlas: open research | [Web page](https://boxwrench.github.io/water-ml-research/data-atlas-open.html) | [Markdown](docs/data-atlas-open.md) | Open plant SCADA, distribution-network benchmarks, global hydrology and water-quality archives, wastewater surveillance, utility open-data portals. |
+| Systems & Data Guide | [Web page](https://boxwrench.github.io/water-ml-research/water-data-guide.html) | [Markdown](docs/water-data-guide.md) | How drinking water and wastewater systems work, where their data comes from, data pitfalls, control layers, regulation, and a glossary. Start here if you're new to water. |
+| Research Directions & Data Leads | [Web page](https://boxwrench.github.io/water-ml-research/research-directions.html) | [Markdown](docs/research-directions.md) | 32 candidate research directions, the data and simulators behind them, the data gaps worth filling, and five starting leads. |
+| Contribute | [Issues](https://github.com/boxwrench/water-ml-research/issues) | | Corrections, new data sources and ideas. |
 
-## Core framing
+## 1. Start with the data
 
-- **Test A, copy the simulator:** can a cheap model reproduce an expensive engineering model? It's scored against simulator output.
-- **Test B, predict reality:** does any model forecast what a real plant or water body did? It's scored against held-out measurements.
-- Keep the two separate, and use the least expensive model that delivers the validated accuracy a decision needs.
+Public water data is strong on what enters and leaves a plant, and thin on what happens inside one.
+
+| Need | California | Federal | Open research |
+| --- | --- | --- | --- |
+| Treatment-process data | None public | EPA ICR plant database, 1997–98 | Agtrup and Avedøre WWTP SCADA; one daily coagulant set |
+| Drinking-water compliance | DDW lab results, SDWIS, eAR, SAFER | Six-Year Review 4, UCMR 1–5 | None found |
+| Wastewater effluent | eSMR, volumetric reports, sewer spills | NPDES limits and DMRs, Needs Survey | Melbourne WWTP, UCI plant data |
+| Source water and the Delta | DWR continuous WQ, EMP, CEDEN, HABs | USGS, Water Quality Portal, CyAN | GEMStat, GRQA |
+| Groundwater | GAMA, DWR levels, well reports | USGS samples | None found |
+| Distribution system | Service area boundaries | National service areas | BattLeDIM, LeakDB, NYC chlorine samples |
+| Hydrology drivers | CDEC, CIMIS, snow surveys | National Water Model, RISE, CWMS, tides | Caravan |
+
+Details, access methods and caveats for every source are in the [Data Atlas](docs/data-atlas.md).
+
+## 2. Two perspectives
+
+**For water practitioners: what ML can do with your data**
+
+- Forecast source water hours to days ahead: conductivity, turbidity, algae.
+- Soft sensors that estimate lab-only values like TOC between grab samples.
+- Fast surrogates of hydraulic, treatment and biological models for what-if runs.
+- Early warning of sensor drift and process upsets.
+- Dose guidance, tested offline or in shadow mode before it ever touches operations.
+
+**For ML researchers: what water has already built**
+
+- Decades of regulated sampling for every public water system and permitted discharger.
+- Dense sensor networks on rivers and the Delta, with years of 15-minute history.
+- Mature physics simulators (EPANET, BSM2, PSDM) to generate training data on demand.
+- Hard constraints: mass balance, kinetics and regulatory limits that a model must respect.
+- Real stakes: underpredicting a hazard costs far more than average error.
+
+**What could be done next.** The missing piece is recent, high-frequency drinking-water process data: doses, filter head loss and residuals, paired with operator event logs. One utility partnership would unlock most of the research directions; open wastewater SCADA and EPA's 1997–98 plant records let the work start now.
+
+## 3. Shared vocabulary
+
+| Water term | ML term | Why it matters |
+| --- | --- | --- |
+| Engineering simulator | Surrogate target | Test A: copy the simulator, scored against its output. |
+| Held-out plant record | Test set | Test B: predict what really happened, scored against measurements. |
+| Non-detect | Left-censored value | Below the reporting limit is not zero; keep the limit as a feature. |
+| Compliance sampling | Informative, irregular sampling | Sampling rises after a problem, so the schedule itself leaks signal. |
+| Operator response | Confounding | Doses change because the water changed; routine data mixes cause and reaction. |
+| Jar test | Labeled bench experiment | The rare designed experiment in plant data: gold for dose models. |
+| SCADA historian | Multivariate time series | Useful only with the event log that explains its gaps and jumps. |
+| Shadow mode | Offline evaluation on live data | Models advise and are scored; operators stay in control. |
+
+The full glossary is in the [Systems & Data Guide](docs/water-data-guide.md).
+
+## 4. Ground rules
+
+- **Two tests, kept apart.** Copying a simulator (Test A) and predicting reality (Test B) are scored separately. A surrogate cannot beat its simulator on reality; hybrids are the bridge.
+- **Cheapest model that works.** Use the least expensive model that delivers the validated accuracy a decision needs. Sometimes that is an equation.
+- **Hazards scored on their own.** Underpredicting a hazard is reported separately from average error.
+- **Operations stay protected.** Anything touching live operations runs offline or in shadow mode first.
 
 ## Status
 
-November 2026: broad brainstorming phase. The directions are unranked. Data sources marked *search* and the literature figures listed under Caveats have not been checked against their sources yet. Corrections and additions are welcome as [issues](https://github.com/boxwrench/water-ml-research/issues).
+November 2026: broad brainstorming phase. The research directions are unranked. Most data sources are confirmed through search results only and labeled that way, and the literature figures under Caveats in the research directions have not been checked against their sources. Corrections and additions are welcome as [issues](https://github.com/boxwrench/water-ml-research/issues).
 
 ## Editing the site
 
-The Markdown files in `docs/` are the source. The HTML pages are generated from them:
+The Markdown files in `docs/` are the source. The HTML pages, including the home page, are generated from them by `build.py`:
 
 ```bash
 pip install markdown   # once
 python3 build.py       # regenerates index.html and the doc pages
 ```
 
-Commit the regenerated HTML along with the Markdown. GitHub Pages serves the repo root as-is.
-
-Diagrams live in `assets/img/`. They were rendered from the original working documents.
+Commit the regenerated HTML along with the Markdown. GitHub Pages serves the repo root as-is. Styles are in `assets/site.css`; diagrams in `assets/img/`.
 
 ## License
 
