@@ -115,6 +115,8 @@ The single most valuable addition is a well-documented historian export from eve
 
 A value-of-information study can rank these formally. Train on what exists, then measure how much each candidate signal reduces forecast error when added or simulated. The result gives utilities a concrete reason to collect or share data.
 
+A format worth copying: California's 2026 telemetry advisory committee scored ten water-management use cases by the decision being made, the data it needs and how often that data must reach the decision maker. It found that real-time data is not needed everywhere, and that streamflow fed eight of the ten use cases ([recording](https://www.youtube.com/watch?v=55w0aWBFIug)). The same table, built for treatment-plant decisions, would tell utilities which tags and intervals are worth sharing.
+
 ## Initial leads and next steps
 
 Five leads, chosen so that each partner can start this month without waiting on anyone. Leads 1 to 4 use only public data or simulators. Lead 5, a utility partnership, takes the longest, so start it now.
