@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Water Data Atlas: Other States and Countries</title>
+<meta name="description" content="Outside California the strongest find is South Korea. K-water, the national water corporation, publishes hourly operating data from its treatment plants through open APIs. That is the closest public d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="index.html"><svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M2 14 C6 6, 10 6, 14 14" fill="none" stroke="var(--water)" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="17.5" r="2" fill="var(--ml)"/><circle cx="23" cy="10" r="2" fill="var(--ml)"/></svg><span>Water × ML Research</span></a>
+    <nav class="nav" aria-label="Main"><a href="data-atlas.html" class="active" aria-current="page">Data Atlas</a><a href="water-data-guide.html">Systems & Data Guide</a><a href="research-directions.html">Research Directions</a><a href="literature.html">Literature</a><a href="https://github.com/boxwrench/water-ml-research">GitHub</a></nav>
+  </div>
+</header>
+<div class="wrap layout">
+<aside class="toc"><div class="toc-inner"><div class="toc-title">On this page</div><div class="toc">
+<ul>
+<li><a href="#water-data-atlas-other-states-and-countries">Water Data Atlas: Other States and Countries</a><ul>
+<li><a href="#south-korea-k-water-treatment-plant-apis">South Korea: K-water treatment-plant APIs</a></li>
+<li><a href="#england-and-the-uk">England and the UK</a></li>
+<li><a href="#european-union">European Union</a></li>
+<li><a href="#other-us-states">Other US states</a></li>
+<li><a href="#what-it-changes-for-the-project">What it changes for the project</a></li>
+<li><a href="#sources">Sources</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div></aside>
+<main class="content">
+<nav class="atlas-tabs" aria-label="Data Atlas sections"><a href="data-atlas.html">Overview + California</a><a href="data-atlas-federal.html">Federal</a><a href="data-atlas-open.html">Open research</a><a href="data-atlas-international.html" class="active" aria-current="page">Other states and countries</a></nav>
+<h1 id="water-data-atlas-other-states-and-countries">Water Data Atlas: Other States and Countries</h1>
+<p><em>Keith Wilkinson · <a href="https://title22.org" target="_blank" rel="noopener">title22.org</a> · November 2026 · Working draft. Part of the <a href="data-atlas.html">Water Data Atlas</a>.</em></p>
+<p>Outside California the strongest find is South Korea. K-water, the national water corporation, publishes hourly operating data from its treatment plants through open APIs. That is the closest public data to the treatment-plant record that is missing everywhere else (see <a href="data-atlas.html#the-gap">The gap</a>). England is the other standout: a national water-quality archive with an API, plus near real-time storm overflow data from every water company. Other US states are building catalogs on California's model, but none publishes plant process data. Every row was confirmed through search results only (Nov 2026); check access terms, licence and history before relying on any of it.</p>
+<h2 id="south-korea-k-water-treatment-plant-apis">South Korea: K-water treatment-plant APIs</h2>
+<p>K-water reports <strong>394 public datasets</strong> (313 files and 81 APIs) on its <a href="https://opendata.kwater.or.kr" target="_blank" rel="noopener">open data portal</a> and Korea's national <a href="https://www.data.go.kr" target="_blank" rel="noopener">public data portal</a>. The APIs need a free service key from data.go.kr, and the documentation is in Korean.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>What one row is</th>
+<th>Coverage</th>
+<th>Access</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.data.go.kr/data/15057290/openapi.do" target="_blank" rel="noopener">Real-time water quality, hourly</a></td>
+<td>One hour at one treatment plant: residual chlorine (mg/L), pH, turbidity (NTU)</td>
+<td>K-water drinking and industrial plants</td>
+<td>REST, JSON/XML, data.go.kr key</td>
+<td>Finished water leaving the plant</td>
+</tr>
+<tr>
+<td><a href="https://www.data.go.kr/data/15056653/openapi.do" target="_blank" rel="noopener">Real-time flow, hourly</a></td>
+<td>One hour of flow at one intake, plant or booster station, with tag ID and tag description</td>
+<td>K-water supply system; documentation's sample query is dated 2015-11-20</td>
+<td>REST, JSON/XML</td>
+<td>Tag-level, like a small historian export; flags each value as totalized, difference or instantaneous</td>
+</tr>
+<tr>
+<td><a href="https://www.data.go.kr/data/15099100/openapi.do" target="_blank" rel="noopener">Daily raw and settled water quality</a></td>
+<td>One day at one regional plant: pH, turbidity, conductivity and alkalinity for raw and settled water; weekly and monthly sets too</td>
+<td>K-water regional plants</td>
+<td>REST, JSON/XML</td>
+<td>Pairs coagulation inputs with a settled-water outcome. No coagulant dose in the documented fields</td>
+</tr>
+<tr>
+<td><a href="https://www.data.go.kr/data/15099044/openapi.do" target="_blank" rel="noopener">Sludge production</a></td>
+<td>Monthly sludge output per regional plant</td>
+<td>K-water regional plants</td>
+<td>REST, JSON/XML</td>
+<td>A rough proxy for coagulant and solids load</td>
+</tr>
+<tr>
+<td><a href="https://www.data.go.kr/data/15118017/fileData.do" target="_blank" rel="noopener">Treatment facility status</a> and <a href="https://www.data.go.kr/data/15118012/fileData.do" target="_blank" rel="noopener">intake facility status</a></td>
+<td>Capacity, annual and peak production, utilization, energy per unit produced</td>
+<td>National waterworks, annual</td>
+<td>CSV download</td>
+<td>Plant metadata for cross-plant models</td>
+</tr>
+<tr>
+<td><a href="https://www.data.go.kr/data/15065464/fileData.do" target="_blank" rel="noopener">Treatment-plant monitoring items</a></td>
+<td>The 300 raw and finished-water parameters monitored, with units and test frequency</td>
+<td>National</td>
+<td>CSV</td>
+<td>A data dictionary for the above</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Context.</strong> K-water's own <a href="https://patents.google.com/patent/KR101113363B1/ko" target="_blank" rel="noopener">patented dosing method</a> sets coagulant dose from moving averages of turbidity, temperature, alkalinity, pH, conductivity and TOC, plus an operator adjustment: a ready rules-based baseline for dose models. Its <a href="https://www.bluedot-network.org/case-studies/BDN-RGV8KD-O2D8" target="_blank" rel="noopener">Hwaseong AI water treatment plant</a> (operating since 2022) runs coagulation automatically on big data and a digital twin. Korean full-scale studies already appear in <a href="literature.html">Published Work</a>, but on private data.</p>
+<p><strong>What's possible.</strong> Multi-plant hourly finished-water quality and flow, plus daily raw versus settled water, give Lead 5 a public warm-up and direction 31 (cross-plant transfer) its first real test set. First step: get a key, pull one plant's full history, and confirm how far back each API goes.</p>
+<h2 id="england-and-the-uk">England and the UK</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>What it holds</th>
+<th>Coverage</th>
+<th>Access</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://environment.data.gov.uk/water-quality/view/landing" target="_blank" rel="noopener">Environment Agency Water Quality Archive</a> (<a href="https://api.gov.uk/ea/water-quality/" target="_blank" rel="noopener">API docs</a>)</td>
+<td>58 million measurements on nearly 4 million samples from 58,000 sampling points</td>
+<td>England, 2000 to present</td>
+<td>API and bulk download in CSV, JSON, RDF; Open Government Licence</td>
+<td>England's counterpart to CEDEN and the Water Quality Portal; now also browsable in the <a href="https://www.data.gov.uk/dataset/water-quality-explorer" target="_blank" rel="noopener">Water Quality Explorer</a></td>
+</tr>
+<tr>
+<td>Harmonised Monitoring Scheme</td>
+<td>Historic UK river chemistry: oxygen, ammonia, nutrients, metals, pesticides</td>
+<td>UK, 1974 onward</td>
+<td>Environment Agency, via data.gov.uk</td>
+<td>Long baseline before the archive starts</td>
+</tr>
+<tr>
+<td><a href="https://environment.data.gov.uk/dataset/21e15f12-0df8-4bfc-b763-45226c16a8ac" target="_blank" rel="noopener">Storm overflow EDM annual returns</a> and <a href="https://www.data.gov.uk/dataset/event-duration-monitoring-storm-overflow-start-stop-detailed-data" target="_blank" rel="noopener">detailed start/stop data</a></td>
+<td>Every spill from every monitored storm overflow, with start and stop times</td>
+<td>All ~14,500 overflows in England; monitors on 100% since end of 2023</td>
+<td>Defra Data Services, Open Government Licence</td>
+<td>Published by 1 April each year under the Environment Act 2021</td>
+</tr>
+<tr>
+<td><a href="https://water.org.uk/news-views-publications/views/national-hub-three-months" target="_blank" rel="noopener">National Storm Overflow Hub</a> (Water UK and Stream)</td>
+<td>Near real-time overflow activity, updated within 60 minutes</td>
+<td>All English water and sewerage companies, since Nov 2024</td>
+<td>Map and APIs; company APIs too (e.g. <a href="https://www.thameswater.co.uk/about-us/performance/river-health/storm-discharge-and-flow-data" target="_blank" rel="noopener">Thames Water</a>)</td>
+<td>Continuous river monitors (temperature, pH, DO, turbidity, ammonia) are being installed next</td>
+</tr>
+<tr>
+<td><a href="https://www.streamwaterdata.co.uk" target="_blank" rel="noopener">Stream</a> open data platform</td>
+<td>125+ open datasets from UK water companies: drinking water quality, consumption, overflows, leakage nightlines</td>
+<td>16 of 18 major UK companies involved</td>
+<td>Esri hub with APIs</td>
+<td>Drinking-water quality samples have already been used for lead-pipe research</td>
+</tr>
+<tr>
+<td><a href="https://environment.data.gov.uk/bwq/" target="_blank" rel="noopener">Bathing Water Quality API</a></td>
+<td>Bacteria samples at designated bathing waters</td>
+<td>England, May to September</td>
+<td>API</td>
+<td>Event labels downstream of overflows and works</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>What's possible.</strong> Overflow events, river chemistry and, soon, continuous sensors downstream of treatment works make a clean Test B setting for wastewater-to-river forecasting: rainfall and overflow activity in, river ammonia and bacteria out.</p>
+<h2 id="european-union">European Union</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>What it holds</th>
+<th>Coverage</th>
+<th>Access</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.eea.europa.eu/en/datahub/datahubitem-view/6244937d-1c2c-47f5-bdf1-33ca01ff1715" target="_blank" rel="noopener">Waterbase UWWTD</a></td>
+<td>Wastewater treatment plants, agglomerations and discharge points reported under the Urban Waste Water Treatment Directive: capacity, treatment level, compliance</td>
+<td>EU27, Iceland, Norway (UK in earlier calls); latest call covers 2022–2023</td>
+<td>CSV, Access, GeoPackage; European Environment Agency</td>
+<td>Like EPA's Clean Watersheds Needs Survey for Europe: inventory and compliance, not operations</td>
+</tr>
+<tr>
+<td>GEMStat and GRQA</td>
+<td>Global river and lake chemistry</td>
+<td>Global</td>
+<td>See <a href="data-atlas-open.html">Open research</a></td>
+<td>Already listed</td>
+</tr>
+<tr>
+<td>Agtrup and Avedøre (Denmark)</td>
+<td>2-minute wastewater plant SCADA</td>
+<td>Two Danish plants</td>
+<td>See <a href="data-atlas-open.html">Open research</a></td>
+<td>Still the best open wastewater operations data</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="other-us-states">Other US states</h2>
+<p>These follow California's open-data model: catalogs that federate agency data. None publishes treatment-plant process data.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Effort</th>
+<th>What it is</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://newmexicowaterdata.org" target="_blank" rel="noopener">New Mexico Water Data Initiative</a></td>
+<td>Federated water data service under the 2019 Water Data Act; New Mexico was the second state after California to legislate integrated water data</td>
+<td>Convened by the NM Bureau of Geology and Mineral Resources</td>
+</tr>
+<tr>
+<td><a href="https://internetofwater.org/blog/building-the-texas-water-data-hub-from-the-ground-up" target="_blank" rel="noopener">Texas Water Data Hub</a></td>
+<td>Texas Water Development Board catalog of public water data, launched in beta in 2023</td>
+<td>Built on CKAN, like California's portals</td>
+</tr>
+<tr>
+<td><a href="https://www.rivernetwork.org/state-policy-hub/water-data-access-and-availability/" target="_blank" rel="noopener">Water Data Exchange (WaDE)</a></td>
+<td>Western States Water Council program, since 2011, sharing water-rights and water-use data across western states</td>
+<td>Useful for cross-state demand and allocation work</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="what-it-changes-for-the-project">What it changes for the project</h2>
+<ul>
+<li><strong>The gap narrows, but only in Korea.</strong> K-water's hourly plant data is the first public multi-plant treatment record found. It still lacks dose, filter and event data, so Lead 5 remains the critical path.</li>
+<li><strong>Cross-plant transfer gets a public test.</strong> Train on some K-water plants, test on others; then check whether models transfer to Danish or, later, utility data.</li>
+<li><strong>England is the wastewater-to-river testbed.</strong> Its overflow and river data are open, national and near real-time.</li>
+<li><strong>Other states add catalogs, not process data.</strong> Use them for cross-state compliance and supply work.</li>
+</ul>
+<h2 id="sources">Sources</h2>
+<p>All seen through search results (Nov 14, 2026).</p>
+<ul>
+<li>Korea: <a href="https://www.wbgkggtf.org/sites/default/files/2025-10/2-2%20Boo%20CHanghun.pdf" target="_blank" rel="noopener">K-water open data presentation (World Bank KGGTF)</a> · <a href="https://www.data.go.kr/data/15057290/openapi.do" target="_blank" rel="noopener">hourly water quality</a> · <a href="https://www.data.go.kr/data/15056653/openapi.do" target="_blank" rel="noopener">hourly flow</a> · <a href="https://www.data.go.kr/data/15099100/openapi.do" target="_blank" rel="noopener">daily raw and settled quality</a> · <a href="https://www.data.go.kr/data/15099044/openapi.do" target="_blank" rel="noopener">sludge</a> · <a href="https://www.data.go.kr/data/15118017/fileData.do" target="_blank" rel="noopener">facility status</a> · <a href="https://www.data.go.kr/data/15065464/fileData.do" target="_blank" rel="noopener">monitoring items</a> · <a href="https://patents.google.com/patent/KR101113363B1/ko" target="_blank" rel="noopener">dosing patent</a> · <a href="https://www.bluedot-network.org/case-studies/BDN-RGV8KD-O2D8" target="_blank" rel="noopener">Hwaseong AI plant</a></li>
+<li>England and UK: <a href="https://api.gov.uk/ea/water-quality/" target="_blank" rel="noopener">Water Quality Archive API</a> · <a href="https://environment.data.gov.uk/dataset/21e15f12-0df8-4bfc-b763-45226c16a8ac" target="_blank" rel="noopener">EDM annual returns</a> · <a href="https://www.gov.uk/government/news/fewer-and-shorter-storm-overflow-spills-in-2025-new-monitoring-data-shows" target="_blank" rel="noopener">2025 EDM press release</a> · <a href="https://water.org.uk/news-views-publications/views/national-hub-three-months" target="_blank" rel="noopener">National Storm Overflow Hub</a> · <a href="https://www.esri.com/en-us/industries/blog/articles/uniting-the-uk-water-sector-through-open-data" target="_blank" rel="noopener">Stream (Esri)</a> · <a href="https://informedinfrastructure.com/post/stream-wins-global-esri-award-for-geospatial-innovation" target="_blank" rel="noopener">Stream datasets</a></li>
+<li>EU: <a href="https://www.eea.europa.eu/en/datahub/datahubitem-view/6244937d-1c2c-47f5-bdf1-33ca01ff1715" target="_blank" rel="noopener">EEA Waterbase UWWTD</a></li>
+<li>US states: <a href="https://www.rivernetwork.org/state-policy-hub/water-data-access-and-availability/" target="_blank" rel="noopener">River Network state policy hub</a> · <a href="https://internetofwater.org/blog/building-the-texas-water-data-hub-from-the-ground-up" target="_blank" rel="noopener">Texas Water Data Hub</a> · <a href="https://newmexicowaterdata.org" target="_blank" rel="noopener">NM Water Data Initiative</a></li>
+</ul>
+</main>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    Maintained by Keith Wilkinson, <a href="https://title22.org">title22.org</a>.
+    Content licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+    Corrections and additions welcome via <a href="https://github.com/boxwrench/water-ml-research/issues">GitHub issues</a>.
+  </div>
+</footer>
+</body>
+</html>

@@ -4,7 +4,7 @@
 
 ## How to use this atlas
 
-This atlas maps the water data an ML group can use without a data agreement. California state sources are on this page, federal sources on the [Federal data](data-atlas-federal.md) page, and university, utility and international datasets on the [Open research data](data-atlas-open.md) page. For each dataset it gives what a row is, coverage, format, access method, join key and the research directions it serves. Direction and lead numbers refer to [Research Directions & Data Leads](research-directions.md); the [Systems & Data Guide](water-data-guide.md) explains the vocabulary.
+This atlas maps the water data an ML group can use without a data agreement. California state sources are on this page, federal sources on the [Federal data](data-atlas-federal.md) page, university, utility and international research datasets on the [Open research data](data-atlas-open.md) page, and national programs elsewhere (South Korea, England, the EU, other US states) on the [Other states and countries](data-atlas-international.md) page. For each dataset it gives what a row is, coverage, format, access method, join key and the research directions it serves. Direction and lead numbers refer to [Research Directions & Data Leads](research-directions.md); the [Systems & Data Guide](water-data-guide.md) explains the vocabulary.
 
 **Reading the tables**
 
@@ -17,9 +17,9 @@ This atlas maps the water data an ML group can use without a data agreement. Cal
 
 Public data is strong on what enters and leaves a plant and thin on what happens inside one. This table points to the best source for each need across all three pages.
 
-| Need | California | Federal | Open research |
+| Need | California | Federal | Open research and international |
 | --- | --- | --- | --- |
-| Treatment-process data (doses, setpoints, filters) | None public | ICR 1997-98 plant database (296 large systems, monthly); ICR treatment studies | Agtrup and Avedøre WWTP SCADA (2-min, Denmark); one daily DWTP coagulant set |
+| Treatment-process data (doses, setpoints, filters) | None public | ICR 1997-98 plant database (296 large systems, monthly); ICR treatment studies | Agtrup and Avedøre WWTP SCADA (2-min, Denmark); one daily DWTP coagulant set; K-water hourly plant APIs (Korea, [other countries](data-atlas-international.md)) |
 | Drinking-water compliance and occurrence | DDW lab results, SDWIS facilities, eAR, SAFER | Six-Year Review 4, UCMR 1-5, SDWIS via ECHO | None found |
 | Treatment-train metadata and removal priors | eAR treatment sections | Treatability Database; CWNS wastewater treatment level | None found |
 | Wastewater effluent and operations | eSMR, VAR, sewer spills, stormwater | ICIS-NPDES limits and DMRs, CWNS | Melbourne WWTP energy; UCI plant dataset |
@@ -36,13 +36,15 @@ This is the single biggest barrier to ML research on water treatment. Public dat
 | Stage | What is public | What is missing |
 | --- | --- | --- |
 | Source water | Continuous river, Delta and reservoir sensors; groundwater sampling; satellite bloom indices | Little: this is the best-covered stage |
-| **Inside the plant** | **Two Danish wastewater SCADA sets, one daily drinking-water dose set (1,705 records), a 1993 UCI set, and EPA's monthly 1997-98 ICR records** | **Recent, high-frequency drinking-water process data: coagulant and chlorine doses, per-filter head loss and turbidity, contactor residuals and CT, setpoints, alarms, operator actions, jar tests, sensor maintenance** |
+| **Inside the plant** | **Two Danish wastewater SCADA sets, one daily drinking-water dose set (1,705 records), a 1993 UCI set, EPA's monthly 1997-98 ICR records, and South Korea's K-water APIs (hourly finished-water chlorine, pH, turbidity and flow; daily raw vs settled water)** | **Recent, high-frequency drinking-water process data: coagulant and chlorine doses, per-filter head loss and turbidity, contactor residuals and CT, setpoints, alarms, operator actions, jar tests, sensor maintenance** |
 | Leaving the plant | Compliance lab results, wastewater effluent reports, violations | Sampling is regulatory, not designed for modeling (see *Pitfalls*) |
 | Distribution and tap | Compliance samples, NYC distribution residuals, service area boundaries | Utility network models and continuous residual sensors |
 
 **Why the gap exists.** Regulations require utilities to report compliance results, not process data, so nothing pushes process data into public systems. SCADA historians are internal operational systems, and utilities treat them as sensitive because they describe critical infrastructure. Even when exported, a historian is hard to use without the event logs, jar tests and maintenance records that explain its gaps and jumps, and those are often kept on paper or in separate systems.
 
 **What it costs the research.** Published treatment-ML studies mostly use one plant's private data, so results can't be reproduced or compared, and there is no shared benchmark. A 2026 evidence map of 423 water-treatment ML studies found plant deployment in 2.8%, real-time testing in 5.2%, future-facing validation in 18.2% and uncertainty reporting in 8.5% ([npj Clean Water, 2026](https://link.springer.com/article/10.1038/s41545-026-00610-6)). Reviews of ML in water and wastewater treatment keep naming the same barrier: enough high-quality data is hard to obtain ([Water, 2024](https://www.mdpi.com/2073-4441/16/2/314)).
+
+**The partial exception: South Korea.** K-water, the national water corporation, publishes hourly finished-water quality and flow, and daily raw-versus-settled water quality, for its treatment plants through open APIs. It lacks dose, filter and event data, but it is the only public multi-plant treatment record found. See [Other states and countries](data-atlas-international.md).
 
 **What would break it.** One utility willing to share two or more years of historian data with its event logs, jar tests and maintenance records (Lead 5), released as a documented benchmark with time-ordered splits. Until then, the Danish wastewater SCADA and EPA's ICR records let loaders and baselines be built in the same format. Discovery infrastructure can't solve this: it can only index data that has been published.
 

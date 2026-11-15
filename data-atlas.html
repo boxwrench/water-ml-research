@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Water Data Atlas for ML Researchers</title>
-<meta name="description" content="This atlas maps the water data an ML group can use without a data agreement. California state sources are on this page, federal sources on the [Federal data](data-atlas-federal.md) page, and universit">
+<meta name="description" content="This atlas maps the water data an ML group can use without a data agreement. California state sources are on this page, federal sources on the [Federal data](data-atlas-federal.md) page, university, u">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap">
@@ -51,11 +51,11 @@
 </div>
 </div></aside>
 <main class="content">
-<nav class="atlas-tabs" aria-label="Data Atlas sections"><a href="data-atlas.html" class="active" aria-current="page">Overview + California</a><a href="data-atlas-federal.html">Federal</a><a href="data-atlas-open.html">Open research</a></nav>
+<nav class="atlas-tabs" aria-label="Data Atlas sections"><a href="data-atlas.html" class="active" aria-current="page">Overview + California</a><a href="data-atlas-federal.html">Federal</a><a href="data-atlas-open.html">Open research</a><a href="data-atlas-international.html">Other states and countries</a></nav>
 <h1 id="water-data-atlas-for-ml-researchers">Water Data Atlas for ML Researchers</h1>
 <p><em>Keith Wilkinson · <a href="https://title22.org" target="_blank" rel="noopener">title22.org</a> · November 2026 · Working draft</em></p>
 <h2 id="how-to-use-this-atlas">How to use this atlas</h2>
-<p>This atlas maps the water data an ML group can use without a data agreement. California state sources are on this page, federal sources on the <a href="data-atlas-federal.html">Federal data</a> page, and university, utility and international datasets on the <a href="data-atlas-open.html">Open research data</a> page. For each dataset it gives what a row is, coverage, format, access method, join key and the research directions it serves. Direction and lead numbers refer to <a href="research-directions.html">Research Directions &amp; Data Leads</a>; the <a href="water-data-guide.html">Systems &amp; Data Guide</a> explains the vocabulary.</p>
+<p>This atlas maps the water data an ML group can use without a data agreement. California state sources are on this page, federal sources on the <a href="data-atlas-federal.html">Federal data</a> page, university, utility and international research datasets on the <a href="data-atlas-open.html">Open research data</a> page, and national programs elsewhere (South Korea, England, the EU, other US states) on the <a href="data-atlas-international.html">Other states and countries</a> page. For each dataset it gives what a row is, coverage, format, access method, join key and the research directions it serves. Direction and lead numbers refer to <a href="research-directions.html">Research Directions &amp; Data Leads</a>; the <a href="water-data-guide.html">Systems &amp; Data Guide</a> explains the vocabulary.</p>
 <p><strong>Reading the tables</strong></p>
 <ul>
 <li><strong>Access</strong>: <em>Bulk</em> = downloadable files. <em>API</em> = a queryable endpoint (CKAN datastore, CDEC servlet, ArcGIS REST, OGC API). <em>App</em> = interactive web application only.</li>
@@ -71,7 +71,7 @@
 <th>Need</th>
 <th>California</th>
 <th>Federal</th>
-<th>Open research</th>
+<th>Open research and international</th>
 </tr>
 </thead>
 <tbody>
@@ -79,7 +79,7 @@
 <td>Treatment-process data (doses, setpoints, filters)</td>
 <td>None public</td>
 <td>ICR 1997-98 plant database (296 large systems, monthly); ICR treatment studies</td>
-<td>Agtrup and Avedøre WWTP SCADA (2-min, Denmark); one daily DWTP coagulant set</td>
+<td>Agtrup and Avedøre WWTP SCADA (2-min, Denmark); one daily DWTP coagulant set; K-water hourly plant APIs (Korea, <a href="data-atlas-international.html">other countries</a>)</td>
 </tr>
 <tr>
 <td>Drinking-water compliance and occurrence</td>
@@ -149,7 +149,7 @@
 </tr>
 <tr>
 <td><strong>Inside the plant</strong></td>
-<td><strong>Two Danish wastewater SCADA sets, one daily drinking-water dose set (1,705 records), a 1993 UCI set, and EPA's monthly 1997-98 ICR records</strong></td>
+<td><strong>Two Danish wastewater SCADA sets, one daily drinking-water dose set (1,705 records), a 1993 UCI set, EPA's monthly 1997-98 ICR records, and South Korea's K-water APIs (hourly finished-water chlorine, pH, turbidity and flow; daily raw vs settled water)</strong></td>
 <td><strong>Recent, high-frequency drinking-water process data: coagulant and chlorine doses, per-filter head loss and turbidity, contactor residuals and CT, setpoints, alarms, operator actions, jar tests, sensor maintenance</strong></td>
 </tr>
 <tr>
@@ -166,6 +166,7 @@
 </table></div>
 <p><strong>Why the gap exists.</strong> Regulations require utilities to report compliance results, not process data, so nothing pushes process data into public systems. SCADA historians are internal operational systems, and utilities treat them as sensitive because they describe critical infrastructure. Even when exported, a historian is hard to use without the event logs, jar tests and maintenance records that explain its gaps and jumps, and those are often kept on paper or in separate systems.</p>
 <p><strong>What it costs the research.</strong> Published treatment-ML studies mostly use one plant's private data, so results can't be reproduced or compared, and there is no shared benchmark. A 2026 evidence map of 423 water-treatment ML studies found plant deployment in 2.8%, real-time testing in 5.2%, future-facing validation in 18.2% and uncertainty reporting in 8.5% (<a href="https://link.springer.com/article/10.1038/s41545-026-00610-6" target="_blank" rel="noopener">npj Clean Water, 2026</a>). Reviews of ML in water and wastewater treatment keep naming the same barrier: enough high-quality data is hard to obtain (<a href="https://www.mdpi.com/2073-4441/16/2/314" target="_blank" rel="noopener">Water, 2024</a>).</p>
+<p><strong>The partial exception: South Korea.</strong> K-water, the national water corporation, publishes hourly finished-water quality and flow, and daily raw-versus-settled water quality, for its treatment plants through open APIs. It lacks dose, filter and event data, but it is the only public multi-plant treatment record found. See <a href="data-atlas-international.html">Other states and countries</a>.</p>
 <p><strong>What would break it.</strong> One utility willing to share two or more years of historian data with its event logs, jar tests and maintenance records (Lead 5), released as a documented benchmark with time-ordered splits. Until then, the Danish wastewater SCADA and EPA's ICR records let loaders and baselines be built in the same format. Discovery infrastructure can't solve this: it can only index data that has been published.</p>
 <h2 id="the-access-layer">The access layer</h2>
 <p>Four access mechanisms cover nearly all California water data: two CKAN open-data portals, the CDEC web services, ArcGIS REST map services and a set of interactive-only applications. Learn these four and every dataset below is reachable.</p>

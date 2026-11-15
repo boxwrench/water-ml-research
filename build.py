@@ -27,6 +27,8 @@ PAGES = [
      "EPA, USGS, NOAA, Reclamation, USACE and CDC sources, including EPA's 1997-98 treatment-plant records."),
     ("literature.md", "literature.html", "Published Work",
      "Published work on ML with treatment-plant data: evidence on the data gap, reviews, full-scale studies, testbeds, data sharing and foundation models."),
+    ("data-atlas-international.md", "data-atlas-international.html", "Other States and Countries",
+     "South Korea's treatment-plant APIs, England's water-quality archive and overflow data, EU wastewater reporting, and other US states."),
     ("data-atlas-open.md", "data-atlas-open.html", "Open Research Data",
      "Open plant SCADA, distribution-network benchmarks, global hydrology and water-quality archives, and utility open-data portals."),
 ]
@@ -71,7 +73,7 @@ TEMPLATE = """<!doctype html>
 NAV = [("data-atlas.html", "Data Atlas"), ("water-data-guide.html", "Systems & Data Guide"),
        ("research-directions.html", "Research Directions"), ("literature.html", "Literature")]
 ATLAS = [("data-atlas.html", "Overview + California"), ("data-atlas-federal.html", "Federal"),
-         ("data-atlas-open.html", "Open research")]
+         ("data-atlas-open.html", "Open research"), ("data-atlas-international.html", "Other states and countries")]
 ACTIVE = ' class="active" aria-current="page"'
 
 
@@ -147,11 +149,16 @@ SOURCE_CARDS = [
      ["Two years of wastewater plant SCADA at 2 minutes", "Leak-detection and network benchmarks",
       "Large-sample hydrology across thousands of gauges", "50M+ global freshwater-quality measurements"],
      "Open datasets"),
+    ("data-atlas-international.html", "Beyond California", "Other states and countries",
+     "Korea's treatment-plant APIs, England's national archives, EU wastewater reporting and other US states.",
+     ["Hourly chlorine, pH, turbidity and flow at Korean plants", "Daily raw vs settled water quality",
+      "58M English water-quality measurements", "Every English storm overflow, near real time"],
+     "International sources"),
 ]
 
 GLANCE = [
     ("Treatment-process data", "None public", "EPA ICR plant database, 1997–98",
-     "Agtrup and Avedøre WWTP SCADA; one daily coagulant set", True),
+     "Agtrup and Avedøre WWTP SCADA; one daily coagulant set; K-water hourly plant data (Korea)", True),
     ("Drinking-water compliance", "DDW lab results, SDWIS, eAR, SAFER", "Six-Year Review 4, UCMR 1–5", "None found", False),
     ("Wastewater effluent", "eSMR, volumetric reports, sewer spills", "NPDES limits and DMRs, Needs Survey",
      "Melbourne WWTP, UCI plant data", False),
@@ -167,14 +174,14 @@ PIPELINE = [
     ("Source water", "Well covered", "ok",
      "Rivers, the Delta, reservoirs and groundwater: continuous sensors, decades of samples, satellite bloom indices."),
     ("Inside the plant", "No open record", "gap",
-     "Doses, filter head loss, contactor residuals, setpoints, alarms, operator actions, jar tests. Kept in utility historians and logbooks."),
+     "Doses, filter head loss, contactor residuals, setpoints, alarms, operator actions, jar tests. Kept in utility historians and logbooks. Only Korea publishes even hourly plant outputs."),
     ("Leaving the plant", "Compliance only", "part",
      "Regulatory lab results and effluent reports: plentiful, but sampled to prove compliance, not to train models."),
     ("Distribution and tap", "Sparse", "part",
      "Compliance samples and one city's chlorine residuals. Network models and continuous sensors stay private."),
 ]
 GAP_STATS = [
-    ("0", "open, recent, high-frequency drinking-water process records found"),
+    ("0", "open, recent records of doses, filter performance and operator actions found"),
     ("1,705", "daily records: the only open drinking-water dose dataset"),
     ("2.8%", "of 423 published treatment-ML studies were deployed at a plant"),
     ("18.2%", "of those studies were validated on future data"),
@@ -296,7 +303,7 @@ def build_index() -> None:
   <p class="glance-lead">Public data is strong on what enters and leaves a plant, and thin on what happens inside one.</p>
   <div class="glance-wrap">
     <table class="glance">
-      <thead><tr><th scope="col">Need</th><th scope="col">California</th><th scope="col">Federal</th><th scope="col">Open research</th></tr></thead>
+      <thead><tr><th scope="col">Need</th><th scope="col">California</th><th scope="col">Federal</th><th scope="col">Open research and international</th></tr></thead>
       <tbody>{rows}</tbody>
     </table>
   </div>

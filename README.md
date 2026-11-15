@@ -15,6 +15,7 @@ Maintained by Keith Wilkinson, [title22.org](https://title22.org).
 | Data Atlas: overview + California | [Web page](https://boxwrench.github.io/water-ml-research/data-atlas.html) | [Markdown](docs/data-atlas.md) | Where each kind of data lives, access methods (CKAN, CDEC, ArcGIS, APIs), the gap inside treatment plants, join keys, datasets by research direction, pitfalls, related catalogs, starter code, and the California state catalog. |
 | Data Atlas: federal | [Web page](https://boxwrench.github.io/water-ml-research/data-atlas-federal.html) | [Markdown](docs/data-atlas-federal.md) | EPA, USGS, NOAA, Reclamation, the Army Corps and CDC, including EPA's 1997-98 treatment-plant records. |
 | Data Atlas: open research | [Web page](https://boxwrench.github.io/water-ml-research/data-atlas-open.html) | [Markdown](docs/data-atlas-open.md) | Open plant SCADA, distribution-network benchmarks, global hydrology and water-quality archives, wastewater surveillance, utility open-data portals. |
+| Data Atlas: other states and countries | [Web page](https://boxwrench.github.io/water-ml-research/data-atlas-international.html) | [Markdown](docs/data-atlas-international.md) | South Korea's K-water treatment-plant APIs (hourly chlorine, pH, turbidity, flow), England's Water Quality Archive and storm overflow data, EU wastewater reporting, and other US states' water data hubs. |
 | Systems & Data Guide | [Web page](https://boxwrench.github.io/water-ml-research/water-data-guide.html) | [Markdown](docs/water-data-guide.md) | How drinking water and wastewater systems work, where their data comes from, data pitfalls, control layers, regulation, and a glossary. Start here if you're new to water. |
 | Research Directions & Data Leads | [Web page](https://boxwrench.github.io/water-ml-research/research-directions.html) | [Markdown](docs/research-directions.md) | 32 candidate research directions, the data and simulators behind them, the data gaps worth filling, and six starting leads. |
 | Published Work | [Web page](https://boxwrench.github.io/water-ml-research/literature.html) | [Markdown](docs/literature.md) | Literature on ML with treatment-plant data: evidence on the data gap, reviews, full-scale drinking-water and wastewater studies, water testbeds (SWaT), utility data-sharing efforts, and foundation models for water (Transparent Earth and its water analogs). |
@@ -25,9 +26,9 @@ Maintained by Keith Wilkinson, [title22.org](https://title22.org).
 
 Public water data is strong on what enters and leaves a plant, and thin on what happens inside one.
 
-| Need | California | Federal | Open research |
+| Need | California | Federal | Open research and international |
 | --- | --- | --- | --- |
-| Treatment-process data | None public | EPA ICR plant database, 1997–98 | Agtrup and Avedøre WWTP SCADA; one daily coagulant set |
+| Treatment-process data | None public | EPA ICR plant database, 1997–98 | Agtrup and Avedøre WWTP SCADA; one daily coagulant set; K-water hourly plant data (Korea) |
 | Drinking-water compliance | DDW lab results, SDWIS, eAR, SAFER | Six-Year Review 4, UCMR 1–5 | None found |
 | Wastewater effluent | eSMR, volumetric reports, sewer spills | NPDES limits and DMRs, Needs Survey | Melbourne WWTP, UCI plant data |
 | Source water and the Delta | DWR continuous WQ, EMP, CEDEN, HABs | USGS, Water Quality Portal, CyAN | GEMStat, GRQA |
@@ -44,11 +45,11 @@ Public data shows the water arriving at a plant and the water leaving it. What t
 | Stage | Public record |
 | --- | --- |
 | Source water | **Well covered**: continuous sensors, decades of samples, satellite bloom indices |
-| Inside the plant | **No open record**: doses, filter head loss, contactor residuals, setpoints, alarms, operator actions and jar tests live in utility historians and logbooks |
+| Inside the plant | **No open record**: doses, filter head loss, contactor residuals, setpoints, alarms, operator actions and jar tests live in utility historians and logbooks (Korea publishes hourly plant outputs only) |
 | Leaving the plant | **Compliance only**: plentiful, but sampled to prove compliance, not to train models |
 | Distribution and tap | **Sparse**: compliance samples and one city's chlorine residuals |
 
-- We found **no** open, recent, high-frequency drinking-water process record. The only open drinking-water dose dataset has **1,705** daily records.
+- We found **no** open, recent record of doses, filter performance and operator actions. The only open drinking-water dose dataset has **1,705** daily records. South Korea's K-water APIs (hourly finished-water quality and flow, daily raw vs settled water) are the one partial exception.
 - A 2026 evidence map of **423** treatment-ML studies found **2.8%** deployed at a plant and **18.2%** validated on future data ([npj Clean Water](https://link.springer.com/article/10.1038/s41545-026-00610-6)).
 - No catalog can fix this, because there is nothing published to index. One utility sharing two years of historian data, with event logs and jar tests, would. See [The gap](docs/data-atlas.md#the-gap) in the atlas, and the [Utility Data Sharing Spec](https://claude.ai/artifact/WL51Z4WBoVJycTS6NzsDQA) for what to ask for.
 

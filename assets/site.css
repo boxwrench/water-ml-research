@@ -151,7 +151,7 @@ figure.diagram img { display: block; width: 100%; height: auto; }
 .section-head p:not(.eyebrow) { margin: 16px 0 0; color: var(--text-2); }
 .more { font-weight: 600; font-size: 15px; padding: 12px 0; text-decoration: none; }
 
-.source-grid { margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.source-grid { margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 20px; }
 .source-card { display: flex; flex-direction: column; gap: 14px; padding: 28px; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); color: var(--text); text-decoration: none; transition: border-color .15s; }
 .source-card:hover { border-color: var(--water); color: var(--text); }
 .source-card .kicker { font-size: 13px; font-weight: 600; color: var(--muted); }
