@@ -4,45 +4,109 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Water × ML Research</title>
-<meta name="description" content="Resources for collaboration between water treatment practitioners and ML researchers: systems and data guide, research directions, data leads.">
+<meta name="description" content="Where public water data lives, how to get it, what it can support, and a shared vocabulary for water practitioners and ML researchers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap">
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
 <header class="site-header">
   <div class="wrap header-row">
-    <a class="brand" href="index.html">Water × ML Research</a>
-    <nav class="nav"><a href="water-data-guide.html">Systems & Data Guide</a><a href="research-directions.html">Research Directions</a><a href="data-atlas.html">Data Atlas</a><a href="data-atlas-federal.html">Federal Data</a><a href="data-atlas-open.html">Open Research Data</a><a href="https://github.com/boxwrench/water-ml-research">GitHub</a></nav>
+    <a class="brand" href="index.html"><svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M2 14 C6 6, 10 6, 14 14" fill="none" stroke="var(--water)" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="17.5" r="2" fill="var(--ml)"/><circle cx="23" cy="10" r="2" fill="var(--ml)"/></svg><span>Water × ML Research</span></a>
+    <nav class="nav" aria-label="Main"><a href="data-atlas.html">Data Atlas</a><a href="water-data-guide.html">Systems & Data Guide</a><a href="research-directions.html">Research Directions</a><a href="https://github.com/boxwrench/water-ml-research">GitHub</a></nav>
   </div>
 </header>
 <div class="wrap layout home">
 
 <main class="content">
 
-<section class="hero">
-  <p class="eyebrow">Water treatment &times; machine learning</p>
-  <h1>Connecting water-treatment expertise with ML research</h1>
-  <p class="lede">A working hub for a collaboration between a certified water treatment operator and academic ML researchers
-  working on neural surrogates, forecasting and inference on water data. The hard part is the data, not the methods,
-  so these resources focus on what data exists, what it means and what new data would matter most.</p>
-</section>
-<section class="cards"><a class="card" href="water-data-guide.html"><h2>Systems & Data Guide</h2><p>How water systems work, where their data comes from, the traps in it, and the vocabulary. Start here if you're new to water.</p><span class="card-link">Read &rarr;</span></a><a class="card" href="research-directions.html"><h2>Research Directions</h2><p>32 candidate research directions, the public data and simulators behind them, the data gaps, and five starting leads.</p><span class="card-link">Read &rarr;</span></a><a class="card" href="data-atlas.html"><h2>Data Atlas</h2><p>Where public water data lives, how to get it and what it supports: an at-a-glance map, access methods, join keys, pitfalls and the California catalog.</p><span class="card-link">Read &rarr;</span></a><a class="card" href="data-atlas-federal.html"><h2>Federal Data</h2><p>EPA, USGS, NOAA, Reclamation, USACE and CDC sources, including EPA's 1997-98 treatment-plant records.</p><span class="card-link">Read &rarr;</span></a><a class="card" href="data-atlas-open.html"><h2>Open Research Data</h2><p>Open plant SCADA, distribution-network benchmarks, global hydrology and water-quality archives, and utility open-data portals.</p><span class="card-link">Read &rarr;</span></a></section>
-<section class="principles">
-  <h2>The framing in one minute</h2>
-  <div class="grid2">
-    <div class="principle"><h3>Test A: copy the simulator</h3><p>Can a cheap model reproduce an expensive engineering model
-    (CFD, activated-sludge, EPANET, PHREEQC) at acceptable accuracy? Scored against simulator output.</p></div>
-    <div class="principle"><h3>Test B: predict reality</h3><p>Does any model, physics or learned, forecast what a real plant
-    or water body actually did? Scored against held-out measurements.</p></div>
+<section class="home-hero wrap-narrow">
+  <p class="eyebrow">A shared workspace for water practitioners and ML researchers</p>
+  <h1>Decades of water data, ready for the methods that can learn from it.</h1>
+  <p class="lede">Where public water data lives, how to get it, what it can support, and the vocabulary both fields need to work on it together.</p>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="data-atlas.html">Explore the data</a>
+    <a class="btn btn-ghost" href="#vocabulary">Shared vocabulary</a>
   </div>
-  <p>A surrogate trained only on a simulator can't beat that simulator at predicting reality. Hybrids (physics plus a learned
-  correction) bridge the two. The guiding principle: <strong>use the least expensive model that delivers the validated accuracy
-  and reliability a decision needs.</strong></p>
 </section>
-<section class="principles">
-  <h2>Status</h2>
-  <p>November 2026: broad brainstorming phase. The research directions are unranked, and several data sources and literature
-  figures are flagged as unverified in the documents. Corrections from practitioners and researchers are very welcome:
-  <a href="https://github.com/boxwrench/water-ml-research/issues" target="_blank" rel="noopener">open an issue</a>.</p>
+
+<div class="motif wrap-narrow">
+  <svg viewBox="0 0 1200 160" aria-hidden="true">
+    <line class="axis" x1="0" y1="80" x2="1200" y2="80"/>
+    <path class="wave" d="M0,80.0 L10,72.1 L20,64.5 L30,57.7 L40,51.8 L50,47.1 L60,43.9 L70,42.2 L80,42.2 L90,43.9 L100,47.1 L110,51.8 L120,57.7 L130,64.5 L140,72.1 L150,80.0 L160,87.9 L170,95.5 L180,102.3 L190,108.2 L200,112.9 L210,116.1 L220,117.8 L230,117.8 L240,116.1 L250,112.9 L260,108.2 L270,102.3 L280,95.5 L290,87.9 L300,80.0 L310,72.1 L320,64.5 L330,57.7 L340,51.8 L350,47.1 L360,43.9 L370,42.2 L380,42.2 L390,43.9 L400,47.1 L410,51.8 L420,57.7 L430,64.5 L440,72.1 L450,80.0 L460,87.9 L470,95.5 L480,102.3 L490,108.2 L500,112.9 L510,116.1 L520,117.8 L530,117.8 L540,116.1 L550,112.9 L560,108.2 L570,102.3 L580,95.5 L590,87.9 L600,80.0"/>
+    <g class="stems"><line x1="636" y1="80" x2="636" y2="54"/><line x1="672" y1="80" x2="672" y2="42.1"/><line x1="708" y1="80" x2="708" y2="50.7"/><line x1="744" y1="80" x2="744" y2="75.2"/><line x1="780" y1="80" x2="780" y2="102.3"/><line x1="816" y1="80" x2="816" y2="117.3"/><line x1="852" y1="80" x2="852" y2="112.1"/><line x1="888" y1="80" x2="888" y2="89.5"/><line x1="924" y1="80" x2="924" y2="61.7"/><line x1="960" y1="80" x2="960" y2="43.9"/><line x1="996" y1="80" x2="996" y2="45.6"/><line x1="1032" y1="80" x2="1032" y2="66"/><line x1="1068" y1="80" x2="1068" y2="94"/><line x1="1104" y1="80" x2="1104" y2="114.4"/><line x1="1140" y1="80" x2="1140" y2="116.1"/><line x1="1176" y1="80" x2="1176" y2="98.3"/></g>
+    <g class="dots"><circle cx="636" cy="54" r="5"/><circle cx="672" cy="42.1" r="5"/><circle cx="708" cy="50.7" r="5"/><circle cx="744" cy="75.2" r="5"/><circle cx="780" cy="102.3" r="5"/><circle cx="816" cy="117.3" r="5"/><circle cx="852" cy="112.1" r="5"/><circle cx="888" cy="89.5" r="5"/><circle cx="924" cy="61.7" r="5"/><circle cx="960" cy="43.9" r="5"/><circle cx="996" cy="45.6" r="5"/><circle cx="1032" cy="66" r="5"/><circle cx="1068" cy="94" r="5"/><circle cx="1104" cy="114.4" r="5"/><circle cx="1140" cy="116.1" r="5"/><circle cx="1176" cy="98.3" r="5"/></g>
+  </svg>
+  <div class="motif-legend">
+    <span><b class="water">Water</b>: continuous processes, physics, operations</span>
+    <span><b class="ml">ML</b>: samples, patterns, predictions</span>
+  </div>
+</div>
+
+<section class="home-section wrap-narrow" id="data">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow">01 · Data sources</p>
+      <h2>Start with what already exists</h2>
+      <p>Each dataset in the atlas lists what one row is, its coverage, format, how to access it, the key to join on, and the research it supports.</p>
+    </div>
+    <a class="more" href="data-atlas.html">Open the full atlas &rarr;</a>
+  </div>
+  <div class="source-grid"><a class="source-card" href="data-atlas.html"><span class="kicker">State</span><span class="card-title">California</span><span class="card-text">State Water Board, DWR and CDEC: drinking water, wastewater, the Delta, groundwater and hydrology.</span><span class="card-list"><span>Compliance lab results since the 1970s</span><span>Wastewater effluent reports, 2006 to now</span><span>Delta sensors every 15 minutes since 2005</span><span>Statewide groundwater quality, incl. PFAS</span></span><span class="card-link">California catalog &rarr;</span></a><a class="source-card" href="data-atlas-federal.html"><span class="kicker">National</span><span class="card-title">Federal</span><span class="card-text">EPA, USGS, NOAA, Reclamation, the Army Corps and CDC, in national schemas for cross-state transfer.</span><span class="card-list"><span>Treatment-plant records from 296 large systems, 1997–98</span><span>National compliance data, 2012–2019</span><span>UCMR 5: 29 PFAS plus lithium</span><span>Hourly simulated flow on every reach, 1979–2023</span></span><span class="card-link">Federal sources &rarr;</span></a><a class="source-card" href="data-atlas-open.html"><span class="kicker">Research and utilities</span><span class="card-title">Open research</span><span class="card-text">Datasets from universities, utilities and international programs, including the only open plant process data.</span><span class="card-list"><span>Two years of wastewater plant SCADA at 2 minutes</span><span>Leak-detection and network benchmarks</span><span>Large-sample hydrology across thousands of gauges</span><span>50M+ global freshwater-quality measurements</span></span><span class="card-link">Open datasets &rarr;</span></a></div>
+  <h3 class="glance-title">Where each kind of data lives</h3>
+  <p class="glance-lead">Public data is strong on what enters and leaves a plant, and thin on what happens inside one.</p>
+  <div class="glance-wrap">
+    <table class="glance">
+      <thead><tr><th scope="col">Need</th><th scope="col">California</th><th scope="col">Federal</th><th scope="col">Open research</th></tr></thead>
+      <tbody><tr class="gap"><th scope="row">Treatment-process data</th><td class="none">None public</td><td>EPA ICR plant database, 1997–98</td><td>Agtrup and Avedøre WWTP SCADA; one daily coagulant set</td></tr><tr><th scope="row">Drinking-water compliance</th><td>DDW lab results, SDWIS, eAR, SAFER</td><td>Six-Year Review 4, UCMR 1–5</td><td class="none">None found</td></tr><tr><th scope="row">Wastewater effluent</th><td>eSMR, volumetric reports, sewer spills</td><td>NPDES limits and DMRs, Needs Survey</td><td>Melbourne WWTP, UCI plant data</td></tr><tr><th scope="row">Source water and the Delta</th><td>DWR continuous WQ, EMP, CEDEN, HABs</td><td>USGS, Water Quality Portal, CyAN</td><td>GEMStat, GRQA</td></tr><tr><th scope="row">Groundwater</th><td>GAMA, DWR levels, well reports</td><td>USGS samples</td><td class="none">None found</td></tr><tr><th scope="row">Distribution system</th><td>Service area boundaries</td><td>National service areas</td><td>BattLeDIM, LeakDB, NYC chlorine samples</td></tr><tr><th scope="row">Hydrology drivers</th><td>CDEC, CIMIS, snow surveys</td><td>National Water Model, RISE, CWMS, tides</td><td>Caravan</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="home-section wrap-narrow">
+  <p class="eyebrow">02 · Two perspectives</p>
+  <h2>Each field brings half of the work</h2>
+  <div class="persp-grid">
+    <div class="persp persp-water">
+      <p class="persp-kicker">For water practitioners</p>
+      <h3>What ML can do with your data</h3>
+      <ol><li><strong>Forecast source water</strong> hours to days ahead: conductivity, turbidity, algae.</li><li><strong>Soft sensors</strong> that estimate lab-only values like TOC between grab samples.</li><li><strong>Fast surrogates</strong> of hydraulic, treatment and biological models for what-if runs.</li><li><strong>Early warning</strong> of sensor drift and process upsets.</li><li><strong>Dose guidance</strong>, tested offline or in shadow mode before it ever touches operations.</li></ol>
+    </div>
+    <div class="persp persp-ml">
+      <p class="persp-kicker">For ML researchers</p>
+      <h3>What water has already built</h3>
+      <ol><li><strong>Decades of regulated sampling</strong> for every public water system and permitted discharger.</li><li><strong>Dense sensor networks</strong> on rivers and the Delta, with years of 15-minute history.</li><li><strong>Mature physics simulators</strong> (EPANET, BSM2, PSDM) to generate training data on demand.</li><li><strong>Hard constraints</strong>: mass balance, kinetics and regulatory limits that a model must respect.</li><li><strong>Real stakes</strong>: underpredicting a hazard costs far more than average error.</li></ol>
+    </div>
+  </div>
+  <div class="next-band">
+    <p class="next-title">What could be done next</p>
+    <p>The missing piece is recent, high-frequency drinking-water process data: doses, filter head loss and residuals, paired with operator event logs. One utility partnership would unlock most of the research directions; open wastewater SCADA and EPA's 1997–98 plant records let the work start now. <a href="research-directions.html">See the research directions &rarr;</a></p>
+  </div>
+</section>
+
+<section class="home-section wrap-narrow" id="vocabulary">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow">03 · Shared vocabulary</p>
+      <h2>Same idea, two names</h2>
+      <p>Most of the overlap is already there; it just goes by different words.</p>
+    </div>
+    <a class="more" href="water-data-guide.html">Full glossary in the guide &rarr;</a>
+  </div>
+  <div class="vocab">
+    <div class="vocab-row vocab-head"><span class="water">Water term</span><span class="ml">ML term</span><span>Why it matters</span></div>
+    <div class="vocab-row"><span class="term">Engineering simulator</span><span class="term">Surrogate target</span><span class="why">Test A: copy the simulator, scored against its output.</span></div><div class="vocab-row"><span class="term">Held-out plant record</span><span class="term">Test set</span><span class="why">Test B: predict what really happened, scored against measurements.</span></div><div class="vocab-row"><span class="term">Non-detect</span><span class="term">Left-censored value</span><span class="why">Below the reporting limit is not zero; keep the limit as a feature.</span></div><div class="vocab-row"><span class="term">Compliance sampling</span><span class="term">Informative, irregular sampling</span><span class="why">Sampling rises after a problem, so the schedule itself leaks signal.</span></div><div class="vocab-row"><span class="term">Operator response</span><span class="term">Confounding</span><span class="why">Doses change because the water changed; routine data mixes cause and reaction.</span></div><div class="vocab-row"><span class="term">Jar test</span><span class="term">Labeled bench experiment</span><span class="why">The rare designed experiment in plant data: gold for dose models.</span></div><div class="vocab-row"><span class="term">SCADA historian</span><span class="term">Multivariate time series</span><span class="why">Useful only with the event log that explains its gaps and jumps.</span></div><div class="vocab-row"><span class="term">Shadow mode</span><span class="term">Offline evaluation on live data</span><span class="why">Models advise and are scored; operators stay in control.</span></div>
+  </div>
+</section>
+
+<section class="home-section wrap-narrow">
+  <p class="eyebrow">04 · Ground rules</p>
+  <div class="rules"><div><p class="rule-title">Two tests, kept apart</p><p>Copying a simulator and predicting reality are scored separately. A surrogate cannot beat its simulator on reality.</p></div><div><p class="rule-title">Cheapest model that works</p><p>Use the least expensive model that delivers the validated accuracy a decision needs. Sometimes that is an equation.</p></div><div><p class="rule-title">Hazards scored on their own</p><p>Underpredicting a hazard is reported separately from average error.</p></div><div><p class="rule-title">Operations stay protected</p><p>Anything touching live operations runs offline or in shadow mode first.</p></div></div>
+</section>
+
+<section class="home-section home-last wrap-narrow">
+  <div class="resource-grid"><a class="resource" href="data-atlas.html"><span class="resource-title">Data Atlas</span><span>Access, join keys, pitfalls, starter code</span></a><a class="resource" href="water-data-guide.html"><span class="resource-title">Systems &amp; Data Guide</span><span>How water systems work, and the glossary</span></a><a class="resource" href="research-directions.html"><span class="resource-title">Research Directions</span><span>32 directions and five starting leads</span></a><a class="resource" href="https://github.com/boxwrench/water-ml-research/issues"><span class="resource-title">Contribute</span><span>Corrections and new sources via GitHub issues</span></a></div>
 </section>
 
 </main>
