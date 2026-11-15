@@ -198,7 +198,7 @@ table.glance tbody tr:last-child th, table.glance tbody tr:last-child td { borde
 .rules p { margin: 8px 0 0; color: var(--text-2); font-size: 15px; }
 .rules .rule-title { margin: 0; font-family: var(--font-head); font-weight: 600; font-size: 20px; color: var(--text); }
 
-.resource-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+.resource-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
 .resource { display: flex; flex-direction: column; gap: 6px; padding: 24px; border-radius: 16px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 14px; text-decoration: none; }
 .resource:hover { border-color: var(--water); color: var(--muted); }
 .resource-title { color: var(--text); font-weight: 600; font-size: 16px; }

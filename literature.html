@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Published Work: ML on Treatment-Plant Data</title>
+<meta name="description" content="The published record shows a lot of activity and little that can be reused. Most treatment-ML studies train on one plant&#x27;s private data, report high accuracy on a random or short split, and stop befor">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="index.html"><svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M2 14 C6 6, 10 6, 14 14" fill="none" stroke="var(--water)" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="17.5" r="2" fill="var(--ml)"/><circle cx="23" cy="10" r="2" fill="var(--ml)"/></svg><span>Water × ML Research</span></a>
+    <nav class="nav" aria-label="Main"><a href="data-atlas.html">Data Atlas</a><a href="water-data-guide.html">Systems & Data Guide</a><a href="research-directions.html">Research Directions</a><a href="literature.html" class="active" aria-current="page">Literature</a><a href="https://github.com/boxwrench/water-ml-research">GitHub</a></nav>
+  </div>
+</header>
+<div class="wrap layout">
+<aside class="toc"><div class="toc-inner"><div class="toc-title">On this page</div><div class="toc">
+<ul>
+<li><a href="#published-work-ml-on-treatment-plant-data">Published Work: ML on Treatment-Plant Data</a><ul>
+<li><a href="#what-the-literature-agrees-on">What the literature agrees on</a></li>
+<li><a href="#evidence-on-the-gap">Evidence on the gap</a></li>
+<li><a href="#reviews-of-ml-in-treatment">Reviews of ML in treatment</a></li>
+<li><a href="#drinking-water-studies-on-full-scale-plant-data">Drinking-water studies on full-scale plant data</a></li>
+<li><a href="#wastewater-process-studies-and-open-benchmarks">Wastewater process studies and open benchmarks</a></li>
+<li><a href="#control-system-security-on-water-testbeds">Control-system security on water testbeds</a></li>
+<li><a href="#data-sharing-and-utility-adoption">Data sharing and utility adoption</a></li>
+<li><a href="#gaps-in-the-literature">Gaps in the literature</a></li>
+<li><a href="#adding-to-this-page">Adding to this page</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div></aside>
+<main class="content">
+<h1 id="published-work-ml-on-treatment-plant-data">Published Work: ML on Treatment-Plant Data</h1>
+<p><em>Keith Wilkinson · <a href="https://title22.org" target="_blank" rel="noopener">title22.org</a> · November 2026 · Working draft</em></p>
+<p>The published record shows a lot of activity and little that can be reused. Most treatment-ML studies train on one plant's private data, report high accuracy on a random or short split, and stop before deployment. Reviews from 2019 to 2026 keep naming the same causes: scarce shareable data, weak reporting and few real-time tests. This page collects the work that bears on that gap, grouped by what it offers this project. It complements <a href="data-atlas.html#the-gap">The gap</a> in the Data Atlas and the <a href="https://claude.ai/artifact/WL51Z4WBoVJycTS6NzsDQA" target="_blank" rel="noopener">Utility Data Sharing Spec</a>.</p>
+<p>Entries were found through search results in November 2026. Abstracts were read; most full texts were not. Check a paper before citing a number from this page.</p>
+<h2 id="what-the-literature-agrees-on">What the literature agrees on</h2>
+<ul>
+<li><strong>Deployment is rare.</strong> A 2026 evidence map of 423 water-treatment ML studies found plant deployment in 2.8%, real-time testing in 5.2%, future-facing validation in 18.2% and uncertainty reporting in 8.5%. Deep learning in urban water is likewise early-stage: most studies use benchmark networks, synthetic data, lab or pilot systems, with no practical adoption reported (Fu et al. 2022).</li>
+<li><strong>Reporting is too thin to reproduce.</strong> In 100+ urban-water ML papers, about a third documented feature scaling or hyperparameter tuning, and under a quarter reported explainability or uncertainty (Oberascher et al. 2026). In hydrology, fewer articles meet each stricter level of reproducibility (Stagge et al. 2019).</li>
+<li><strong>Plant data exists but stays inside.</strong> Wastewater plant data is widely underused, partly because staff lack the data-science background to analyze it (Newhart et al. 2019). Industrial deployment needs closer collaboration among research, private and public partners (Bahramian et al. 2022).</li>
+<li><strong>Hybrids are the favored bridge.</strong> Hybrid models pair mechanistic and data-driven parts to get interpretability and low computational cost, but their use remains vague in practice (Schneider et al. 2022).</li>
+</ul>
+<h2 id="evidence-on-the-gap">Evidence on the gap</h2>
+<p>Studies of the field itself: how often work is deployed, reported well or reproducible.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Work</th>
+<th>Venue</th>
+<th>What it measured</th>
+<th>Use here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://link.springer.com/article/10.1038/s41545-026-00610-6" target="_blank" rel="noopener">Evidence map of 423 water-treatment ML studies</a> (2026)</td>
+<td>npj Clean Water</td>
+<td>Deployment, real-time testing, forward validation and uncertainty reporting across 423 full-text studies, plus a six-plant wastewater test</td>
+<td>The headline numbers for the gap</td>
+</tr>
+<tr>
+<td><a href="https://doi.org/10.1016/j.wroa.2026.100569" target="_blank" rel="noopener">Oberascher et al., Assessing supervised ML practice in urban water networks</a> (2026)</td>
+<td>Water Research X</td>
+<td>Reporting quality in 100+ distribution and drainage ML papers; proposes a checklist</td>
+<td>Adopt its checklist for our leaderboard</td>
+</tr>
+<tr>
+<td><a href="https://doi.org/10.1016/j.watres.2022.118973" target="_blank" rel="noopener">Fu et al., The role of deep learning in urban water management</a> (2022)</td>
+<td>Water Research</td>
+<td>State of deep learning across demand, leaks, sewers and wastewater; names data privacy as a key challenge</td>
+<td>Background for ML collaborators</td>
+</tr>
+<tr>
+<td><a href="https://doi.org/10.1038/sdata.2019.30" target="_blank" rel="noopener">Stagge et al., Assessing data availability and research reproducibility in hydrology</a> (2019)</td>
+<td>Scientific Data</td>
+<td>Artifact availability and reproducibility in 360 hydrology articles from 2017</td>
+<td>Method for auditing our own field</td>
+</tr>
+<tr>
+<td><a href="https://doi.org/10.3390/w14091384" target="_blank" rel="noopener">Lowe et al., ML, AI and smart technology in water treatment and monitoring</a> (2022)</td>
+<td>Water</td>
+<td>Review; names poor data management, reproducibility and transparency as hurdles</td>
+<td>Short entry point</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="reviews-of-ml-in-treatment">Reviews of ML in treatment</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Work</th>
+<th>Venue</th>
+<th>Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://doi.org/10.1016/j.watres.2019.03.030" target="_blank" rel="noopener">Newhart et al., Data-driven performance analyses of WWTPs</a> (2019)</td>
+<td>Water Research</td>
+<td>Fault detection, prediction and control on plant data; nonstationary, autocorrelated behavior; much applies to drinking water</td>
+</tr>
+<tr>
+<td>Corominas et al., Transforming data into knowledge for improved wastewater treatment operation (2018)</td>
+<td>Environmental Modelling &amp; Software 106: 89–103</td>
+<td>Critical review of data-to-knowledge techniques for plant operation</td>
+</tr>
+<tr>
+<td><a href="https://doi.org/10.1016/j.eswa.2022.119453" target="_blank" rel="noopener">Bahramian et al., Data to intelligence: data-driven models in wastewater treatment</a> (2022)</td>
+<td>Expert Systems with Applications</td>
+<td>ANNs dominate; hybrids outperform standalone models; deployment lacking</td>
+</tr>
+<tr>
+<td><a href="https://doi.org/10.2166/wst.2022.115" target="_blank" rel="noopener">Schneider et al., Hybrid modelling of WRRFs: status and opportunities</a> (2022)</td>
+<td>Water Science &amp; Technology</td>
+<td>Hybrid model designs, good modelling practice, data assurance (open access)</td>
+</tr>
+<tr>
+<td><a href="https://scholar.xjtu.edu.cn/en/publications/machine-learning-paradigms-in-natural-and-engineered-water-system/" target="_blank" rel="noopener">Machine learning paradigms in natural and engineered water systems</a> (2026)</td>
+<td>Water Research 300</td>
+<td>Decision framework for choosing mechanistic, data-driven or hybrid models under data and deployment constraints</td>
+</tr>
+<tr>
+<td><a href="https://research-portal.uws.ac.uk/en/publications/application-of-artificial-intelligence-in-the-management-of-coagu/" target="_blank" rel="noopener">Application of AI in the management of coagulation</a> (2024)</td>
+<td>Processes 12</td>
+<td>Neural networks for coagulant dosing; calls for better data quality and cross-validation</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="drinking-water-studies-on-full-scale-plant-data">Drinking-water studies on full-scale plant data</h2>
+<p>The data column shows how small and private most training sets are. None of these datasets is public except the Mendeley coagulant set.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Work</th>
+<th>Target</th>
+<th>Plant data used</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://doi.org/10.1016/j.chemosphere.2023.140989" target="_blank" rel="noopener">Optimizing coagulant dosage using deep learning with large-scale data</a> (2024, Chemosphere)</td>
+<td>Coagulant dose and settled turbidity</td>
+<td>Minute data over 5 years, one Korean plant</td>
+<td>Authors call it the first drinking-water model on a dataset this size; reports ~22% dose reduction (simulated)</td>
+</tr>
+<tr>
+<td><a href="https://doi.org/10.3390/pr13123829" target="_blank" rel="noopener">Lasso-regularized polynomial regression for coagulant dosing</a> (2025, Processes)</td>
+<td>Coagulant dose</td>
+<td>8,303 hourly records, ~200,000 m³/day Korean plant</td>
+<td>Interpretable model; regularization keeps it stable where plain polynomial regression overfits</td>
+</tr>
+<tr>
+<td><a href="https://doi.org/10.3389/fenve.2024.1401180" target="_blank" rel="noopener">McKelvey et al., Data-driven prediction of settled water turbidity</a> (2024, Frontiers)</td>
+<td>Settled turbidity</td>
+<td>2,527 records × 9 variables, one full-scale plant</td>
+<td>Notes that dataset size and quality matter most</td>
+</tr>
+<tr>
+<td><a href="https://doi.org/10.2166/ws.2023.219" target="_blank" rel="noopener">Tochio et al., Coagulant dosage prediction in the water treatment process</a> (2023)</td>
+<td>Coagulant dose</td>
+<td>Full-scale plant data</td>
+<td>ANN baseline</td>
+</tr>
+<tr>
+<td><a href="https://doi.org/10.1007/s11783-024-1777-6" target="_blank" rel="noopener">Helm et al., Gradient boosting for free chlorine residual</a> (2024, Front. Environ. Sci. Eng.)</td>
+<td>Free chlorine residual</td>
+<td>One year from a 98 MGD plant in Georgia, USA</td>
+<td>SHAP shows operating variables carry non-intuitive signal</td>
+</tr>
+<tr>
+<td><a href="https://www.pubmed.gov/36947925/" target="_blank" rel="noopener">Moradi et al., Forecasting dual-media filter performance</a> (2023)</td>
+<td>Unit filter run volume, breakthrough risk</td>
+<td>Sydney Water plant data</td>
+<td>Best results with a 1-day lag; useful template for Lead 5's filter target</td>
+</tr>
+<tr>
+<td><a href="https://www.preprints.org/manuscript/202306.0555/v1/download" target="_blank" rel="noopener">Belding and Hannoun, ML exploration of a filtration model variable space</a> (2023 preprint)</td>
+<td>Filter run time</td>
+<td>Southern Nevada Water Authority facility</td>
+<td>Utility-authored; ties ML to run-to-run control</td>
+</tr>
+<tr>
+<td><a href="https://data.mendeley.com/datasets/bjcs3rsfph/1" target="_blank" rel="noopener">Mendeley daily DWTP coagulant dataset</a></td>
+<td>Coagulant dose</td>
+<td>1,705 daily records, CC BY 4.0</td>
+<td>The only open drinking-water dose data found (<a href="data-atlas-open.html">atlas</a>)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="wastewater-process-studies-and-open-benchmarks">Wastewater process studies and open benchmarks</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Work</th>
+<th>What it offers</th>
+<th>Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://arxiv.org/html/2407.05346v1" target="_blank" rel="noopener">Agtrup WWTP data paper</a> (2024)</td>
+<td>2-minute SCADA with doses separated from outcomes</td>
+<td>Open (<a href="data-atlas-open.html">atlas</a>)</td>
+</tr>
+<tr>
+<td><a href="https://arxiv.org/html/2407.05959v1" target="_blank" rel="noopener">Avedøre N2O time-series data paper</a> (2024)</td>
+<td>Emissions and soft-sensor benchmark</td>
+<td>Open, check license</td>
+</tr>
+<tr>
+<td><a href="https://arxiv.org/pdf/2604.20935" target="_blank" rel="noopener">Data-driven open-loop simulation for digital-twin decision support</a> (2026)</td>
+<td>Operator decision support built on the open Danish benchmark</td>
+<td>Uses public data; code on request</td>
+</tr>
+<tr>
+<td><a href="https://www.synapsesocial.com/papers/69db375f4fe01fead37c55da" target="_blank" rel="noopener">Park et al., Daily effluent phosphorus and coagulant optimization in DAF</a></td>
+<td>Interpretable daily model, 32–51% simulated coagulant savings</td>
+<td>1,096 days, 410,000 m³/day plant, private</td>
+</tr>
+<tr>
+<td><a href="https://opendata.eawag.ch/dataset/data-for-benchmarking-soft-sensors-for-remote-monitoring-of-on-site-wastewater-treatment-plants" target="_blank" rel="noopener">Eawag soft sensors for on-site plants</a></td>
+<td>Soft-sensor benchmark for unattended small plants</td>
+<td>Open</td>
+</tr>
+<tr>
+<td><a href="https://doi.org/10.1007/s10661-023-11463-8" target="_blank" rel="noopener">BSM1 fault-detection review</a> (2023)</td>
+<td>All ML work on sensor and process faults using the BSM1 simulator</td>
+<td>Simulator (Test A)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="control-system-security-on-water-testbeds">Control-system security on water testbeds</h2>
+<p>The largest body of work on high-frequency treatment data comes from security research on testbeds, because those datasets are shareable.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Work</th>
+<th>What it offers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Goh et al., A dataset to support research in the design of secure water treatment systems (2017, CRITIS, LNCS 10242: 88–99)</td>
+<td>The SWaT dataset paper; data by request from <a href="https://www.sutd.edu.sg/itrust/itrust-labs/datasets/terms-of-usage/" target="_blank" rel="noopener">iTrust</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/hwkim418/swat-symbolic-fusion" target="_blank" rel="noopener">Kim, Wilkinson et al., Auditing process knowledge for parsimonious and explainable industrial cyberattack detection</a> (2026, AAAI FSS)</td>
+<td>Expert-audited process relationships plus an LSTM on SWaT; validation MCC ~0.82 falls to 0.135–0.247 on a later test period</td>
+</tr>
+<tr>
+<td>Heydari and Nyarko, Alarm-budgeted event-level evaluation of ICS anomaly detection (2026, IEEE Access 14: 17585–17609)</td>
+<td>Event-level scoring and missed-incident rates on SWaT and WADI</td>
+</tr>
+<tr>
+<td><a href="https://doi.org/10.3390/electronics13122267" target="_blank" rel="noopener">Raman and Mathur, Fusing design and ML for anomaly detection in water treatment plants</a> (2024)</td>
+<td>Hybrid design-knowledge detector</td>
+</tr>
+<tr>
+<td><a href="https://arxiv.org/pdf/2208.08255" target="_blank" rel="noopener">Tantawy, On the elements of datasets for cyber-physical systems security</a> (2022)</td>
+<td>What a good CPS dataset should contain; a checklist for our own data request</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="data-sharing-and-utility-adoption">Data sharing and utility adoption</h2>
+<p>Work on why utilities do or don't share data, and on industry programs that pair utilities with researchers.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Work</th>
+<th>What it found or does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.dafni.ac.uk/resources/case-studies/wsl-how-data-sharing-can-identify-leakages-in-vital-water-infrastructure" target="_blank" rel="noopener">DAFNI Water Systems Leakage project</a> (UK, 2024–25)</td>
+<td>22 barriers and 19 solutions to water data sharing; recommends Trusted Research Environments; open-data missions so far unsuccessful, but a collaborative network formed with most UK water companies</td>
+</tr>
+<tr>
+<td><a href="https://integration.waterrf.org/node/3348111" target="_blank" rel="noopener">WRF 5189, AI Adoption Framework for Water and Wastewater Utilities</a></td>
+<td>Arcadis, Hazen, Virginia Tech, 23 utilities and 15 technology providers</td>
+</tr>
+<tr>
+<td><a href="https://e3test.waterrf.org/node/111" target="_blank" rel="noopener">WRF report DRPT-4797B, AI Applications in the Water Sector</a> (2024)</td>
+<td>Subscriber report</td>
+</tr>
+<tr>
+<td><a href="https://carollo.com/press-releases/wrf-5385/" target="_blank" rel="noopener">WRF 5385, ML for full-scale wastewater chloramination control</a> (2026, ongoing)</td>
+<td>Carollo with LA County Sanitation Districts; phased path from advisory to direct control, building on ML aeration control at Pomona</td>
+</tr>
+<tr>
+<td><a href="https://www.wwdmag.com/wastewater-treatment/news/55367032/stantec-to-lead-wrf-project-applying-ai-to-wastewater-operations" target="_blank" rel="noopener">WRF Tailored Collaboration: AI for WRRF operations</a> (2026, ongoing)</td>
+<td>Stantec with WSSC Water and Prince William Water; deliverable includes a utility AI implementation playbook</td>
+</tr>
+<tr>
+<td><a href="https://www.ncs.co/en-au/insights/vicwater-backs-more-gov-data-sharing-to-boost-ai/" target="_blank" rel="noopener">VicWater Intelligent Water Networks</a> (Australia, 2026)</td>
+<td>Most of 16 participating corporations favor sharing data to accelerate AI</td>
+</tr>
+<tr>
+<td><a href="https://pubs.rsc.org/en/content/articlelanding/2025/ew/d4ew00685b" target="_blank" rel="noopener">Federated learning across three water plants' intake pumping</a> (2025)</td>
+<td>Trains across plants without pooling raw data; one route around sharing limits</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="gaps-in-the-literature">Gaps in the literature</h2>
+<ul>
+<li><strong>No shared drinking-water benchmark.</strong> Every full-scale drinking-water study above uses a different private dataset, so their accuracies can't be compared.</li>
+<li><strong>Filters are understudied.</strong> Run length and head loss have far fewer plant-data studies than coagulant dose.</li>
+<li><strong>Little time-forward testing.</strong> Few studies score on a later period, and the one that did on SWaT saw performance collapse.</li>
+<li><strong>Process knowledge is used, but rarely audited.</strong> Hybrids and physics features are common; checking which relationships actually hold in plant data is not.</li>
+</ul>
+<h2 id="adding-to-this-page">Adding to this page</h2>
+<p>Open an <a href="https://github.com/boxwrench/water-ml-research/issues" target="_blank" rel="noopener">issue</a> with the paper link, the target, the data used (size, interval, public or private) and one line on why it matters here.</p>
+</main>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    Maintained by Keith Wilkinson, <a href="https://title22.org">title22.org</a>.
+    Content licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+    Corrections and additions welcome via <a href="https://github.com/boxwrench/water-ml-research/issues">GitHub issues</a>.
+  </div>
+</footer>
+</body>
+</html>

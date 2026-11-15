@@ -25,6 +25,8 @@ PAGES = [
      "Where public water data lives, how to get it and what it supports: an at-a-glance map, access methods, join keys, pitfalls and the California catalog."),
     ("data-atlas-federal.md", "data-atlas-federal.html", "Federal Data",
      "EPA, USGS, NOAA, Reclamation, USACE and CDC sources, including EPA's 1997-98 treatment-plant records."),
+    ("literature.md", "literature.html", "Published Work",
+     "Published work on ML with treatment-plant data: evidence on the data gap, reviews, full-scale studies, testbeds and data sharing."),
     ("data-atlas-open.md", "data-atlas-open.html", "Open Research Data",
      "Open plant SCADA, distribution-network benchmarks, global hydrology and water-quality archives, and utility open-data portals."),
 ]
@@ -67,7 +69,7 @@ TEMPLATE = """<!doctype html>
 
 
 NAV = [("data-atlas.html", "Data Atlas"), ("water-data-guide.html", "Systems & Data Guide"),
-       ("research-directions.html", "Research Directions")]
+       ("research-directions.html", "Research Directions"), ("literature.html", "Literature")]
 ATLAS = [("data-atlas.html", "Overview + California"), ("data-atlas-federal.html", "Federal"),
          ("data-atlas-open.html", "Open research")]
 ACTIVE = ' class="active" aria-current="page"'
@@ -215,6 +217,7 @@ RESOURCES = [
     ("data-atlas.html", "Data Atlas", "Access, join keys, pitfalls, starter code"),
     ("water-data-guide.html", "Systems &amp; Data Guide", "How water systems work, and the glossary"),
     ("research-directions.html", "Research Directions", "32 directions and five starting leads"),
+    ("literature.html", "Published Work", "What's been tried on plant data, and what's missing"),
     (REPO_URL + "/issues", "Contribute", "Corrections and new sources via GitHub issues"),
 ]
 
