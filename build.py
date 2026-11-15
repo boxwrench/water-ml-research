@@ -20,7 +20,7 @@ PAGES = [
     ("water-data-guide.md", "water-data-guide.html", "Systems & Data Guide",
      "How water systems work, where their data comes from, the traps in it, and the vocabulary. Start here if you're new to water."),
     ("research-directions.md", "research-directions.html", "Research Directions",
-     "32 candidate research directions, the public data and simulators behind them, the data gaps, and five starting leads."),
+     "32 candidate research directions, the public data and simulators behind them, the data gaps, and six starting leads."),
     ("data-atlas.md", "data-atlas.html", "Data Atlas",
      "Where public water data lives, how to get it and what it supports: an at-a-glance map, access methods, join keys, pitfalls and the California catalog."),
     ("data-atlas-federal.md", "data-atlas-federal.html", "Federal Data",
@@ -216,7 +216,7 @@ RULES = [
 RESOURCES = [
     ("data-atlas.html", "Data Atlas", "Access, join keys, pitfalls, starter code"),
     ("water-data-guide.html", "Systems &amp; Data Guide", "How water systems work, and the glossary"),
-    ("research-directions.html", "Research Directions", "32 directions and five starting leads"),
+    ("research-directions.html", "Research Directions", "32 directions and six starting leads"),
     ("literature.html", "Published Work", "What's been tried on plant data, and what's missing"),
     (REPO_URL + "/issues", "Contribute", "Corrections and new sources via GitHub issues"),
 ]

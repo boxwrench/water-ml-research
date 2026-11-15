@@ -48,6 +48,7 @@ The two docs cross-reference each other. Direction numbers in the guide's "Frami
 3. **Distribution residual reconstruction from sparse sensors** (WNTR + EPANET-MSX + Senseiver; tests the Los Alamos "Transparent Earth"-style idea on a problem it fits)
 4. **Multi-facility wastewater effluent forecasting** (eSMR; the only public way to test cross-facility transfer)
 5. **Utility data partnership**: historian export + event logs + jar tests + sensor maintenance records; first targets are filter run-length and coagulant dose
+6. **Benchmark for AI agents on water data** (with DWR open science, Lucy Andrews / Healthy Rivers and Landscapes): expert-written data tasks scored against expert answers; uses DWR EDI packages, raw-vs-QA'd EMP data, IEP integrated datasets
 
 Further candidates: PFAS GAC/IX surrogates, potable reuse barrier monitoring, small-system failure prediction (SAFER), operator text as data.
 

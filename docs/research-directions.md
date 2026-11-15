@@ -119,7 +119,7 @@ A format worth copying: California's 2026 telemetry advisory committee scored te
 
 ## Initial leads and next steps
 
-Five leads, chosen so that each partner can start this month without waiting on anyone. Leads 1 to 4 use only public data or simulators. Lead 5, a utility partnership, takes the longest, so start it now.
+Six leads, chosen so that each partner can start this month without waiting on anyone. Leads 1 to 4 and 6 use only public data or simulators. Lead 5, a utility partnership, takes the longest, so start it now.
 
 ### Lead 1: Delta water-quality forecasting benchmark (Test B, public)
 
@@ -169,14 +169,36 @@ Every treatment-process direction (coagulation, filtration, soft sensors, fault 
 - [ ] Academic partners draft the data-use agreement: anonymization, offline-only use, publication review
 - [ ] First targets once data arrives: filter run-length forecasting and coagulant dose prediction, both scored against operator heuristics
 
+### Lead 6: Benchmark for AI agents on water data (with DWR open science)
+
+Water data work has no shared way to judge what language models and agents produce. DWR's open-science lead, Lucy Andrews, named this gap at a June 2026 state open-data panel and invited outside developers to build tools with her program. A public benchmark of realistic data tasks, scored against expert answers, would be new, citable and directly useful to state agencies. It also plays to the domain expert's strength: writing the questions and the correct answers.
+
+**Partner.** Lucy Andrews, Senior Environmental Scientist at DWR, co-leads the data system for the [Healthy Rivers and Landscapes](https://lucy-dwr.github.io/hrl-docs/about/overview.html) science program (eight years, multi-agency, 55 hypotheses). Her April 2026 [infrastructure proposal](https://lucy-dwr.github.io/hrl-data-infrastructure/pages/hrl_infrastructure_proposal.html) (a draft) says the program's data engineering capacity is extremely limited, that its community is R-first, and that a Python interface is an open question. She was lead author of the 2024 *Nature Sustainability* study finding only 8% of California streams are gauged, which used optimization to site new gauges, the same problem as sensor placement in Lead 3. Contact via the [HRL docs hub](https://lucy-dwr.github.io/hrl-docs) or her [GitHub](https://github.com/lucy-dwr).
+
+**Why DWR's data suits a benchmark.** It ships with the ground truth a benchmark needs:
+
+| DWR asset | What it provides | Benchmark use |
+| --- | --- | --- |
+| EDI packages federated to the CNRA portal (e.g. [Feather River redd surveys](https://catalog.data.gov/dataset/redd-survey-data-of-chinook-salmon-in-the-feather-river), published for HRL; [IEP zooplankton, 1972–2024](https://catalog.data.gov/dataset/interagency-ecological-program-zooplankton-study)) | Structured EML metadata, provenance metadata, a dataset quality report and a DOI per version; known-issue notes (the zooplankton package flags amphipod errors) | "Find the right dataset," "read the caveats," "cite the exact version" |
+| [EMP continuous water quality](https://iep.ca.gov/Data/IEP-Survey-Data): raw provisional values on CDEC, QA'd 15-minute data on EDI (2005 onward) | The same sensors before and after expert review | Score automated QA/QC against the experts' edits; also Lead 1's data |
+| [IEP survey data](https://iep.ca.gov/Data/IEP-Survey-Data) since 1959 and DWR's [Water Data Library](https://wdl.water.ca.gov/About.aspx) (discrete water quality from the early 1900s, Bryte lab) | Long, multi-program records with station and method changes | Join and harmonize tasks with known correct answers |
+| Integrated packages and pinned analyses: `deltamapr`, `discretewq`, an integrated database of fish surveys, the [nutrient synthesis](https://emrr-dise.github.io/Nutrient-Synthesis/code/data_integration/process_data_for_models.html) code | Expert-written integrations with exact package versions | "Reproduce this analysis" tasks with a checkable output |
+| HRL data governance, EDI publishing quickstart and metadata standards | Written rules for what a correct publication looks like | Rubric for "prepare this dataset for publication" tasks |
+
+**First steps**
+
+- [ ] Contact Lucy Andrews: propose the benchmark and a Python loader for HRL/EDI data as the first joint products
+- [ ] Domain expert writes 30 to 50 tasks across four types: discovery, retrieval and joining, QA/QC, and regulatory questions (permits, eAR, Title 22), each with an expert answer
+- [ ] Score open and commercial models, with and without tool access, on correctness, citation of the exact dataset version and hazardous errors (wrong units, non-detects read as zero)
+- [ ] Release tasks, answers and harness with a DOI; keep a held-out set to limit contamination
+- [ ] Later: add treatment-plant tasks once Lead 5 data exists (read an event log, explain a dose change)
+
 ### Further candidate leads
 
 - **PFAS GAC/IX surrogates (direction 10).** EPA's PSDM and ion-exchange models (MIT license) serve as the simulator; UCMR 5 occurrence data defines realistic water matrices. Highly fundable.
 - **Potable reuse barrier monitoring (direction 13).** California's direct potable reuse rules make continuous barrier verification a live question. Needs a reuse-plant partner, but those plants are unusually data-rich.
 - **Small-system failure prediction (direction 17).** Fully public through SAFER and DDW compliance data. Clear policy impact; an easy entry point for groups new to water.
 - **Operator text as data (direction 29).** Logbooks and SOPs. This is where domain expertise matters most, and it feeds event labels to every process model.
-
-- **Benchmark for AI agents on water data (direction 29).** DWR's open-science lead noted in 2026 that water data work has no benchmark for judging LLM and agent outputs, and that AI-ready data needs context and standards beyond FAIR. A benchmark of structured tasks (find the right dataset, pull it through the API, join on PWSID, flag non-detects, answer a permit question) scored against expert answers would be new, public and directly useful to state agencies.
 
 **Foundation-model work already under way in water** (directions 27, 31, 32). None covers treatment plants, which is consistent with the data gap. See [Published Work](literature.md#foundation-models-and-multimodal-reconstruction) for the list.
 
