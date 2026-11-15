@@ -1,10 +1,25 @@
-# Water × ML Research
+<p align="center">
+  <a href="https://boxwrench.github.io/water-ml-research/">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/img/readme-hero-dark.svg">
+      <img src="assets/img/readme-hero-light.svg" alt="Water × ML Research: decades of water data, ready for the methods that can learn from it. Open the site." width="100%">
+    </picture>
+  </a>
+</p>
 
-**Decades of water data, ready for the methods that can learn from it.**
+<h3 align="center">
+  <a href="https://boxwrench.github.io/water-ml-research/">Read the web version →</a>
+</h3>
+
+<p align="center">
+  <a href="https://boxwrench.github.io/water-ml-research/data-atlas.html">Data Atlas</a> ·
+  <a href="https://boxwrench.github.io/water-ml-research/water-data-guide.html">Systems &amp; Data Guide</a> ·
+  <a href="https://boxwrench.github.io/water-ml-research/research-directions.html">Research Directions</a> ·
+  <a href="https://boxwrench.github.io/water-ml-research/literature.html">Published Work</a>
+</p>
 
 A shared workspace for water practitioners and machine-learning researchers: where public water data lives, how to get it, what it can support, and the vocabulary both fields need to work on it together.
 
-**Site:** https://boxwrench.github.io/water-ml-research/
 Maintained by Keith Wilkinson, [title22.org](https://title22.org).
 
 ## Links
@@ -111,6 +126,8 @@ The Markdown files in `docs/` are the source. The HTML pages, including the home
 pip install markdown   # once
 python3 build.py       # regenerates index.html and the doc pages
 ```
+
+The README hero images come from the same wave motif: `python3 scripts/readme_hero.py` regenerates `assets/img/readme-hero-light.svg` and `readme-hero-dark.svg`.
 
 Commit the regenerated HTML along with the Markdown. GitHub Pages serves the repo root as-is. Styles are in `assets/site.css`; diagrams in `assets/img/`.
 
