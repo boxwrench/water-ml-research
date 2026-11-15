@@ -17,6 +17,7 @@ Maintained by Keith Wilkinson, [title22.org](https://title22.org).
 | Data Atlas: open research | [Web page](https://boxwrench.github.io/water-ml-research/data-atlas-open.html) | [Markdown](docs/data-atlas-open.md) | Open plant SCADA, distribution-network benchmarks, global hydrology and water-quality archives, wastewater surveillance, utility open-data portals. |
 | Systems & Data Guide | [Web page](https://boxwrench.github.io/water-ml-research/water-data-guide.html) | [Markdown](docs/water-data-guide.md) | How drinking water and wastewater systems work, where their data comes from, data pitfalls, control layers, regulation, and a glossary. Start here if you're new to water. |
 | Research Directions & Data Leads | [Web page](https://boxwrench.github.io/water-ml-research/research-directions.html) | [Markdown](docs/research-directions.md) | 32 candidate research directions, the data and simulators behind them, the data gaps worth filling, and five starting leads. |
+| Utility Data Sharing Spec | [Claude doc](https://claude.ai/artifact/WL51Z4WBoVJycTS6NzsDQA) | | For utilities: how to export, anonymize and send treatment-process data. Three effort tiers, six plain files, example rows of good data, common export problems and fixes. |
 | Contribute | [Issues](https://github.com/boxwrench/water-ml-research/issues) | | Corrections, new data sources and ideas. |
 
 ## 1. Start with the data
@@ -48,7 +49,7 @@ Public data shows the water arriving at a plant and the water leaving it. What t
 
 - We found **no** open, recent, high-frequency drinking-water process record. The only open drinking-water dose dataset has **1,705** daily records.
 - A 2026 evidence map of **423** treatment-ML studies found **2.8%** deployed at a plant and **18.2%** validated on future data ([npj Clean Water](https://link.springer.com/article/10.1038/s41545-026-00610-6)).
-- No catalog can fix this, because there is nothing published to index. One utility sharing two years of historian data, with event logs and jar tests, would. See [The gap](docs/data-atlas.md#the-gap) in the atlas.
+- No catalog can fix this, because there is nothing published to index. One utility sharing two years of historian data, with event logs and jar tests, would. See [The gap](docs/data-atlas.md#the-gap) in the atlas, and the [Utility Data Sharing Spec](https://claude.ai/artifact/WL51Z4WBoVJycTS6NzsDQA) for what to ask for.
 
 ### Related catalogs
 
