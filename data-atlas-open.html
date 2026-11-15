@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Water Data Atlas: Open Research Data</title>
+<meta name="description" content="Datasets published by universities, research groups, utilities and international programs fill the one hole that government data leaves: treatment-plant process data at minute-to-daily resolution. Non">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="index.html">Water × ML Research</a>
+    <nav class="nav"><a href="water-data-guide.html">Systems & Data Guide</a><a href="research-directions.html">Research Directions</a><a href="data-atlas.html">Data Atlas</a><a href="data-atlas-federal.html">Federal Data</a><a href="data-atlas-open.html" class="active">Open Research Data</a><a href="https://github.com/boxwrench/water-ml-research">GitHub</a></nav>
+  </div>
+</header>
+<div class="wrap layout">
+<aside class="toc"><div class="toc-inner"><div class="toc-title">On this page</div><div class="toc">
+<ul>
+<li><a href="#water-data-atlas-open-research-data">Water Data Atlas: Open Research Data</a><ul>
+<li><a href="#treatment-plant-datasets">Treatment-plant datasets</a></li>
+<li><a href="#distribution-networks-and-simulator-benchmarks">Distribution networks and simulator benchmarks</a></li>
+<li><a href="#hydrology-and-water-quality-benchmarks">Hydrology and water-quality benchmarks</a></li>
+<li><a href="#wastewater-surveillance-utility-portals-and-microbiology">Wastewater surveillance, utility portals and microbiology</a></li>
+<li><a href="#where-to-keep-looking">Where to keep looking</a></li>
+<li><a href="#what-it-changes-for-the-project">What it changes for the project</a></li>
+<li><a href="#sources">Sources</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div></aside>
+<main class="content">
+<h1 id="water-data-atlas-open-research-data">Water Data Atlas: Open Research Data</h1>
+<p><em>Keith Wilkinson · <a href="https://title22.org" target="_blank" rel="noopener">title22.org</a> · November 2026 · Working draft. Part of the <a href="data-atlas.html">Water Data Atlas</a>.</em></p>
+<p>Datasets published by universities, research groups, utilities and international programs fill the one hole that government data leaves: treatment-plant process data at minute-to-daily resolution. None of them are Californian, and most come from a single plant, so they suit method development and transfer tests, not California baselines. They also carry the best-documented benchmarks for distribution networks and hydrology. Every row was confirmed through search results only (Nov 2026) unless marked; check license and file contents before use.</p>
+<h2 id="treatment-plant-datasets">Treatment-plant datasets</h2>
+<p>These are the only open sources of real process data, the kind Lead 5 is after. The Agtrup and Avedøre sets are the strongest: two years at 2-minute resolution, with control variables (doses) separated from outcomes.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>What one row is</th>
+<th>Coverage</th>
+<th>Access and license</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://data.mendeley.com/datasets/34rpmsxc4z" target="_blank" rel="noopener">Agtrup (BlueKolding) WWTP</a></td>
+<td>2-minute SCADA snapshot: control (e.g. chemical dosing), objective (e.g. phosphate) and exogenous (e.g. temperature) variables</td>
+<td>Aug 2021 to Aug 2023; 125,000 PE plant in Kolding, Denmark (<a href="https://arxiv.org/html/2407.05346v1" target="_blank" rel="noopener">data paper</a>)</td>
+<td>Mendeley Data CSV, DOI 10.17632/34rpmsxc4z</td>
+<td>Chemical + biological P removal. Gaps forward-filled by the authors, so mask filled values. <em>Opened</em> in the directions doc</td>
+</tr>
+<tr>
+<td><a href="https://arxiv.org/html/2407.05959v1" target="_blank" rel="noopener">Avedøre WWTP N2O series</a></td>
+<td>2-minute online measurements, 24 signals incl. N2O and DO</td>
+<td>June 2022 to June 2024, BIOFOS, Copenhagen</td>
+<td>Data paper on arXiv; check hosting and license</td>
+<td>Good for soft-sensor and emissions forecasting</td>
+</tr>
+<tr>
+<td><a href="https://data.mendeley.com/datasets/bjcs3rsfph/1" target="_blank" rel="noopener">Mendeley full-scale DWTP coagulant set</a></td>
+<td>One day: raw turbidity, temperature, pH, coagulant dose</td>
+<td>1,705 daily records, one unnamed plant</td>
+<td>CC BY 4.0</td>
+<td>The only open <em>drinking-water</em> dose dataset found. <em>Opened</em> in the directions doc</td>
+</tr>
+<tr>
+<td><a href="https://data.mendeley.com/datasets/pprkvz3vbd/1" target="_blank" rel="noopener">Melbourne Eastern WWTP</a></td>
+<td>One day: energy use, hydraulic and biological loads, weather</td>
+<td>2014 to 2019</td>
+<td>Mendeley Data; built from Melbourne Water open data, which also publishes daily electricity for the plant under CC BY 4.0 (<a href="https://discover.data.vic.gov.au/en_AU/dataset/melbourne-wastewater-treatment-east-daily-grid-electricity-consumption/resource/2ffbe287-4ddc-489e-8309-a19dc4d5032e" target="_blank" rel="noopener">data.vic</a>)</td>
+<td>Energy-forecasting benchmark</td>
+</tr>
+<tr>
+<td><a href="https://archive.ics.uci.edu/dataset/106/water+treatment+plant" target="_blank" rel="noopener">UCI Water Treatment Plant</a></td>
+<td>One day of 38 sensor/lab variables across plant stages</td>
+<td>527 days, one urban WWTP, from Universitat Autònoma de Barcelona, donated 1993</td>
+<td>CC BY 4.0; <code>ucimlrepo</code> id 106</td>
+<td>Small and old, but a well-known baseline for fault and state classification</td>
+</tr>
+</tbody>
+</table></div>
+<p>Published studies show that larger drinking-water sets exist but stay private. One settled-turbidity study used 2,527 records from a full-scale conventional plant (<a href="https://www.frontiersin.org/journals/environmental-engineering/articles/10.3389/fenve.2024.1401180/pdf" target="_blank" rel="noopener">McKelvey et al. 2024</a>). Asking authors for data is a cheap lead.</p>
+<h2 id="distribution-networks-and-simulator-benchmarks">Distribution networks and simulator benchmarks</h2>
+<p>Real utility network models are rarely shared, so the field runs on benchmark networks plus simulated scenarios. These are Test A data by construction, except BattLeDIM, which mimics a real SCADA record.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>What it holds</th>
+<th>Size</th>
+<th>Access</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://zenodo.org/record/4017658" target="_blank" rel="noopener">BattLeDIM (L-Town)</a></td>
+<td>SCADA from 33 pressure, 3 flow and 1 tank-level sensor on a 42.6 km network serving ~10,000 people, with leak events (<a href="https://battledim.ucy.ac.cy/wp-content/uploads/2020/01/BattLeDIM_Problem_Description_and_Rules-v1.3.pdf" target="_blank" rel="noopener">rules</a>)</td>
+<td>782-node EPANET model; 5-min data</td>
+<td>Zenodo + GitHub; also loadable through the <code>water_benchmark_hub</code> package (<a href="https://waterbenchmarkhub.readthedocs.io/en/dev/water_benchmark_hub.battledim.html" target="_blank" rel="noopener">docs</a>)</td>
+<td>The standard leak-detection benchmark</td>
+</tr>
+<tr>
+<td><a href="https://zenodo.org/records/13985057" target="_blank" rel="noopener">LeakDB</a></td>
+<td>Many simulated leakage scenarios on benchmark networks, plus a scoring algorithm</td>
+<td>13.9 GB ZIP</td>
+<td>Zenodo; generator code on GitHub</td>
+<td>WNTR-generated; small networks</td>
+</tr>
+<tr>
+<td><a href="https://arxiv.org/html/2503.17167v1" target="_blank" rel="noopener">DiTEC-WDN</a></td>
+<td>Simulated hydraulic states for 55 networks</td>
+<td>1,000 scenarios per network, ~228 million snapshots</td>
+<td>Public license per the paper; check the paper for hosting</td>
+<td>Built for graph neural networks and state estimation</td>
+</tr>
+<tr>
+<td><a href="https://uknowledge.uky.edu/wdsrd/wdsrd_description.pdf" target="_blank" rel="noopener">Kentucky hydraulic model database</a></td>
+<td>EPANET/KYPIPE model files: literature networks, Battle competitions, US and international city components, synthetic systems</td>
+<td>Eight groups of networks</td>
+<td>UKnowledge download, DOI 10.13023/kwrri.wdsrd</td>
+<td>ASCE task committee repository</td>
+</tr>
+<tr>
+<td><a href="https://exeter.ac.uk/research/centres/cws/resources/benchmarks" target="_blank" rel="noopener">Exeter CWS benchmarks</a></td>
+<td>Classic design and operation problems with EPANET files and best-known Pareto fronts</td>
+<td>From the two-loop network up to the 567-variable Exeter network</td>
+<td>Web download</td>
+<td>Optimization baselines</td>
+</tr>
+</tbody>
+</table></div>
+<p>Pair any of these with WNTR and EPANET-MSX (see <a href="research-directions.html">Research Directions</a>) to generate chlorine-residual data for Lead 3.</p>
+<h2 id="hydrology-and-water-quality-benchmarks">Hydrology and water-quality benchmarks</h2>
+<p>Large-sample datasets let a model learn across thousands of sites, which is the cross-system idea behind direction 31. Caravan already includes California basins through CAMELS-US.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>What one row is</th>
+<th>Coverage</th>
+<th>Access and license</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://zenodo.org/records/15529786" target="_blank" rel="noopener">Caravan</a></td>
+<td>Daily streamflow + meteorological forcing + catchment attributes per gauge</td>
+<td>Merges CAMELS (US and others), HYSETS and more; forcing period 1950 to 2023 since v1.3 (<a href="https://zenodo.org/records/10968468" target="_blank" rel="noopener">v1.4 notes</a>)</td>
+<td>Zenodo, netCDF and CSV split into two records since v1.6; code on GitHub</td>
+<td>The MultiMet extension adds nowcasts and forecasts for 22,492 gauges, CC BY 4.0 (<a href="https://zenodo.org/records/14196771/files/caravan_multimet_paper.pdf" target="_blank" rel="noopener">paper</a>)</td>
+</tr>
+<tr>
+<td><a href="https://zenodo.org/records/18459694" target="_blank" rel="noopener">GEMStat open archive (UNEP GEMS/Water)</a></td>
+<td>One freshwater-quality measurement at a station</td>
+<td>50M+ measurements, 622 parameters, ~23,000 stations, 42 countries, 1906 to 2024 (v3, Feb 2026)</td>
+<td>Zenodo ZIP (~201 MB), CC BY 4.0; more data under CC BY-NC via the portal</td>
+<td>Global river, lake and groundwater chemistry; annual updates</td>
+</tr>
+<tr>
+<td><a href="https://essd.copernicus.org/preprints/essd-2021-51/essd-2021-51.pdf" target="_blank" rel="noopener">GRQA (Global River Water Quality Archive)</a></td>
+<td>Harmonized river chemistry from CESI, GEMStat, GLORICH, Waterbase and the US WQP</td>
+<td>1898 to 2020</td>
+<td>Data paper with download</td>
+<td>Older snapshot; useful for cross-continent transfer</td>
+</tr>
+</tbody>
+</table></div>
+<p>For California work, Caravan supplies flow forcing in the same format as other regions. GEMStat and GRQA let a source-water model trained on Delta data be tested abroad.</p>
+<h2 id="wastewater-surveillance-utility-portals-and-microbiology">Wastewater surveillance, utility portals and microbiology</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>What one row is</th>
+<th>Coverage</th>
+<th>Access and license</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://data.wastewaterscan.org/about" target="_blank" rel="noopener">WastewaterSCAN</a></td>
+<td>Pathogen concentration in wastewater solids, PMMoV-normalized</td>
+<td>US plants serving &gt;10,000 people; a 2024-2025 data paper covers 147 plants (<a href="https://www.wastewaterscan.org/research" target="_blank" rel="noopener">research</a>)</td>
+<td>Dashboard and data papers; CC BY-NC 4.0, and research use asks you to contact the team (<a href="https://www.cdc.gov/wastewater/about/" target="_blank" rel="noopener">CDC</a>)</td>
+<td>Non-commercial license matters for any spin-out</td>
+</tr>
+<tr>
+<td><a href="https://purl.stanford.edu/bx987vn9177" target="_blank" rel="noopener">Stanford Digital Repository (Boehm group)</a></td>
+<td>Daily SARS-CoV-2 and PMMoV in settled solids, with influent TSS</td>
+<td>8 plants in the Bay Area and Sacramento</td>
+<td>Stanford Digital Repository, DOI per dataset</td>
+<td>Long, daily California influent series</td>
+</tr>
+<tr>
+<td><a href="https://catalog.data.gov/dataset/drinking-water-quality-distribution-monitoring-data" target="_blank" rel="noopener">NYC drinking water distribution monitoring</a></td>
+<td>One distribution sample: free chlorine residual, turbidity, fluoride, coliform, E. coli</td>
+<td>NYC system, ~151,000 rows in one mirror (<a href="https://baselight.app/u/usgov/dataset/city_of_new_york_drinking_water_quality_distribution_m_f2dd9e00" target="_blank" rel="noopener">Baselight</a>)</td>
+<td>NYC Open Data CSV/JSON (Socrata API)</td>
+<td>A real residual dataset for Lead 3 ground truth</td>
+</tr>
+<tr>
+<td><a href="https://catalog-beta.data.gov/dataset/watershed-water-quality-data" target="_blank" rel="noopener">NYC watershed SWTR data</a></td>
+<td>4-hour and 24-hour turbidity, daily fecal coliform at one aqueduct shaft</td>
+<td>Unfiltered supply compliance record</td>
+<td>NYC Open Data</td>
+<td>Source-water event forecasting</td>
+</tr>
+<tr>
+<td><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8989995/" target="_blank" rel="noopener">MiDAS 4</a></td>
+<td>16S reference sequences for activated sludge and digesters</td>
+<td>740 WWTPs, &gt;5 million sequences</td>
+<td>Open reference database</td>
+<td>Taxonomy reference, not process data (from the directions doc)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Utility open-data portals are worth a sweep. NYC and Melbourne Water already publish process-adjacent tables, and some California utilities may have similar portals.</p>
+<h2 id="where-to-keep-looking">Where to keep looking</h2>
+<p>Zenodo, Mendeley Data, HydroShare, the Environmental Data Initiative, the Stanford Digital Repository and the UCI repository hold most open water datasets. Search them for "SCADA", "jar test", "filter" and "chlorine residual". Kaggle often re-hosts these without the license, so trace each file back to its original DOI.</p>
+<h2 id="what-it-changes-for-the-project">What it changes for the project</h2>
+<ul>
+<li><strong>Lead 5 can start before an agreement.</strong> Agtrup and Avedøre are 2-minute plant records with doses and outcomes, which is the exact format of the planned utility request. Build loaders and baselines on them now.</li>
+<li><strong>A drinking-water gap remains.</strong> The only open DWTP dose data found is one daily dataset of 1,705 records. Filter run length, head loss and contactor residuals still exist only inside utilities, and in EPA's 1997-98 ICR data (see <a href="data-atlas-federal.html">Federal data</a>).</li>
+<li><strong>Lead 3 gets real residuals.</strong> NYC's distribution samples give measured chlorine to set against WNTR and EPANET-MSX simulations.</li>
+<li><strong>Watch licenses.</strong> WastewaterSCAN and part of GEMStat are non-commercial; Agtrup and Avedøre hosting terms need checking.</li>
+</ul>
+<h2 id="sources">Sources</h2>
+<p>All seen through search results (Nov 14, 2026) except the two rows marked <em>opened</em>.</p>
+<ul>
+<li>Treatment plants: <a href="https://data.mendeley.com/datasets/34rpmsxc4z" target="_blank" rel="noopener">Agtrup on Mendeley</a> · <a href="https://arxiv.org/html/2407.05346v1" target="_blank" rel="noopener">Agtrup data paper</a> · <a href="https://arxiv.org/html/2407.05959v1" target="_blank" rel="noopener">Avedøre N2O data paper</a> · <a href="https://data.mendeley.com/datasets/pprkvz3vbd/1" target="_blank" rel="noopener">Melbourne WWTP</a> · <a href="https://archive.ics.uci.edu/dataset/106/water+treatment+plant" target="_blank" rel="noopener">UCI Water Treatment Plant</a> · <a href="https://www.frontiersin.org/journals/environmental-engineering/articles/10.3389/fenve.2024.1401180/pdf" target="_blank" rel="noopener">McKelvey et al. 2024</a></li>
+<li>Networks: <a href="https://zenodo.org/record/4017658" target="_blank" rel="noopener">BattLeDIM</a> · <a href="https://zenodo.org/records/13985057" target="_blank" rel="noopener">LeakDB</a> · <a href="https://arxiv.org/html/2503.17167v1" target="_blank" rel="noopener">DiTEC-WDN</a> · <a href="https://uknowledge.uky.edu/wdsrd/wdsrd_description.pdf" target="_blank" rel="noopener">Kentucky database</a> · <a href="https://exeter.ac.uk/research/centres/cws/resources/benchmarks" target="_blank" rel="noopener">Exeter benchmarks</a></li>
+<li>Hydrology and water quality: <a href="https://zenodo.org/records/15529786" target="_blank" rel="noopener">Caravan</a> · <a href="https://zenodo.org/records/18459694" target="_blank" rel="noopener">GEMStat archive</a> · <a href="https://essd.copernicus.org/preprints/essd-2021-51/essd-2021-51.pdf" target="_blank" rel="noopener">GRQA</a></li>
+<li>Surveillance and utilities: <a href="https://data.wastewaterscan.org/about" target="_blank" rel="noopener">WastewaterSCAN</a> · <a href="https://www.cdc.gov/wastewater/about/" target="_blank" rel="noopener">CDC on WastewaterSCAN license</a> · <a href="https://purl.stanford.edu/bx987vn9177" target="_blank" rel="noopener">Stanford Digital Repository dataset</a> · <a href="https://catalog.data.gov/dataset/drinking-water-quality-distribution-monitoring-data" target="_blank" rel="noopener">NYC distribution monitoring</a> · <a href="https://catalog-beta.data.gov/dataset/watershed-water-quality-data" target="_blank" rel="noopener">NYC watershed data</a></li>
+</ul>
+</main>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    Maintained by Keith Wilkinson, <a href="https://title22.org">title22.org</a>.
+    Content licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+    Corrections and additions welcome via <a href="https://github.com/boxwrench/water-ml-research/issues">GitHub issues</a>.
+  </div>
+</footer>
+</body>
+</html>

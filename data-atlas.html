@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Water Data Atlas for ML Researchers</title>
+<meta name="description" content="This atlas maps the water data an ML group can use without a data agreement. California state sources are on this page, federal sources on the [Federal data](data-atlas-federal.md) page, and universit">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="index.html">Water × ML Research</a>
+    <nav class="nav"><a href="water-data-guide.html">Systems & Data Guide</a><a href="research-directions.html">Research Directions</a><a href="data-atlas.html" class="active">Data Atlas</a><a href="data-atlas-federal.html">Federal Data</a><a href="data-atlas-open.html">Open Research Data</a><a href="https://github.com/boxwrench/water-ml-research">GitHub</a></nav>
+  </div>
+</header>
+<div class="wrap layout">
+<aside class="toc"><div class="toc-inner"><div class="toc-title">On this page</div><div class="toc">
+<ul>
+<li><a href="#water-data-atlas-for-ml-researchers">Water Data Atlas for ML Researchers</a><ul>
+<li><a href="#how-to-use-this-atlas">How to use this atlas</a></li>
+<li><a href="#at-a-glance-where-each-kind-of-data-lives">At a glance: where each kind of data lives</a></li>
+<li><a href="#the-access-layer">The access layer</a></li>
+<li><a href="#whats-possible-datasets-by-research-direction">What's possible: datasets by research direction</a></li>
+<li><a href="#joining-datasets">Joining datasets</a></li>
+<li><a href="#pitfalls-and-gaps">Pitfalls and gaps</a></li>
+<li><a href="#california-drinking-water">California: drinking water</a></li>
+<li><a href="#california-wastewater-discharges-and-recycled-water">California: wastewater, discharges and recycled water</a></li>
+<li><a href="#california-surface-water-quality-and-the-delta">California: surface water quality and the Delta</a></li>
+<li><a href="#california-groundwater">California: groundwater</a></li>
+<li><a href="#california-hydrology-supply-and-use">California: hydrology, supply and use</a></li>
+<li><a href="#quick-start-code">Quick-start code</a></li>
+</ul>
+</li>
+<li><a href="#1-ckan-find-datasets-then-query-a-datastore-resource-with-sql">1. CKAN: find datasets, then query a datastore resource with SQL</a></li>
+<li><a href="#for-training-sets-download-the-whole-file-instead-parquet-where-offered">For training sets, download the whole file instead (Parquet where offered)</a></li>
+<li><a href="#df-pdread_parquet">df = pd.read_parquet("")</a></li>
+<li><a href="#2-cdec-one-station-one-sensor-one-duration">2. CDEC: one station, one sensor, one duration</a></li>
+<li><a href="#3-arcgis-rest-page-through-a-featureserver-layer">3. ArcGIS REST: page through a FeatureServer layer</a></li>
+<li><a href="#4-usgs-new-ogc-apis">4. USGS (new OGC APIs)</a></li>
+<li><a href="#pip-install-dataretrieval-set-api_usgs_pat-for-higher-rate-limits">pip install dataretrieval ; set API_USGS_PAT for higher rate limits</a><ul>
+<li><a href="#sources-california-and-overview">Sources (California and overview)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div></aside>
+<main class="content">
+<h1 id="water-data-atlas-for-ml-researchers">Water Data Atlas for ML Researchers</h1>
+<p><em>Keith Wilkinson · <a href="https://title22.org" target="_blank" rel="noopener">title22.org</a> · November 2026 · Working draft</em></p>
+<h2 id="how-to-use-this-atlas">How to use this atlas</h2>
+<p>This atlas maps the water data an ML group can use without a data agreement. California state sources are on this page, federal sources on the <a href="data-atlas-federal.html">Federal data</a> page, and university, utility and international datasets on the <a href="data-atlas-open.html">Open research data</a> page. For each dataset it gives what a row is, coverage, format, access method, join key and the research directions it serves. Direction and lead numbers refer to <a href="research-directions.html">Research Directions &amp; Data Leads</a>; the <a href="water-data-guide.html">Systems &amp; Data Guide</a> explains the vocabulary.</p>
+<p><strong>Reading the tables</strong></p>
+<ul>
+<li><strong>Access</strong>: <em>Bulk</em> = downloadable files. <em>API</em> = a queryable endpoint (CKAN datastore, CDEC servlet, ArcGIS REST, OGC API). <em>App</em> = interactive web application only.</li>
+<li><strong>Grain</strong>: what one row is, such as a lab result, a 15-minute reading or a system-year.</li>
+<li><strong>Key</strong>: the identifier you join on (see <em>Joining datasets</em>).</li>
+<li><strong>Checked</strong>: <em>opened</em> = the source page was read in Nov 2026. <em>search</em> = confirmed only from search results, so check layout and license before relying on it. Everything on the Federal and Open research pages is <em>search</em>.</li>
+</ul>
+<h2 id="at-a-glance-where-each-kind-of-data-lives">At a glance: where each kind of data lives</h2>
+<p>Public data is strong on what enters and leaves a plant and thin on what happens inside one. This table points to the best source for each need across all three pages.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Need</th>
+<th>California</th>
+<th>Federal</th>
+<th>Open research</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Treatment-process data (doses, setpoints, filters)</td>
+<td>None public</td>
+<td>ICR 1997-98 plant database (296 large systems, monthly); ICR treatment studies</td>
+<td>Agtrup and Avedøre WWTP SCADA (2-min, Denmark); one daily DWTP coagulant set</td>
+</tr>
+<tr>
+<td>Drinking-water compliance and occurrence</td>
+<td>DDW lab results, SDWIS facilities, eAR, SAFER</td>
+<td>Six-Year Review 4, UCMR 1-5, SDWIS via ECHO</td>
+<td>None found</td>
+</tr>
+<tr>
+<td>Treatment-train metadata and removal priors</td>
+<td>eAR treatment sections</td>
+<td>Treatability Database; CWNS wastewater treatment level</td>
+<td>None found</td>
+</tr>
+<tr>
+<td>Wastewater effluent and operations</td>
+<td>eSMR, VAR, sewer spills, stormwater</td>
+<td>ICIS-NPDES limits and DMRs, CWNS</td>
+<td>Melbourne WWTP energy; UCI plant dataset</td>
+</tr>
+<tr>
+<td>Source water and the Delta</td>
+<td>DWR continuous WQ, EMP, CEDEN, FHAB</td>
+<td>USGS APIs, Water Quality Portal, CyAN satellite blooms</td>
+<td>GEMStat, GRQA (global)</td>
+</tr>
+<tr>
+<td>Groundwater</td>
+<td>GAMA, DWR levels, well completion reports</td>
+<td>USGS samples (also inside GAMA and WQP)</td>
+<td>None found</td>
+</tr>
+<tr>
+<td>Distribution system</td>
+<td>Service area boundaries only</td>
+<td>National service area boundaries</td>
+<td>BattLeDIM, LeakDB, DiTEC-WDN, model libraries; NYC chlorine residual samples</td>
+</tr>
+<tr>
+<td>Hydrology and operations drivers</td>
+<td>CDEC, CIMIS, snow and B120, eWRIMS</td>
+<td>National Water Model retrospective, RISE, CWMS, CO-OPS tides</td>
+<td>Caravan</td>
+</tr>
+<tr>
+<td>Wastewater surveillance</td>
+<td>Cal-SuWers (CDPH)</td>
+<td>CDC NWSS</td>
+<td>WastewaterSCAN (CC BY-NC); Stanford repository</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="the-access-layer">The access layer</h2>
+<p>Four access mechanisms cover nearly all California water data: two CKAN open-data portals, the CDEC web services, ArcGIS REST map services and a set of interactive-only applications. Learn these four and every dataset below is reachable.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Mechanism</th>
+<th>Who publishes there</th>
+<th>How you query it</th>
+<th>Limits and quirks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://data.ca.gov" target="_blank" rel="noopener">data.ca.gov</a> (CKAN)</td>
+<td>State Water Board (SWRCB) and most state agencies</td>
+<td><code>api/3/action/package_search</code>, <code>package_show</code>, <code>datastore_search?resource_id=…</code>, <code>datastore_search_sql?sql=SELECT …</code>; or plain HTTP download of each resource</td>
+<td>Only resources loaded into the <em>datastore</em> are queryable. The biggest files (e.g. yearly drinking-water lab CSVs of 450 to 600 MB) are better downloaded whole. <a href="https://lab.data.ca.gov" target="_blank" rel="noopener">lab.data.ca.gov</a> is an experimental friendlier front end over the same catalog.</td>
+</tr>
+<tr>
+<td><a href="https://data.cnra.ca.gov" target="_blank" rel="noopener">data.cnra.ca.gov</a> (CKAN)</td>
+<td>DWR, Natural Resources agencies, Delta programs</td>
+<td>Same CKAN API as above; root <code>data.cnra.ca.gov/api/3/action/</code>. DWR publishes a <a href="https://github.com/atcuthbertson/CNRA_OpenData_Accessing" target="_blank" rel="noopener">Python notebook of examples</a></td>
+<td>Many datasets are mirrored on data.ca.gov. DWR's Water Data Library pushes groundwater and discrete water-quality tables here at least weekly; continuous data is published as per-station download links instead (<a href="https://cwemf.org/wp/wp-content/uploads/2025/11/03.4_CNRADataPortalAPI_Cuthbertson.pdf" target="_blank" rel="noopener">CWEMF slides</a>, <a href="https://wdl.water.ca.gov/About.aspx" target="_blank" rel="noopener">WDL About</a>).</td>
+</tr>
+<tr>
+<td>CDEC web services</td>
+<td>DWR California Data Exchange Center: real-time stations, reservoirs, snow, rivers, Delta sensors</td>
+<td><code>cdec.water.ca.gov/dynamicapp/req/CSVDataServlet?Stations=XXX&amp;SensorNums=NN&amp;dur_code=E\|H\|D\|M&amp;Start=YYYY-MM-DD&amp;End=YYYY-MM-DD</code>; station metadata at <code>dynamicapp/staMeta?station_id=XXX</code>. R clients: <a href="https://search.r-project.org/CRAN/packages/cder/vignettes/quickstart.html" target="_blank" rel="noopener">cder</a>, <a href="https://flowwest.github.io/CDECRetrieve" target="_blank" rel="noopener">CDECRetrieve</a></td>
+<td>Station default sensors and durations vary, so always specify them. Flow uses sentinel codes such as -9998 / -9997 for below or above the rating table (<a href="https://flowwest.github.io/streamFlowExplorer/articles/cdec_template.html" target="_blank" rel="noopener">FlowWest notes</a>). Real-time values are provisional.</td>
+</tr>
+<tr>
+<td>ArcGIS REST / WMS</td>
+<td>SWRCB <code>gispublic.waterboards.ca.gov</code>, DWR <code>gis.water.ca.gov</code>, CNRA GIS hub</td>
+<td><code>…/FeatureServer/0/query?where=1=1&amp;outFields=*&amp;f=geojson&amp;resultOffset=…</code></td>
+<td>MaxRecordCount is typically 1,000 to 2,000, so page with <code>resultOffset</code>. Best source for boundaries and station locations (<a href="https://www.waterboards.ca.gov/resources/data_databases/site_map.html" target="_blank" rel="noopener">SWRCB map services</a>).</td>
+</tr>
+<tr>
+<td>CIMIS Web API</td>
+<td>DWR weather and reference ET (150+ stations plus a 2 km Spatial CIMIS grid)</td>
+<td>REST/JSON at <a href="https://et.water.ca.gov/" target="_blank" rel="noopener">et.water.ca.gov</a>, hourly and daily</td>
+<td>Free but needs an AppKey from a CIMIS account (<a href="https://et-proxy.water.ca.gov/Home/Faq" target="_blank" rel="noopener">FAQ</a>).</td>
+</tr>
+<tr>
+<td>Interactive applications</td>
+<td>CIWQS reports, GeoTracker, GAMA GIS, eWRIMS, SDWIS Drinking Water Watch, CEDEN query tool</td>
+<td>Web forms; some offer Excel or CSV export or stable report URLs</td>
+<td>CIWQS reports refresh nightly and cap eSMR exports at 100,000 data points per query. Use the bulk copies on data.ca.gov where they exist (<a href="https://waterboards.ca.gov/ciwqs/publicreports.html" target="_blank" rel="noopener">CIWQS public reports</a>).</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Rule of thumb:</strong> use the CKAN bulk file for training sets, the datastore API or CDEC servlet for incremental updates, and ArcGIS for geometry. Treat the interactive applications as documentation and spot checks, not pipelines.</p>
+<h2 id="whats-possible-datasets-by-research-direction">What's possible: datasets by research direction</h2>
+<p>Public data across the three pages can carry eight benchmarks without a utility agreement, and it gives Lead 5 a public warm-up. Each row names the target, the California core data, what federal and open sources add, and a first step.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Lead or direction</th>
+<th>Target</th>
+<th>California core</th>
+<th>Federal and open complements</th>
+<th>First step</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lead 1: Delta WQ forecasting (dirs 1, 2, 27)</td>
+<td>15-min EC, turbidity, chlorophyll, DO 1 to 7 days ahead</td>
+<td>DWR continuous WQ; CDEC flows; EMP grab samples</td>
+<td>CO-OPS tides, NWM flows, CyAN blooms</td>
+<td>Pull 2005 to 2025, time-ordered splits, persistence and seasonal baselines</td>
+</tr>
+<tr>
+<td>Lead 2: BSM surrogate and control (dirs 7, 18, 19, 21)</td>
+<td>Simulator outputs (Test A)</td>
+<td>none needed</td>
+<td>Agtrup and Avedøre 2-min SCADA as a real-plant check</td>
+<td>Generate BSM2 runs; test the surrogate on Agtrup dynamics</td>
+</tr>
+<tr>
+<td>Lead 3: distribution residuals (dirs 14, 15)</td>
+<td>Chlorine residual at unsensed nodes</td>
+<td>Service area boundaries</td>
+<td>Benchmark networks (Kentucky, BattLeDIM, DiTEC-WDN) for Test A; NYC distribution samples for Test B</td>
+<td>WNTR + EPANET-MSX on one benchmark network, then score against NYC residuals</td>
+</tr>
+<tr>
+<td>Lead 4: multi-facility effluent (dirs 20, 27)</td>
+<td>Next-period effluent ammonia, TSS, BOD, coliform at unseen plants</td>
+<td>eSMR, VAR</td>
+<td>ICIS-NPDES limits for exceedance labels; CWNS treatment level; other states' DMRs for transfer</td>
+<td>Pick \~5 parameters reported by 100+ plants; leave-plants-out split</td>
+</tr>
+<tr>
+<td>Lead 5: process models before the partnership</td>
+<td>Coagulant dose, DBP formation, P removal</td>
+<td>none public</td>
+<td>ICR 1997-98 plant database; Agtrup and Avedøre; Mendeley DWTP coagulant set</td>
+<td>Build the historian loader and dose/DBP baselines on these</td>
+</tr>
+<tr>
+<td>Small-system failure (dir 17)</td>
+<td>Next-year Failing / At-Risk status or first violation</td>
+<td>SAFER, DDW lab results, eAR</td>
+<td>SDWIS and SYR4 for other states</td>
+<td>Rebuild SAFER indicators by year, forecast one year ahead</td>
+</tr>
+<tr>
+<td>Source vulnerability and PFAS (dirs 16, 25)</td>
+<td>Contaminant level at unsampled wells; GAC/IX influent scenarios</td>
+<td>GAMA incl. statewide PFAS; well completion reports</td>
+<td>UCMR 5; Treatability Database removal priors; EPA PSDM simulator</td>
+<td>Spatial cross-validation by basin; feed predicted influents to PSDM</td>
+</tr>
+<tr>
+<td>Demand forecasting</td>
+<td>Monthly production per system</td>
+<td>Urban supplier dataset; CIMIS ET</td>
+<td>none needed</td>
+<td>400+ series, cross-series benchmark</td>
+</tr>
+<tr>
+<td>HAB and source-water events</td>
+<td>Bloom occurrence near intakes</td>
+<td>FHAB reports; CEDEN; CDEC temperature</td>
+<td>CyAN satellite index</td>
+<td>Weekly classification with FHAB labels, CyAN as a feature</td>
+</tr>
+<tr>
+<td>Structured extraction</td>
+<td>Treatment train and chemicals per plant</td>
+<td>eAR treatment sections; SDWIS facilities</td>
+<td>CWNS treatment level; ICR plant descriptions</td>
+<td>Count how many eAR plants list a process and contaminant removed</td>
+</tr>
+</tbody>
+</table></div>
+<p>Every row can land on the shared harness's leaderboard; loaders should record source, resource ID, license and download date.</p>
+<h2 id="joining-datasets">Joining datasets</h2>
+<p>Each family of datasets shares one key, and only drinking water and groundwater share a key with each other. Everything else joins through location, so state the spatial tolerance in every merged dataset.</p>
+<figure class="diagram"><a href="assets/img/join-keys.png" title="Open full size"><img alt="Join keys: PWSID ties drinking water together; location bridges everything else" src="assets/img/join-keys.png" /></a></figure>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Typical form</th>
+<th>Before joining</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PWSID</td>
+<td><code>CA</code> + 7 digits, e.g. <code>CA4910002</code></td>
+<td>Normalize to that string form, and keep it as text so leading zeros survive</td>
+</tr>
+<tr>
+<td>WDID / NPDES / GeoTracker ID</td>
+<td>Board-assigned facility and permit numbers</td>
+<td>One facility can hold several permits; EPA NPDES IDs can differ from state ones (<a href="https://echo.epa.gov/node/366" target="_blank" rel="noopener">ECHO help</a>)</td>
+</tr>
+<tr>
+<td>Station code</td>
+<td>CDEC 3-letter codes (e.g. <code>NSL</code>); WDL station numbers; CEDEN codes</td>
+<td>Build a crosswalk table by coordinates; codes are not shared across systems</td>
+</tr>
+<tr>
+<td>Well ID</td>
+<td>GAMA per-source IDs; state well numbers; WCR numbers</td>
+<td>OSWCR locations are section centroids, so match on construction details as well as distance</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="pitfalls-and-gaps">Pitfalls and gaps</h2>
+<p>The data is plentiful but almost none of it was collected for modeling. These are the traps an ML group is most likely to hit in its first month.</p>
+<ul>
+<li><strong>Self-reported values.</strong> eAR, VAR, conservation reports and water-rights diversions all carry unit errors, duplicates and implausible numbers. The state's own dataset notes say so. Build unit checks and flag outliers before training.</li>
+<li><strong>Compliance sampling is not random sampling.</strong> Sampling frequency rises after an exceedance and falls when a source is clean. Models trained naively will learn the monitoring schedule, not the chemistry.</li>
+<li><strong>Non-detects.</strong> Lab results report values below the reporting limit as flags, not zeros. Treat them as censored data and keep the reporting limit as a feature.</li>
+<li><strong>Changing permits and methods.</strong> eSMR parameter sets change when permits are renewed. CEDEN mixes many programs and methods, and continuous sensors are swapped and recalibrated. Use the quality flags and quality reports.</li>
+<li><strong>Provisional data.</strong> CDEC and USGS real-time values are revised later. Train on approved records and score on what would have been known at forecast time.</li>
+<li><strong>Mixed licenses.</strong> Most Water Board data is public domain or ODC-BY, DWR Delta data is CC BY, while some EMP versions, WastewaterSCAN and part of GEMStat are non-commercial (CC BY-NC). Record the license per resource in the registry.</li>
+<li><strong>Moving targets.</strong> Datasets migrate: wastewater surveillance moved to data.chhs.ca.gov in 2024, eAR production moved to the SAFER Clearinghouse in 2023, and USGS replaced WaterServices in 2026. Pin resource IDs and keep raw snapshots.</li>
+<li><strong>Coarse locations.</strong> Well completion reports are located to the 1-mile section, and some boundaries are still being verified. Spatial models should carry location uncertainty.</li>
+</ul>
+<p><strong>The gap that matters most</strong> has narrowed but not closed. Open wastewater SCADA (Agtrup, Avedøre) and EPA's 1997-98 ICR plant records now give real process data, but there is still no open, recent, high-frequency drinking-water process record: doses, filter head loss, contactor residuals and operator actions live only inside utilities. Lead 5 remains the critical path.</p>
+<h2 id="california-drinking-water">California: drinking water</h2>
+<p>The drinking-water stack is the richest regulatory record in the state. It holds every compliance lab result since the 1970s, every system's inventory, annual operating surveys and a statewide risk score. It is all keyed on the public water system ID (PWSID, e.g. <code>CA4910002</code>), which makes it the easiest domain to join.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>What one row is</th>
+<th>Coverage and size</th>
+<th>Access</th>
+<th>Key</th>
+<th>Checked</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://lab.data.ca.gov/dataset/drinking-water-open-environmental-data-project-march-23-2023-workshop" target="_blank" rel="noopener">DDW drinking water lab results</a></td>
+<td>One lab analysis: sample point, analyte (STORET code), result, MCL, date</td>
+<td>One CSV per year, \~450 to 600 MB each for 2020 to 2025, plus an all-since-1978 ZIP (359 MB); lab uploads publish twice monthly</td>
+<td>Bulk CSV (data.ca.gov); datastore API on some years; legacy 1974 to 2010 DBF/CSV with Siteloc, Watsys, Lab and Storet lookup tables on the <a href="https://waterboards.ca.gov/drinking_water/certlic/drinkingwater/EDTlibrary.html" target="_blank" rel="noopener">EDT library</a></td>
+<td>PWSID + source/sample-point ID; STORET analyte code</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://catalog.data.gov/dataset/drinking-water-public-water-system-information" target="_blank" rel="noopener">Public water system information (Drinking Water Watch)</a></td>
+<td>One facility (well, intake, treatment plant, storage, distribution entry point) of a PWS</td>
+<td>All CA systems, \~2.7 MB CSV</td>
+<td>Bulk CSV + data dictionary; source app <a href="https://sdwis.waterboards.ca.gov/PDWW/" target="_blank" rel="noopener">SDWIS Drinking Water Watch</a> has violations, enforcement and samples</td>
+<td>PWSID + facility ID</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://catalog.data.gov/dataset/drinking-water-public-water-system-annually-reported-water-production-and-delive-2013-2022" target="_blank" rel="noopener">eAR production and delivery 2013 to 2022</a></td>
+<td>Monthly volume by system, source type (ground, surface, purchased, recycled) and use type</td>
+<td>Per-year CSVs, 2022 file \~221 MB; self-reported, with known unit errors</td>
+<td>Bulk CSV + datastore API; 2023 onward moved to the SAFER Clearinghouse and is not yet republished</td>
+<td>PWSID</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://waterboards.ca.gov/drinking_water/certlic/drinkingwater/ear.html" target="_blank" rel="noopener">eAR full survey (flat files)</a></td>
+<td>One answer to one survey question, per system-year</td>
+<td>2013 onward; small and large systems split until 2019, combined since 2020; <a href="https://beta.hydroshare.org/resource/8108599db4934252a5d0e6e83b5d3551" target="_blank" rel="noopener">HydroShare parser scripts</a> pivot it to one row per system</td>
+<td>Bulk text from the eAR page</td>
+<td>PWSID</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://lab.data.ca.gov/dataset/drinking-water-public-water-system-number-of-service-connections-service-connection-type/8c633f58-b064-4290-82bc-ed68c9015bf6" target="_blank" rel="noopener">Service connections (eAR)</a></td>
+<td>Connections by type and metered/unmetered, per system-year</td>
+<td>2013 to 2023, \~790 MB</td>
+<td>Bulk CSV</td>
+<td>PWSID</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://lab.data.ca.gov/dataset/safer-failing-and-at-risk-drinking-water-systems" target="_blank" rel="noopener">SAFER risk assessment and failing list</a></td>
+<td>One community or school water system with its risk-indicator scores and a Failing / At-Risk status</td>
+<td>Annual Needs Assessment since 2021; Failing list updated daily on the <a href="https://water.waterboards.ca.gov/drinking_water/certlic/drinkingwater/2022.html" target="_blank" rel="noopener">dashboard</a></td>
+<td>Bulk CSV flat file + data dictionary; methodology in each year's <a href="https://waterboards.ca.gov/drinking_water/certlic/drinkingwater/needs.html" target="_blank" rel="noopener">Needs Assessment</a></td>
+<td>PWSID</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://catalog.data.gov/dataset/urban-retail-water-supplier-water-conservation-supply-and-demand-june-2014-onwards" target="_blank" rel="noopener">Urban retail supplier conservation, supply and demand</a></td>
+<td>Monthly production and use per urban supplier (&gt;3,000 connections or &gt;3,000 AF/yr)</td>
+<td>June 2014 onward, 400+ systems serving \~95% of the population (<a href="https://mavensnotebook.com/2024/06/26/now-available-state-water-board-relaunches-updated-water-use-tracker/" target="_blank" rel="noopener">Maven's Notebook</a>); ODC-BY license</td>
+<td>Bulk CSV + datastore API; includes a modified z-score data flag</td>
+<td>PWSID</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://gispublic.waterboards.ca.gov/portalserver/rest/services/Drinking_Water/California_Drinking_Water_System_Area_Boundaries/FeatureServer" target="_blank" rel="noopener">System service area boundaries (SABL)</a></td>
+<td>One polygon per system, with verification status</td>
+<td>Statewide; DDW still validating boundaries</td>
+<td>ArcGIS FeatureServer (paged) or shapefile</td>
+<td><code>SABL_PWSID</code></td>
+<td>search</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>What's possible.</strong> Joining lab results to facilities and eAR treatment sections gives source-to-tap chemistry for thousands of systems, labeled with what treatment each source gets. That supports small-system failure prediction (direction 17), DBP and nitrate exceedance forecasting, and the structured-extraction direction. The eAR also lists each non-chlorination treatment plant, its process and the contaminant removed. That is the closest public record of statewide treatment trains, and it is worth confirming field by field.</p>
+<p><strong>What's missing.</strong> Results are compliance samples, so they come monthly to annually and only for regulated analytes. There are no doses, setpoints or process readings.</p>
+<h2 id="california-wastewater-discharges-and-recycled-water">California: wastewater, discharges and recycled water</h2>
+<p>The eSMR effluent record is the deepest multi-facility dataset of the whole atlas: 2006 to present, every NPDES permit holder. Around it sit annual volumes, sewer spills, stormwater sampling and wastewater surveillance. Most of it is keyed on the Water Board's WDID facility ID, which links to CIWQS permits and violations.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>What one row is</th>
+<th>Coverage and size</th>
+<th>Access</th>
+<th>Key</th>
+<th>Checked</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://publish.data.ca.gov/dataset/water-quality-effluent-electronic-self-monitoring-report-esmr-data" target="_blank" rel="noopener">eSMR effluent and receiving-water data</a></td>
+<td>One analytical or calculated result at a monitoring location (effluent, influent, receiving water)</td>
+<td>2006 to present, monthly updates; \~279 MB Parquet or \~850 MB/yr CSV; public domain</td>
+<td>Bulk CSV or Parquet + datastore API; CIWQS eSMR report for small pulls (Excel, 100k-point cap)</td>
+<td>WDID / facility + monitoring location</td>
+<td>opened</td>
+</tr>
+<tr>
+<td><a href="https://waterboards.ca.gov/ciwqs/publicreports.html" target="_blank" rel="noopener">CIWQS facilities, violations, enforcement</a></td>
+<td>One facility, violation or enforcement action</td>
+<td>All Water Board programs; nightly refresh; violation and enforcement tables also on data.ca.gov</td>
+<td>App reports with Excel export and stable URLs; NPDES permit list as Excel</td>
+<td>WDID, place ID, order number</td>
+<td>opened</td>
+</tr>
+<tr>
+<td><a href="https://waterboards.ca.gov/ciwqs/publicreports.html" target="_blank" rel="noopener">Sanitary sewer spills</a></td>
+<td>One spill event, or one no-spill certification, per enrollee</td>
+<td>Statewide sewer-system general order enrollees</td>
+<td>Flat files (format not stated) + nightly GIS incident maps</td>
+<td>Enrollee / WDID</td>
+<td>opened</td>
+</tr>
+<tr>
+<td><a href="https://catalog.data.gov/dataset/volumetric-annual-report-of-wastewater-and-recycled-water" target="_blank" rel="noopener">Volumetric Annual Report (VAR)</a></td>
+<td>Monthly influent, effluent and reuse volume per facility, plus treatment level</td>
+<td>Annual since 2019, \~756 treatment plants and recycled-water producers in the <a href="https://waterboards.ca.gov/water_issues/programs/recycled_water/docs/2021/210105_VAR_BoardInfoItem.pdf" target="_blank" rel="noopener">2019 report</a>; self-reported through GeoTracker</td>
+<td>Bulk CSV (facilities, influent, effluent, reuse) + datastore API + data dictionary</td>
+<td>GeoTracker global ID / WDID</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://lab.data.ca.gov/dataset/stormwater-regulatory-including-enforcement-actions-information-and-water-quality-results" target="_blank" rel="noopener">Stormwater (SMARTS) monitoring and enforcement</a></td>
+<td>One stormwater sample result at an industrial or construction site</td>
+<td>Industrial monitoring \~660 MB, construction \~315 MB CSV; inspections and violations tables</td>
+<td>Bulk CSV + datastore API; <a href="https://smarts.waterboards.ca.gov/smarts/SwPublicUserMenu.xhtml" target="_blank" rel="noopener">SMARTS public reports</a></td>
+<td>WDID</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://catalog.data.gov/dataset/cdph-wastewater-surveillance-data-california" target="_blank" rel="noopener">Wastewater surveillance (Cal-SuWers)</a></td>
+<td>One influent sample: pathogen target concentration, flow, sewershed</td>
+<td>Moved to <a href="https://data.chhs.ca.gov/dataset/wastewater-surveillance-data-california" target="_blank" rel="noopener">data.chhs.ca.gov</a> in Sept 2024; historic COVID-era file on data.ca.gov</td>
+<td>Bulk CSV + datastore API; follows the CDC NWSS data dictionary</td>
+<td>Sewershed / plant ID</td>
+<td>search</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>What's possible.</strong> eSMR is the only public route to cross-facility transfer (Lead 4, directions 20 and 27): forecast effluent ammonia, TSS or coliform at plants never seen in training. VAR adds monthly flows and treatment level as covariates. The sewer-spill table supports event prediction, and the surveillance data adds a high-signal influent series for the participating plants.</p>
+<p><strong>What's missing.</strong> eSMR reports what the permit requires, so frequency ranges from daily to quarterly and the parameter set changes by permit. There is no aeration, sludge-age or chemical-dose data. Pair it with the BSM1/BSM2 simulators (Lead 2) for Test A work.</p>
+<h2 id="california-surface-water-quality-and-the-delta">California: surface water quality and the Delta</h2>
+<p>This is source water as treatment plants see it. Two layers matter. The Delta and State Water Project have high-frequency sensor networks and 50 years of monthly sampling. Statewide, the CEDEN aggregate holds grab samples from hundreds of monitoring programs.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>What one row is</th>
+<th>Coverage and size</th>
+<th>Access</th>
+<th>Key</th>
+<th>Checked</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://publish.data.ca.gov/dataset/sacramento-san-joaquin-bay-delta-continuous-15-minute-water-quality-monitoring-central-delta-re" target="_blank" rel="noopener">DWR Delta continuous WQ (Central Delta)</a></td>
+<td>15-minute reading of conductivity, temperature, DO, turbidity, chlorophyll or fluorescence</td>
+<td>12 stations, Oct 2005 to Dec 2025, yearly updates; CC BY; includes a quality report</td>
+<td>Bulk CSV</td>
+<td>Station code</td>
+<td>opened</td>
+</tr>
+<tr>
+<td><a href="https://catalog.data.gov/dataset/dwr-continuous-data-download-links" target="_blank" rel="noopener">DWR continuous data download links</a></td>
+<td>One station-parameter time-series file (stage, flow, water quality) from DWR's Hydstra database</td>
+<td>Statewide DWR continuous stations</td>
+<td>Stations, parameters and a station-trace table of per-series download URLs on data.cnra.ca.gov; not in the datastore</td>
+<td>Station number + parameter</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://lab.data.ca.gov/dataset/water-quality-data" target="_blank" rel="noopener">DWR discrete water quality (Water Data Library)</a></td>
+<td>One lab or field result for a grab sample</td>
+<td>Early 1900s to present, mostly analyzed by DWR's Bryte lab; covers surface water, groundwater and drinking water</td>
+<td>Bulk CSV (stations, period of record, lab results, field results) on data.cnra.ca.gov, refreshed at least weekly; <a href="https://wdl.water.ca.gov/About.aspx" target="_blank" rel="noopener">WDL app</a></td>
+<td>Station number</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://lab.data.ca.gov/dataset/emp-discrete-water-quality-data" target="_blank" rel="noopener">EMP discrete water quality, Bay-Delta</a></td>
+<td>One monthly sample: nutrients, chlorophyll, DOC/TOC, field parameters at surface and bottom</td>
+<td>1975 to 2023; \~28 stations monthly by 2018</td>
+<td>Bulk CSV + flag codes + methods PDF; also on <a href="https://portal.edirepository.org/nis/mapbrowse?scope=edi&amp;identifier=458&amp;revision=12" target="_blank" rel="noopener">EDI</a></td>
+<td>Station code</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://rdrr.io/github/sbashevkin/discretewq/f/README.Rmd" target="_blank" rel="noopener">discretewq integrated Delta WQ</a></td>
+<td>Harmonized discrete WQ from many IEP surveys and DWR</td>
+<td>San Francisco Estuary, decades</td>
+<td>R package from the Interagency Ecological Program</td>
+<td>Source + station</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://lab.data.ca.gov/dataset/state-water-project-routine-water-quality-monitoring" target="_blank" rel="noopener">State Water Project routine WQ</a></td>
+<td>One sample along the aqueduct system</td>
+<td>CSV from 2010 onward; earlier only as lab reports</td>
+<td>Bulk CSV on data.cnra.ca.gov; pre-2020 Bryte data on WDL</td>
+<td>Station</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://data.amerigeoss.org/dataset/surface-water-chemistry-results" target="_blank" rel="noopener">CEDEN surface water chemistry</a></td>
+<td>One field or lab chemistry result from any contributing program</td>
+<td>Yearly CSVs \~2000 to 2025; plus a CEDEN <em>augmentation</em> set not yet loaded into CEDEN</td>
+<td>Bulk CSV per year, all-years ZIP or Parquet, datastore API; <a href="https://ceden.waterboards.ca.gov/AdvancedQueryTool" target="_blank" rel="noopener">CEDEN query tool</a></td>
+<td>Station code + project</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://catalog.data.gov/dataset/?tags=ceden" target="_blank" rel="noopener">CEDEN habitat, toxicity, bacteria, tissue, benthic</a></td>
+<td>One field measurement, toxicity test, indicator-bacteria result (incl. BeachWatch), tissue or taxon result</td>
+<td>Toxicity CSV alone is \~1.3 GB; each has a data-quality indicator column</td>
+<td>Same pattern as chemistry</td>
+<td>Station code</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://catalog.data.gov/dataset/surface-water-freshwater-harmful-algal-blooms" target="_blank" rel="noopener">Freshwater harmful algal blooms</a></td>
+<td>One bloom report, case, response or lab result</td>
+<td>Statewide voluntary reports via the <a href="https://mywaterquality.ca.gov/habs/index.html" target="_blank" rel="noopener">CA HABs portal</a></td>
+<td>Bulk CSV (reports, cases, responses, results) + datastore API</td>
+<td>Report / waterbody ID</td>
+<td>search</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>What's possible.</strong> Lead 1 (Delta WQ forecasting) can use 20 years of 15-minute sensors, with EMP and WDL grab samples as slow ground truth and CDEC flows as drivers. CEDEN and FHAB support HAB-risk and source-water event models for intakes (directions 1, 2 and 27).</p>
+<p><strong>What's missing.</strong> Utility intake monitoring rarely reaches these systems. EMP's license varies by version (one catalog entry lists CC BY-NC), so check before redistributing.</p>
+<h2 id="california-groundwater">California: groundwater</h2>
+<p>Groundwater supplies a large share of California's drinking water, and its data is unusually well consolidated. GAMA merges quality results from many programs into one schema. DWR publishes levels, well construction and subsidence alongside it.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>What one row is</th>
+<th>Coverage and size</th>
+<th>Access</th>
+<th>Key</th>
+<th>Checked</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://catalog.data.gov/dataset/ground-water-water-quality-results" target="_blank" rel="noopener">GAMA groundwater quality</a></td>
+<td>One untreated-well result: well, chemical, value, date, source program</td>
+<td>Files per source: DDW public-supply wells split into pre-2000, 2000s, 2010s and 2020-present (largest \~1.6 GB); USGS NWIS (\~650 MB); DWR, DPR, irrigated lands, LA County WRD, GAMA domestic wells; statewide PFAS (\~39 MB); all-wells locations; quarterly updates</td>
+<td>Bulk CSV + datastore API on data.ca.gov; <a href="https://gamagroundwater.waterboards.ca.gov/gama/datadownload" target="_blank" rel="noopener">GAMA GIS download page</a> by county</td>
+<td>GAMA well ID; DDW wells carry PWSID + source ID</td>
+<td>opened</td>
+</tr>
+<tr>
+<td><a href="https://data.amerigeoss.org/dataset/periodic-groundwater-level-measurements" target="_blank" rel="noopener">DWR periodic groundwater levels</a></td>
+<td>One depth-to-water measurement at a monitoring well</td>
+<td>Decades, seasonal (spring/fall) plus some monthly; measurements CSV \~336 MB; stations \~5 MB; perforations table</td>
+<td>Bulk CSV or ZIP on data.cnra.ca.gov; datastore API; also on WDL and the SGMA viewer</td>
+<td>Site code / state well number</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://www.lab.data.ca.gov/dataset/continuous-groundwater-level-measurements" target="_blank" rel="noopener">DWR continuous groundwater levels</a></td>
+<td>Sub-daily logger reading at an instrumented well</td>
+<td>Fewer wells, higher frequency</td>
+<td>Bulk CSV + API on data.cnra.ca.gov</td>
+<td>Site code</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://www.lab.data.ca.gov/dataset/well-completion-reports" target="_blank" rel="noopener">Well completion reports (OSWCR)</a></td>
+<td>One well's construction record: depth, screen, casing, lithology, use</td>
+<td>Statewide, period of record; mostly located only to the 1-mile PLSS section centroid; <a href="https://data.usgs.gov/datacatalog/data/USGS:64958d73d34ef77fcb01dc8f" target="_blank" rel="noopener">USGS attributed version</a> covers \~297,000 supply wells</td>
+<td>Bulk CSV tables + bulk ZIP + ArcGIS FeatureServer + redacted PDFs by county</td>
+<td>WCR number; state well number</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://lab.data.ca.gov/dataset/ground-water-water-quality-regulatory-information" target="_blank" rel="noopener">GeoTracker regulated sites and monitoring</a></td>
+<td>One cleanup or permitted site; or one EDF lab result or depth-to-water reading at a site well</td>
+<td>Sites CSV \~65 MB; per-county and statewide EDF downloads (<a href="https://www.waterboards.ca.gov/resources/data_databases" target="_blank" rel="noopener">Water Boards data table</a>)</td>
+<td>Bulk CSV (sites) + zipped EDF text files (monitoring); app search</td>
+<td>GeoTracker global ID + field point name</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://catalog.data.gov/dataset/californias-groundwater-live-supporting-data" target="_blank" rel="noopener">CalGW Live and SGMA data</a></td>
+<td>Derived level statistics, InSAR subsidence rasters, GSP monitoring and annual-report tables</td>
+<td>Statewide; InSAR by water year</td>
+<td>data.cnra.ca.gov resources, ArcGIS services, <a href="https://sgma.water.ca.gov/webgis/config/custom/html/SGMADataViewer/doc" target="_blank" rel="noopener">SGMA Data Viewer</a></td>
+<td>Basin / GSA ID</td>
+<td>search</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>What's possible.</strong> GAMA plus well construction lets models predict nitrate, arsenic, 1,2,3-TCP or PFAS at unsampled wells from screen depth, land use and neighbours. That feeds direction 16 (source vulnerability) and the PFAS GAC/IX surrogate candidate (direction 25) with realistic influent distributions. Linking DDW wells by PWSID connects raw groundwater to the drinking-water compliance record downstream.</p>
+<p><strong>What's missing.</strong> GAMA holds untreated water only. Sampling is irregular, and well locations in OSWCR are coarse.</p>
+<h2 id="california-hydrology-supply-and-use">California: hydrology, supply and use</h2>
+<p>These datasets are the drivers and covariates for almost every water-quality model. Flow, stage, reservoir release, snowmelt, rain and ET explain much of the variance in source water and in demand. CDEC is the workhorse, and nearly everything here is free with no key except CIMIS.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>What one row is</th>
+<th>Coverage and size</th>
+<th>Access</th>
+<th>Key</th>
+<th>Checked</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://flowwest.github.io/streamFlowExplorer/articles/cdec_template.html" target="_blank" rel="noopener">CDEC station sensors</a></td>
+<td>One reading of one sensor (flow, stage, EC, temperature, reservoir storage, precip, snow)</td>
+<td>Stations from many cooperating agencies; event (\~15 min), hourly, daily and monthly durations</td>
+<td>CSV servlet and JSON/CSV group web services (<a href="https://cdec.water.ca.gov/dynamicapp/groupform" target="_blank" rel="noopener">group form</a>); R <code>cder</code>, <code>CDECRetrieve</code></td>
+<td>3-letter station + sensor number + duration code</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://lab.data.ca.gov/dataset/california-snow-data" target="_blank" rel="noopener">Snow data and Bulletin 120</a></td>
+<td>Daily snow water content per sensor; monthly snow course; seasonal runoff forecasts</td>
+<td>Daily SWC 1954 to present in decade files; B120 forecasts issued Feb to May (<a href="https://content.govdelivery.com/attachments/CNRA/2026/03/09/file_attachments/3578140/WSFCastDiscussion.pdf" target="_blank" rel="noopener">DWR forecast notice</a>)</td>
+<td>Bulk CSV on data.cnra.ca.gov; B120 and WSI as CDEC report pages</td>
+<td>Station / snow course ID</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://catalog.data.gov/dataset/cimis-weather-station-spatial-cimis-data-web-api" target="_blank" rel="noopener">CIMIS weather and reference ET</a></td>
+<td>Hourly or daily ETo, air temperature, solar radiation, wind, precip at a station or 2 km grid cell</td>
+<td>150+ stations; Spatial CIMIS grid</td>
+<td>REST/JSON; free AppKey (<a href="https://et-proxy.water.ca.gov/Home/Faq" target="_blank" rel="noopener">FAQ</a>)</td>
+<td>Station number or zip code</td>
+<td>search</td>
+</tr>
+<tr>
+<td><a href="https://data.amerigeoss.org/dataset/california-water-rights-water-use-reported" target="_blank" rel="noopener">Water rights and reported diversions (eWRIMS)</a></td>
+<td>One annual report x water right x month x diversion type</td>
+<td>Reports from 1914; detail summary list \~470 MB</td>
+<td>Bulk CSV + data dictionaries; wide-format export from eWRIMS</td>
+<td>Application / water right ID; POD</td>
+<td>search</td>
+</tr>
+<tr>
+<td>Urban supplier production (see <em>Drinking water</em>)</td>
+<td>Monthly potable production per supplier</td>
+<td>June 2014 onward</td>
+<td>Bulk CSV + API</td>
+<td>PWSID</td>
+<td>search</td>
+</tr>
+</tbody>
+</table></div>
+<p>The State Water Board itself warns that diversion reports contain duplicate reports, unit-conversion errors and missing years (<a href="https://waterboards.ca.gov/drought/drought_tools_methods/docs/2022/demand-data-analysis-methodology-overview.pdf" target="_blank" rel="noopener">demand methodology</a>). Treat them as noisy labels.</p>
+<p><strong>What's possible.</strong> CDEC flows, Delta exports and EC drive Lead 1. Production plus CIMIS ET and temperature gives a clean demand-forecasting benchmark across 400+ systems. Snow and B120 add seasonal context for source-water temperature and turbidity. The adjacent hydrology track (direction 32) sits here; CalSim and IWFM remain deprioritized.</p>
+<h2 id="quick-start-code">Quick-start code</h2>
+<p>Four patterns cover most pulls. The snippets follow each service's documented URL scheme but were not run from this workspace, because its network can't reach state sites. Expect small fixes on first use.</p>
+<p>```python
+import requests, pandas as pd, io</p>
+<h1 id="1-ckan-find-datasets-then-query-a-datastore-resource-with-sql">1. CKAN: find datasets, then query a datastore resource with SQL</h1>
+<p>CKAN = "https://data.ca.gov/api/3/action"          # or https://data.cnra.ca.gov/api/3/action
+hits = requests.get(f"{CKAN}/package_search", params={"q": "eSMR", "rows": 5}).json()
+for p in hits["result"]["results"]:
+    print(p["name"], [r["id"] for r in p["resources"]][:3])</p>
+<p>RID = "<resource-id>"                                # copy from the resource page
+sql = f'SELECT * FROM "{RID}" WHERE "parameter" = \'Ammonia, Total (as N)\' LIMIT 1000'
+rows = requests.get(f"{CKAN}/datastore_search_sql", params={"sql": sql}).json()["result"]["records"]
+df = pd.DataFrame(rows)</p>
+<h1 id="for-training-sets-download-the-whole-file-instead-parquet-where-offered">For training sets, download the whole file instead (Parquet where offered)</h1>
+<h1 id="df-pdread_parquet">df = pd.read_parquet("<resource download URL>")</h1>
+<h1 id="2-cdec-one-station-one-sensor-one-duration">2. CDEC: one station, one sensor, one duration</h1>
+<p>url = ("https://cdec.water.ca.gov/dynamicapp/req/CSVDataServlet"
+       "?Stations=NSL&amp;SensorNums=100&amp;dur_code=E&amp;Start=2024-01-01&amp;End=2024-01-31")
+cdec = pd.read_csv(url, na_values=["---"])        # check DATA_FLAG and sentinel codes</p>
+<h1 id="3-arcgis-rest-page-through-a-featureserver-layer">3. ArcGIS REST: page through a FeatureServer layer</h1>
+<p>layer = ("https://gispublic.waterboards.ca.gov/portalserver/rest/services/"
+         "Drinking_Water/California_Drinking_Water_System_Area_Boundaries/FeatureServer/0/query")
+feats, off = [], 0
+while True:
+    r = requests.get(layer, params={"where": "1=1", "outFields": "*", "f": "geojson",
+                                    "resultOffset": off, "resultRecordCount": 1000}).json()
+    feats += r["features"]
+    if len(r["features"]) &lt; 1000: break
+    off += 1000</p>
+<h1 id="4-usgs-new-ogc-apis">4. USGS (new OGC APIs)</h1>
+<h1 id="pip-install-dataretrieval-set-api_usgs_pat-for-higher-rate-limits">pip install dataretrieval ; set API_USGS_PAT for higher rate limits</h1>
+<p>from dataretrieval import waterdata
+q, meta = waterdata.get_daily(monitoring_location_id="USGS-11447650", parameter_code="00060",
+                              time="2024-01-01/2024-12-31")
+```</p>
+<p>The USGS site in example 4 is the Sacramento River at Freeport; any <code>USGS-</code> ID works. For the shared harness, wrap each pattern in a loader that writes raw files plus a JSON sidecar with source URL, resource ID, license and retrieval time.</p>
+<h2 id="sources-california-and-overview">Sources (California and overview)</h2>
+<p>Two pages were opened directly in November 2026: <a href="https://waterboards.ca.gov/ciwqs/publicreports.html" target="_blank" rel="noopener">CIWQS public reports</a> and the <a href="https://www.waterboards.ca.gov/resources/data_databases/site_map.html" target="_blank" rel="noopener">Water Boards data site map</a>. Rows marked <em>opened</em> also draw on the Nov 2026 checks recorded in the directions doc. Everything else comes from catalog metadata (data.ca.gov, lab.data.ca.gov, catalog.data.gov mirrors) seen through search results, so confirm sizes and fields on the live resource page.</p>
+<ul>
+<li>Portals and access: <a href="https://cwemf.org/wp/wp-content/uploads/2025/11/03.4_CNRADataPortalAPI_Cuthbertson.pdf" target="_blank" rel="noopener">CNRA Open Data API slides (CWEMF 2025)</a> · <a href="https://wdl.water.ca.gov/About.aspx" target="_blank" rel="noopener">DWR Water Data Library, About</a> · <a href="https://search.r-project.org/CRAN/packages/cder/vignettes/quickstart.html" target="_blank" rel="noopener">cder quickstart</a> · <a href="https://flowwest.github.io/streamFlowExplorer/articles/cdec_template.html" target="_blank" rel="noopener">FlowWest CDEC notes</a> · <a href="https://et-proxy.water.ca.gov/Home/Faq" target="_blank" rel="noopener">CIMIS API FAQ</a> · <a href="https://water.ca.gov/Programs/All-Programs/AB-1755" target="_blank" rel="noopener">AB 1755 program</a></li>
+<li>Drinking water: <a href="https://lab.data.ca.gov/dataset/drinking-water-open-environmental-data-project-march-23-2023-workshop" target="_blank" rel="noopener">Drinking water open data workshop bundle</a> · <a href="https://catalog.data.gov/dataset/drinking-water-public-water-system-information" target="_blank" rel="noopener">Public water system information</a> · <a href="https://waterboards.ca.gov/drinking_water/certlic/drinkingwater/ear.html" target="_blank" rel="noopener">eAR page</a> · <a href="https://catalog.data.gov/dataset/drinking-water-public-water-system-annually-reported-water-production-and-delive-2013-2022" target="_blank" rel="noopener">eAR production 2013 to 2022</a> · <a href="https://lab.data.ca.gov/dataset/safer-failing-and-at-risk-drinking-water-systems" target="_blank" rel="noopener">SAFER dataset</a> · <a href="https://waterboards.ca.gov/drinking_water/certlic/drinkingwater/needs.html" target="_blank" rel="noopener">Needs Assessment</a> · <a href="https://catalog.data.gov/dataset/urban-retail-water-supplier-water-conservation-supply-and-demand-june-2014-onwards" target="_blank" rel="noopener">Urban supplier conservation dataset</a></li>
+<li>Wastewater: <a href="https://publish.data.ca.gov/dataset/water-quality-effluent-electronic-self-monitoring-report-esmr-data" target="_blank" rel="noopener">eSMR</a> · <a href="https://catalog.data.gov/dataset/volumetric-annual-report-of-wastewater-and-recycled-water" target="_blank" rel="noopener">VAR</a> · <a href="https://lab.data.ca.gov/dataset/stormwater-regulatory-including-enforcement-actions-information-and-water-quality-results" target="_blank" rel="noopener">Stormwater SMARTS</a> · <a href="https://catalog.data.gov/dataset/cdph-wastewater-surveillance-data-california" target="_blank" rel="noopener">Wastewater surveillance</a></li>
+<li>Surface water: <a href="https://publish.data.ca.gov/dataset/sacramento-san-joaquin-bay-delta-continuous-15-minute-water-quality-monitoring-central-delta-re" target="_blank" rel="noopener">Delta continuous WQ</a> · <a href="https://catalog.data.gov/dataset/dwr-continuous-data-download-links" target="_blank" rel="noopener">DWR continuous download links</a> · <a href="https://lab.data.ca.gov/dataset/water-quality-data" target="_blank" rel="noopener">DWR discrete WQ</a> · <a href="https://lab.data.ca.gov/dataset/emp-discrete-water-quality-data" target="_blank" rel="noopener">EMP discrete WQ</a> · <a href="https://data.amerigeoss.org/dataset/surface-water-chemistry-results" target="_blank" rel="noopener">CEDEN chemistry</a> · <a href="https://www.lab.data.ca.gov/dataset/surface-water-toxicity-results" target="_blank" rel="noopener">CEDEN toxicity</a> · <a href="https://catalog.data.gov/dataset/surface-water-freshwater-harmful-algal-blooms" target="_blank" rel="noopener">FHAB</a></li>
+<li>Groundwater: <a href="https://catalog.data.gov/dataset/ground-water-water-quality-results" target="_blank" rel="noopener">GAMA quality results</a> · <a href="https://data.amerigeoss.org/dataset/periodic-groundwater-level-measurements" target="_blank" rel="noopener">Periodic GW levels</a> · <a href="https://www.lab.data.ca.gov/dataset/well-completion-reports" target="_blank" rel="noopener">Well completion reports</a> · <a href="https://lab.data.ca.gov/dataset/ground-water-water-quality-regulatory-information" target="_blank" rel="noopener">GeoTracker sites</a> · <a href="https://catalog.data.gov/dataset/californias-groundwater-live-supporting-data" target="_blank" rel="noopener">CalGW Live supporting data</a></li>
+<li>Hydrology and use: <a href="https://lab.data.ca.gov/dataset/california-snow-data" target="_blank" rel="noopener">California snow data</a> · <a href="https://catalog.data.gov/dataset/cimis-weather-station-spatial-cimis-data-web-api" target="_blank" rel="noopener">CIMIS Web API</a> · <a href="https://data.amerigeoss.org/dataset/california-water-rights-water-use-reported" target="_blank" rel="noopener">Water rights water use</a> · <a href="https://waterboards.ca.gov/drought/drought_tools_methods/docs/2022/demand-data-analysis-methodology-overview.pdf" target="_blank" rel="noopener">Demand methodology</a></li>
+<li>Federal: <a href="https://waterdata.usgs.gov/blog/api-waterservices-decom" target="_blank" rel="noopener">USGS WaterServices decommission</a> · <a href="https://pypi.org/project/Dataretrieval/" target="_blank" rel="noopener">dataretrieval on PyPI</a> · <a href="https://waterqualitydata.us/webservices_documentation" target="_blank" rel="noopener">WQP web services</a> · <a href="https://echo.epa.gov/node/113" target="_blank" rel="noopener">ECHO data downloads</a></li>
+</ul>
+</main>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    Maintained by Keith Wilkinson, <a href="https://title22.org">title22.org</a>.
+    Content licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+    Corrections and additions welcome via <a href="https://github.com/boxwrench/water-ml-research/issues">GitHub issues</a>.
+  </div>
+</footer>
+</body>
+</html>

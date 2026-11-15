@@ -12,6 +12,9 @@ Maintained by Keith Wilkinson, [title22.org](https://title22.org).
 | --- | --- |
 | [Systems & Data Guide](docs/water-data-guide.md) | How drinking water and wastewater systems work, where their data comes from, the pitfalls in plant data, control layers, regulation, how water problems map to ML problem types, and a glossary. Start here if you're new to water. |
 | [Research Directions & Data Leads](docs/research-directions.md) | 32 candidate research directions, the public datasets and simulators behind them, the data gaps worth filling, and five starting leads. |
+| [Data Atlas](docs/data-atlas.md) | Where public water data lives and how to use it: an at-a-glance map by data need, access methods (CKAN, CDEC, ArcGIS, APIs), join keys, datasets by research direction, pitfalls, starter code, and the California state catalog. |
+| [Federal Data](docs/data-atlas-federal.md) | EPA, USGS, NOAA, Reclamation, USACE and CDC sources, including EPA's 1997-98 Information Collection Rule treatment-plant records. |
+| [Open Research Data](docs/data-atlas-open.md) | Non-government datasets: wastewater plant SCADA, distribution-network benchmarks, global hydrology and water-quality archives, wastewater surveillance and utility open-data portals. |
 
 ## Core framing
 

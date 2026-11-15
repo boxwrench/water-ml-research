@@ -21,6 +21,12 @@ PAGES = [
      "How water systems work, where their data comes from, the traps in it, and the vocabulary. Start here if you're new to water."),
     ("research-directions.md", "research-directions.html", "Research Directions",
      "32 candidate research directions, the public data and simulators behind them, the data gaps, and five starting leads."),
+    ("data-atlas.md", "data-atlas.html", "Data Atlas",
+     "Where public water data lives, how to get it and what it supports: an at-a-glance map, access methods, join keys, pitfalls and the California catalog."),
+    ("data-atlas-federal.md", "data-atlas-federal.html", "Federal Data",
+     "EPA, USGS, NOAA, Reclamation, USACE and CDC sources, including EPA's 1997-98 treatment-plant records."),
+    ("data-atlas-open.md", "data-atlas-open.html", "Open Research Data",
+     "Open plant SCADA, distribution-network benchmarks, global hydrology and water-quality archives, and utility open-data portals."),
 ]
 
 TEMPLATE = """<!doctype html>
