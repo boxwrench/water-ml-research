@@ -176,6 +176,8 @@ Every treatment-process direction (coagulation, filtration, soft sensors, fault 
 - **Small-system failure prediction (direction 17).** Fully public through SAFER and DDW compliance data. Clear policy impact; an easy entry point for groups new to water.
 - **Operator text as data (direction 29).** Logbooks and SOPs. This is where domain expertise matters most, and it feeds event labels to every process model.
 
+- **Benchmark for AI agents on water data (direction 29).** DWR's open-science lead noted in 2026 that water data work has no benchmark for judging LLM and agent outputs, and that AI-ready data needs context and standards beyond FAIR. A benchmark of structured tasks (find the right dataset, pull it through the API, join on PWSID, flag non-detects, answer a permit question) scored against expert answers would be new, public and directly useful to state agencies.
+
 **Foundation-model work already under way in water** (directions 27, 31, 32). None covers treatment plants, which is consistent with the data gap. See [Published Work](literature.md#foundation-models-and-multimodal-reconstruction) for the list.
 
 - **HydroORBIT (Oak Ridge)**, a physics-informed multimodal foundation model for coupled surface and groundwater across the US, with Georgia Tech, AMD and TVA. The natural contact for direction 32, and an AMD/ROCm precedent for our hardware.
@@ -185,6 +187,8 @@ Every treatment-process direction (coagulation, filtration, soft sensors, fault 
 ## Collaboration model and questions for partners
 
 All leads should share one harness: the same model registry, data loaders with provenance, time-ordered splits, and scoring. Every result then lands on one comparable leaderboard, and each lead stays publishable alone.
+
+Publish the harness the way DWR's open-science program recommends: loaders as installable Python (and ideally R) packages, tagged releases with semantic versions, and a DOI for each release and benchmark dataset (Zenodo mints these from GitHub releases), so every result traces back to the exact code and data that produced it. The state portals do not yet mint DOIs.
 
 **What the domain expert owns:** which predictions change a decision, which errors are dangerous (underpredicting a hazard is scored separately from average error), what the data actually means, and access to utilities.
 

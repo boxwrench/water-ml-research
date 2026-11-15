@@ -548,7 +548,12 @@
 <li><strong>PFAS GAC/IX surrogates (direction 10).</strong> EPA's PSDM and ion-exchange models (MIT license) serve as the simulator; UCMR 5 occurrence data defines realistic water matrices. Highly fundable.</li>
 <li><strong>Potable reuse barrier monitoring (direction 13).</strong> California's direct potable reuse rules make continuous barrier verification a live question. Needs a reuse-plant partner, but those plants are unusually data-rich.</li>
 <li><strong>Small-system failure prediction (direction 17).</strong> Fully public through SAFER and DDW compliance data. Clear policy impact; an easy entry point for groups new to water.</li>
-<li><strong>Operator text as data (direction 29).</strong> Logbooks and SOPs. This is where domain expertise matters most, and it feeds event labels to every process model.</li>
+<li>
+<p><strong>Operator text as data (direction 29).</strong> Logbooks and SOPs. This is where domain expertise matters most, and it feeds event labels to every process model.</p>
+</li>
+<li>
+<p><strong>Benchmark for AI agents on water data (direction 29).</strong> DWR's open-science lead noted in 2026 that water data work has no benchmark for judging LLM and agent outputs, and that AI-ready data needs context and standards beyond FAIR. A benchmark of structured tasks (find the right dataset, pull it through the API, join on PWSID, flag non-detects, answer a permit question) scored against expert answers would be new, public and directly useful to state agencies.</p>
+</li>
 </ul>
 <p><strong>Foundation-model work already under way in water</strong> (directions 27, 31, 32). None covers treatment plants, which is consistent with the data gap. See <a href="literature.html#foundation-models-and-multimodal-reconstruction">Published Work</a> for the list.</p>
 <ul>
@@ -558,6 +563,7 @@
 </ul>
 <h2 id="collaboration-model-and-questions-for-partners">Collaboration model and questions for partners</h2>
 <p>All leads should share one harness: the same model registry, data loaders with provenance, time-ordered splits, and scoring. Every result then lands on one comparable leaderboard, and each lead stays publishable alone.</p>
+<p>Publish the harness the way DWR's open-science program recommends: loaders as installable Python (and ideally R) packages, tagged releases with semantic versions, and a DOI for each release and benchmark dataset (Zenodo mints these from GitHub releases), so every result traces back to the exact code and data that produced it. The state portals do not yet mint DOIs.</p>
 <p><strong>What the domain expert owns:</strong> which predictions change a decision, which errors are dangerous (underpredicting a hazard is scored separately from average error), what the data actually means, and access to utilities.</p>
 <p><strong>What academic partners own:</strong> methods, compute, benchmark design, and turning results into papers and proposals.</p>
 <p><strong>Questions to raise with academic partners:</strong></p>
