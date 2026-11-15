@@ -28,6 +28,7 @@
 <li><a href="#wastewater-process-studies-and-open-benchmarks">Wastewater process studies and open benchmarks</a></li>
 <li><a href="#control-system-security-on-water-testbeds">Control-system security on water testbeds</a></li>
 <li><a href="#data-sharing-and-utility-adoption">Data sharing and utility adoption</a></li>
+<li><a href="#foundation-models-and-multimodal-reconstruction">Foundation models and multimodal reconstruction</a></li>
 <li><a href="#gaps-in-the-literature">Gaps in the literature</a></li>
 <li><a href="#adding-to-this-page">Adding to this page</a></li>
 </ul>
@@ -309,11 +310,80 @@
 </tr>
 </tbody>
 </table></div>
+<h2 id="foundation-models-and-multimodal-reconstruction">Foundation models and multimodal reconstruction</h2>
+<p>The Los Alamos <a href="https://arxiv.org/abs/2509.02783" target="_blank" rel="noopener">Transparent Earth</a> model reconstructs subsurface properties from sparse observations of any mix of modalities, and predicts any property at any location. Similar ideas are being tried in hydrology and urban water, but not yet in treatment plants, which lack the multi-site data such models need.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Work</th>
+<th>Domain</th>
+<th>What it does</th>
+<th>Use here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://arxiv.org/abs/2509.02783" target="_blank" rel="noopener">Transparent Earth (LANL)</a> (2025, NeurIPS AI4Science workshop)</td>
+<td>Subsurface</td>
+<td>Transformer over eight modalities with text-embedded modality tags; in-context prediction from any subset of inputs; &gt;3× lower stress-angle error on validation data</td>
+<td>The design pattern for Lead 3's stretch goal and direction 31</td>
+</tr>
+<tr>
+<td><a href="https://github.com/OrchardLANL/Senseiver" target="_blank" rel="noopener">Senseiver (LANL)</a></td>
+<td>Fields from sparse sensors</td>
+<td>Attention-based reconstruction of a full field from a few sensors, plus sensor placement</td>
+<td>Lead 3's main model</td>
+</tr>
+<tr>
+<td><a href="https://www.ornl.gov/project/ai-foundation-model-development-water-forecasting" target="_blank" rel="noopener">HydroORBIT (ORNL)</a> (ongoing)</td>
+<td>Surface and groundwater, continental US</td>
+<td>Physics-informed multimodal foundation model trained on Frontier; partners Georgia Tech, AMD, TVA; results planned for DOE's Genesis platform</td>
+<td>Contact for the hydrology track (direction 32)</td>
+</tr>
+<tr>
+<td><a href="https://meetingorganizer.copernicus.org/EGU26/EGU26-11131.html" target="_blank" rel="noopener">Scholz, Ehret and Guthke, Toward open-purpose modeling in hydrology</a> (EGU 2026)</td>
+<td>Hydrological time series</td>
+<td>Learns the joint distribution of many series; predicts any variable from whatever is available, with calibrated uncertainty</td>
+<td>Closest water analog to Transparent Earth's any-to-any design</td>
+</tr>
+<tr>
+<td><a href="https://arxiv.org/abs/2512.14106" target="_blank" rel="noopener">HydroGEM</a> (2025)</td>
+<td>Streamflow quality control</td>
+<td>Self-supervised pretraining on 6.03 million sequences from 3,724 USGS stations; zero-shot anomaly detection and reconstruction</td>
+<td>Baseline for sensor validation (direction 27)</td>
+</tr>
+<tr>
+<td><a href="https://arxiv.org/abs/2606.11268" target="_blank" rel="noopener">LakeFM</a> (2026)</td>
+<td>Lakes and reservoirs</td>
+<td>Foundation model on irregular, multi-depth time series</td>
+<td>Source-water and reservoir forecasting</td>
+</tr>
+<tr>
+<td><a href="https://meetingorganizer.copernicus.org/EGU26/EGU26-12269.html" target="_blank" rel="noopener">Taormina, Foundational models and intelligent agents for urban drainage</a> (EGU 2026)</td>
+<td>Urban drainage</td>
+<td>GNN surrogates of 1D/2D hydraulic models; argues pretraining on simulations stays essential when real observations are scarce</td>
+<td>Same path as our Test A then Test B</td>
+</tr>
+<tr>
+<td><a href="https://arxiv.org/abs/2505.01415" target="_blank" rel="noopener">How effective are large time series models in hydrology?</a> (2025)</td>
+<td>Everglades water levels</td>
+<td>Compares twelve task-specific models with five general time-series foundation models</td>
+<td>Method for adding foundation models to the leaderboard</td>
+</tr>
+<tr>
+<td><a href="https://doi.org/10.1016/j.watres.2025.124931" target="_blank" rel="noopener">Interpretable DO forecasting with a time-series foundation model</a> (2026, Water Research)</td>
+<td>Rural wastewater plant</td>
+<td>Fine-tunes a general time-series foundation model on about a year of plant sensor data</td>
+<td>The only treatment-plant use found; small and single-site</td>
+</tr>
+</tbody>
+</table></div>
 <h2 id="gaps-in-the-literature">Gaps in the literature</h2>
 <ul>
 <li><strong>No shared drinking-water benchmark.</strong> Every full-scale drinking-water study above uses a different private dataset, so their accuracies can't be compared.</li>
 <li><strong>Filters are understudied.</strong> Run length and head loss have far fewer plant-data studies than coagulant dose.</li>
 <li><strong>Little time-forward testing.</strong> Few studies score on a later period, and the one that did on SWaT saw performance collapse.</li>
+<li><strong>No treatment-plant foundation model.</strong> Water foundation models cover hydrology, lakes and drainage; treatment has only single-plant fine-tuning of general time-series models.</li>
 <li><strong>Process knowledge is used, but rarely audited.</strong> Hybrids and physics features are common; checking which relationships actually hold in plant data is not.</li>
 </ul>
 <h2 id="adding-to-this-page">Adding to this page</h2>

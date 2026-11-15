@@ -26,7 +26,7 @@ PAGES = [
     ("data-atlas-federal.md", "data-atlas-federal.html", "Federal Data",
      "EPA, USGS, NOAA, Reclamation, USACE and CDC sources, including EPA's 1997-98 treatment-plant records."),
     ("literature.md", "literature.html", "Published Work",
-     "Published work on ML with treatment-plant data: evidence on the data gap, reviews, full-scale studies, testbeds and data sharing."),
+     "Published work on ML with treatment-plant data: evidence on the data gap, reviews, full-scale studies, testbeds, data sharing and foundation models."),
     ("data-atlas-open.md", "data-atlas-open.html", "Open Research Data",
      "Open plant SCADA, distribution-network benchmarks, global hydrology and water-quality archives, and utility open-data portals."),
 ]

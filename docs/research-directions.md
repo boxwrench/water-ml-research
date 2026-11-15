@@ -141,13 +141,14 @@ The standard, citable reference for wastewater surrogates and controller compari
 
 ### Lead 3: Distribution residual reconstruction from sparse sensors (Test A, simulator)
 
-A direct test of the Los Alamos idea on a problem that actually fits it. Senseiver code is public, and WNTR generates unlimited chlorine scenarios.
+A direct test of the Los Alamos idea on a problem that actually fits it. Senseiver code is public, and WNTR generates unlimited chlorine scenarios. The [Transparent Earth](https://arxiv.org/abs/2509.02783) design (any subset of observations in, any property out at any location) is the model to imitate; a Stuttgart/KIT hydrology model that infers any variable from whatever others are available ([EGU26-11131](https://meetingorganizer.copernicus.org/EGU26/EGU26-11131.html)) is the closest water analog to compare against.
 
 - [ ] Pick 2 to 3 public networks (EPANET examples, L-Town from BattLeDIM)
 - [ ] Generate multispecies chlorine/water-age scenarios with WNTR + EPANET-MSX across demand, temperature and source variation
 - [ ] Train Senseiver and baselines (kriging on the graph, a GNN) to reconstruct full-network residual from 5 to 20 sensors
 - [ ] Use Senseiver's placement method to ask where new sensors should go (value of information)
 - [ ] Later: Test B with a utility's network model and grab samples
+- [ ] Stretch: a Transparent Earth-style multimodal variant that also takes pressure, flow and water-age observations, to test whether extra modalities cut residual error the way they cut stress-angle error
 
 ### Lead 4: Multi-facility wastewater effluent forecasting (Test B, public)
 
@@ -172,6 +173,12 @@ Every treatment-process direction (coagulation, filtration, soft sensors, fault 
 - **Potable reuse barrier monitoring (direction 13).** California's direct potable reuse rules make continuous barrier verification a live question. Needs a reuse-plant partner, but those plants are unusually data-rich.
 - **Small-system failure prediction (direction 17).** Fully public through SAFER and DDW compliance data. Clear policy impact; an easy entry point for groups new to water.
 - **Operator text as data (direction 29).** Logbooks and SOPs. This is where domain expertise matters most, and it feeds event labels to every process model.
+
+**Foundation-model work already under way in water** (directions 27, 31, 32). None covers treatment plants, which is consistent with the data gap. See [Published Work](literature.md#foundation-models-and-multimodal-reconstruction) for the list.
+
+- **HydroORBIT (Oak Ridge)**, a physics-informed multimodal foundation model for coupled surface and groundwater across the US, with Georgia Tech, AMD and TVA. The natural contact for direction 32, and an AMD/ROCm precedent for our hardware.
+- **HydroGEM**, pretrained on 6 million streamflow sequences from 3,724 USGS stations for automated quality control. A ready baseline for direction 27.
+- **Time-series foundation models at a plant.** One wastewater study fine-tuned a general time-series foundation model on about a year of sensor data to forecast dissolved oxygen. Add these as a competitor class on the leaderboard for Leads 1, 4 and 5.
 
 ## Collaboration model and questions for partners
 
@@ -200,7 +207,7 @@ Several figures from earlier brainstorming sessions have not been checked agains
 - 0.022 mg/L chlorine forecast MAE from an LSTM versus EPANET-WNTR first-order decay (2024 study)
 - +8% operating cost from a neural surrogate in Anytown pump optimization (2026 study)
 - 22% improvement in ozone contactor effective detention time from CFD baffling (study year not given)
-- Transparent Earth: >3× error reduction from multimodal inputs ([arXiv 2509.02783](https://arxiv.org/abs/2509.02783)); v2.0 has no public technical description found
+- Transparent Earth: the >3× reduction in stress-angle error on validation data is now confirmed in the [NeurIPS 2025 workshop abstract](https://neurips.cc/virtual/2025/125945); "v2.0" has no public technical description beyond the September 2025 arXiv revision ([arXiv 2509.02783](https://arxiv.org/abs/2509.02783)) and a [LANL 1663 feature](https://cdn.lanl.gov/files/subsurface-1663-47-story-downloads-03_70ad5.pdf)
 - 4.7 °C MAE continental subsurface temperature with 20-observation in-context adaptation ([arXiv 2605.16665](https://arxiv.org/abs/2605.16665))
 - The "773-method" catalog workbook from the first brainstorm is a first-pass index, not checked formulas
 

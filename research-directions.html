@@ -518,13 +518,14 @@
 <li class="task"><input type="checkbox" disabled> Stretch: plug surrogates into an optimizer and check whether solutions degrade, the way the pump-scheduling study found</li>
 </ul>
 <h3 id="lead-3-distribution-residual-reconstruction-from-sparse-sensors-test-a-simulator">Lead 3: Distribution residual reconstruction from sparse sensors (Test A, simulator)</h3>
-<p>A direct test of the Los Alamos idea on a problem that actually fits it. Senseiver code is public, and WNTR generates unlimited chlorine scenarios.</p>
+<p>A direct test of the Los Alamos idea on a problem that actually fits it. Senseiver code is public, and WNTR generates unlimited chlorine scenarios. The <a href="https://arxiv.org/abs/2509.02783" target="_blank" rel="noopener">Transparent Earth</a> design (any subset of observations in, any property out at any location) is the model to imitate; a Stuttgart/KIT hydrology model that infers any variable from whatever others are available (<a href="https://meetingorganizer.copernicus.org/EGU26/EGU26-11131.html" target="_blank" rel="noopener">EGU26-11131</a>) is the closest water analog to compare against.</p>
 <ul>
 <li class="task"><input type="checkbox" disabled> Pick 2 to 3 public networks (EPANET examples, L-Town from BattLeDIM)</li>
 <li class="task"><input type="checkbox" disabled> Generate multispecies chlorine/water-age scenarios with WNTR + EPANET-MSX across demand, temperature and source variation</li>
 <li class="task"><input type="checkbox" disabled> Train Senseiver and baselines (kriging on the graph, a GNN) to reconstruct full-network residual from 5 to 20 sensors</li>
 <li class="task"><input type="checkbox" disabled> Use Senseiver's placement method to ask where new sensors should go (value of information)</li>
 <li class="task"><input type="checkbox" disabled> Later: Test B with a utility's network model and grab samples</li>
+<li class="task"><input type="checkbox" disabled> Stretch: a Transparent Earth-style multimodal variant that also takes pressure, flow and water-age observations, to test whether extra modalities cut residual error the way they cut stress-angle error</li>
 </ul>
 <h3 id="lead-4-multi-facility-wastewater-effluent-forecasting-test-b-public">Lead 4: Multi-facility wastewater effluent forecasting (Test B, public)</h3>
 <p>eSMR is the only public dataset found with hundreds of treatment facilities. That makes it the one place to test cross-facility transfer (direction 31) without a data agreement.</p>
@@ -548,6 +549,12 @@
 <li><strong>Small-system failure prediction (direction 17).</strong> Fully public through SAFER and DDW compliance data. Clear policy impact; an easy entry point for groups new to water.</li>
 <li><strong>Operator text as data (direction 29).</strong> Logbooks and SOPs. This is where domain expertise matters most, and it feeds event labels to every process model.</li>
 </ul>
+<p><strong>Foundation-model work already under way in water</strong> (directions 27, 31, 32). None covers treatment plants, which is consistent with the data gap. See <a href="literature.html#foundation-models-and-multimodal-reconstruction">Published Work</a> for the list.</p>
+<ul>
+<li><strong>HydroORBIT (Oak Ridge)</strong>, a physics-informed multimodal foundation model for coupled surface and groundwater across the US, with Georgia Tech, AMD and TVA. The natural contact for direction 32, and an AMD/ROCm precedent for our hardware.</li>
+<li><strong>HydroGEM</strong>, pretrained on 6 million streamflow sequences from 3,724 USGS stations for automated quality control. A ready baseline for direction 27.</li>
+<li><strong>Time-series foundation models at a plant.</strong> One wastewater study fine-tuned a general time-series foundation model on about a year of sensor data to forecast dissolved oxygen. Add these as a competitor class on the leaderboard for Leads 1, 4 and 5.</li>
+</ul>
 <h2 id="collaboration-model-and-questions-for-partners">Collaboration model and questions for partners</h2>
 <p>All leads should share one harness: the same model registry, data loaders with provenance, time-ordered splits, and scoring. Every result then lands on one comparable leaderboard, and each lead stays publishable alone.</p>
 <p><strong>What the domain expert owns:</strong> which predictions change a decision, which errors are dangerous (underpredicting a hazard is scored separately from average error), what the data actually means, and access to utilities.</p>
@@ -569,7 +576,7 @@
 <li>0.022 mg/L chlorine forecast MAE from an LSTM versus EPANET-WNTR first-order decay (2024 study)</li>
 <li>+8% operating cost from a neural surrogate in Anytown pump optimization (2026 study)</li>
 <li>22% improvement in ozone contactor effective detention time from CFD baffling (study year not given)</li>
-<li>Transparent Earth: &gt;3× error reduction from multimodal inputs (<a href="https://arxiv.org/abs/2509.02783" target="_blank" rel="noopener">arXiv 2509.02783</a>); v2.0 has no public technical description found</li>
+<li>Transparent Earth: the &gt;3× reduction in stress-angle error on validation data is now confirmed in the <a href="https://neurips.cc/virtual/2025/125945" target="_blank" rel="noopener">NeurIPS 2025 workshop abstract</a>; "v2.0" has no public technical description beyond the September 2025 arXiv revision (<a href="https://arxiv.org/abs/2509.02783" target="_blank" rel="noopener">arXiv 2509.02783</a>) and a <a href="https://cdn.lanl.gov/files/subsurface-1663-47-story-downloads-03_70ad5.pdf" target="_blank" rel="noopener">LANL 1663 feature</a></li>
 <li>4.7 °C MAE continental subsurface temperature with 20-observation in-context adaptation (<a href="https://arxiv.org/abs/2605.16665" target="_blank" rel="noopener">arXiv 2605.16665</a>)</li>
 <li>The "773-method" catalog workbook from the first brainstorm is a first-pass index, not checked formulas</li>
 </ul>

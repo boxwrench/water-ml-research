@@ -88,11 +88,28 @@ Work on why utilities do or don't share data, and on industry programs that pair
 | [VicWater Intelligent Water Networks](https://www.ncs.co/en-au/insights/vicwater-backs-more-gov-data-sharing-to-boost-ai/) (Australia, 2026) | Most of 16 participating corporations favor sharing data to accelerate AI |
 | [Federated learning across three water plants' intake pumping](https://pubs.rsc.org/en/content/articlelanding/2025/ew/d4ew00685b) (2025) | Trains across plants without pooling raw data; one route around sharing limits |
 
+## Foundation models and multimodal reconstruction
+
+The Los Alamos [Transparent Earth](https://arxiv.org/abs/2509.02783) model reconstructs subsurface properties from sparse observations of any mix of modalities, and predicts any property at any location. Similar ideas are being tried in hydrology and urban water, but not yet in treatment plants, which lack the multi-site data such models need.
+
+| Work | Domain | What it does | Use here |
+| --- | --- | --- | --- |
+| [Transparent Earth (LANL)](https://arxiv.org/abs/2509.02783) (2025, NeurIPS AI4Science workshop) | Subsurface | Transformer over eight modalities with text-embedded modality tags; in-context prediction from any subset of inputs; >3× lower stress-angle error on validation data | The design pattern for Lead 3's stretch goal and direction 31 |
+| [Senseiver (LANL)](https://github.com/OrchardLANL/Senseiver) | Fields from sparse sensors | Attention-based reconstruction of a full field from a few sensors, plus sensor placement | Lead 3's main model |
+| [HydroORBIT (ORNL)](https://www.ornl.gov/project/ai-foundation-model-development-water-forecasting) (ongoing) | Surface and groundwater, continental US | Physics-informed multimodal foundation model trained on Frontier; partners Georgia Tech, AMD, TVA; results planned for DOE's Genesis platform | Contact for the hydrology track (direction 32) |
+| [Scholz, Ehret and Guthke, Toward open-purpose modeling in hydrology](https://meetingorganizer.copernicus.org/EGU26/EGU26-11131.html) (EGU 2026) | Hydrological time series | Learns the joint distribution of many series; predicts any variable from whatever is available, with calibrated uncertainty | Closest water analog to Transparent Earth's any-to-any design |
+| [HydroGEM](https://arxiv.org/abs/2512.14106) (2025) | Streamflow quality control | Self-supervised pretraining on 6.03 million sequences from 3,724 USGS stations; zero-shot anomaly detection and reconstruction | Baseline for sensor validation (direction 27) |
+| [LakeFM](https://arxiv.org/abs/2606.11268) (2026) | Lakes and reservoirs | Foundation model on irregular, multi-depth time series | Source-water and reservoir forecasting |
+| [Taormina, Foundational models and intelligent agents for urban drainage](https://meetingorganizer.copernicus.org/EGU26/EGU26-12269.html) (EGU 2026) | Urban drainage | GNN surrogates of 1D/2D hydraulic models; argues pretraining on simulations stays essential when real observations are scarce | Same path as our Test A then Test B |
+| [How effective are large time series models in hydrology?](https://arxiv.org/abs/2505.01415) (2025) | Everglades water levels | Compares twelve task-specific models with five general time-series foundation models | Method for adding foundation models to the leaderboard |
+| [Interpretable DO forecasting with a time-series foundation model](https://doi.org/10.1016/j.watres.2025.124931) (2026, Water Research) | Rural wastewater plant | Fine-tunes a general time-series foundation model on about a year of plant sensor data | The only treatment-plant use found; small and single-site |
+
 ## Gaps in the literature
 
 - **No shared drinking-water benchmark.** Every full-scale drinking-water study above uses a different private dataset, so their accuracies can't be compared.
 - **Filters are understudied.** Run length and head loss have far fewer plant-data studies than coagulant dose.
 - **Little time-forward testing.** Few studies score on a later period, and the one that did on SWaT saw performance collapse.
+- **No treatment-plant foundation model.** Water foundation models cover hydrology, lakes and drainage; treatment has only single-plant fine-tuning of general time-series models.
 - **Process knowledge is used, but rarely audited.** Hybrids and physics features are common; checking which relationships actually hold in plant data is not.
 
 ## Adding to this page
